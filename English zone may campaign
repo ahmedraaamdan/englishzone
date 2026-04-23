@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Zone — خطة حملة مايو 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #E24B4A;
+    --red-dark: #A32D2D;
+    --red-light: #FCEBEB;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --amber-dark: #854F0B;
+    --green: #3B6D11;
+    --green-light: #EAF3DE;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --pink: #993556;
+    --pink-light: #FBEAF0;
+    --dark: #1a1a18;
+    --dark2: #2C2C2A;
+    --mid: #5F5E5A;
+    --light: #F1EFE8;
+    --white: #ffffff;
+    --border: rgba(0,0,0,0.1);
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,0.15);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --font: 'Cairo', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: #f8f6f1;
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--dark);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(226,75,74,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(239,159,39,0.15) 0%, transparent 50%);
+  }
+  .header-inner {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(226,75,74,0.2);
+    border: 1px solid rgba(226,75,74,0.4);
+    color: #ff8a89;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+  }
+  .header-badge::before { content: '●'; font-size: 8px; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  header h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+  }
+  header h1 span { color: var(--red); }
+  header p {
+    color: rgba(255,255,255,0.6);
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 520px;
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hstat {
+    text-align: center;
+  }
+  .hstat-num { font-size: 24px; font-weight: 900; color: #fff; }
+  .hstat-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+  /* ── NAV TABS ── */
+  .nav-wrap {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .nav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    padding: 1rem 1.2rem;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--mid);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { color: var(--dark); }
+  .nav-tab.active { color: var(--red); border-bottom-color: var(--red); }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── SECTION TITLE ── */
+  .sec-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sec-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .card-sm { padding: 1rem 1.25rem; }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+  .mb1 { margin-bottom: 1rem; }
+  .mb2 { margin-bottom: 1.5rem; }
+  .mb3 { margin-bottom: 2rem; }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 4px;
+  }
+  .b-red { background: var(--red-light); color: var(--red-dark); }
+  .b-amber { background: var(--amber-light); color: var(--amber-dark); }
+  .b-green { background: var(--green-light); color: var(--green); }
+  .b-blue { background: var(--blue-light); color: var(--blue); }
+  .b-pink { background: var(--pink-light); color: var(--pink); }
+
+  /* ══════════════════════════
+     BIG IDEA
+  ══════════════════════════ */
+  .bigidea-hero {
+    background: var(--dark);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .bigidea-hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: -80px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(226,75,74,0.3), transparent 70%);
+  }
+  .bigidea-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -40px;
+    width: 250px; height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(239,159,39,0.2), transparent 70%);
+  }
+  .bigidea-hero h2 {
+    position: relative;
+    font-size: clamp(22px, 4vw, 38px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+  .bigidea-hero h2 span { color: var(--red); }
+  .bigidea-hero p {
+    position: relative;
+    color: rgba(255,255,255,0.65);
+    font-size: 14px;
+    line-height: 1.9;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .pillar-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .pillar-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .pillar-icon { font-size: 28px; margin-bottom: 10px; }
+  .pillar-card h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .pillar-card p { font-size: 12px; color: var(--mid); line-height: 1.7; }
+
+  .audience-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    margin-bottom: 8px;
+    transition: border-color 0.2s;
+  }
+  .audience-row:hover { border-color: var(--red); }
+  .aud-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .aud-num.n2 { background: var(--amber); }
+  .aud-num.n3 { background: var(--blue); }
+  .aud-num.n4 { background: var(--green); }
+  .aud-info h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+  .aud-info p { font-size: 12px; color: var(--mid); line-height: 1.6; }
+
+  /* ══════════════════════════
+     SCRIPTS
+  ══════════════════════════ */
+  .script-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .script-head {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .script-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900;
+    flex-shrink: 0;
+  }
+  .script-head h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .script-head p { font-size: 12px; color: rgba(255,255,255,0.55); }
+
+  .scene-wrap { padding: 0 1.5rem; }
+  .scene {
+    display: flex;
+    gap: 14px;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--light);
+  }
+  .scene:last-child { border-bottom: none; }
+  .scene-tag {
+    flex-shrink: 0;
+    width: 72px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-top: 4px;
+  }
+  .st-hook { color: var(--red); }
+  .st-setup { color: var(--blue); }
+  .st-pain { color: #993C1D; }
+  .st-break { color: var(--red-dark); }
+  .st-bridge { color: var(--amber-dark); }
+  .st-solution { color: var(--green); }
+  .st-cta { color: var(--red); }
+  .scene-body { font-size: 13.5px; color: var(--dark2); line-height: 1.9; }
+  .scene-body strong { font-weight: 700; }
+  .scene-body .dir {
+    display: block;
+    font-size: 11px;
+    color: var(--mid);
+    background: var(--light);
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin: 6px 0;
+    font-style: italic;
+  }
+  .scene-body .screen-text {
+    display: inline-block;
+    background: var(--dark);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin: 6px 0;
+  }
+  .scene-body .cta-final {
+    background: var(--red);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+  }
+
+  /* ══════════════════════════
+     CALENDAR
+  ══════════════════════════ */
+  .cal-legend {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .cal-legend span {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+  }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .cal-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .cal-item:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: currentColor; }
+  .cal-item .day-n {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--mid);
+    margin-bottom: 5px;
+    display: block;
+  }
+  .cal-item .day-t {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .day-pill {
+    font-size: 9px; font-weight: 700;
+    padding: 2px 8px; border-radius: 10px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .dp-video { background: var(--red-light); color: var(--red); }
+  .dp-story { background: var(--amber-light); color: var(--amber-dark); }
+  .dp-post  { background: var(--blue-light); color: var(--blue); }
+  .dp-ad    { background: var(--green-light); color: var(--green); }
+  .dp-reel  { background: var(--pink-light); color: var(--pink); }
+
+  .cal-item.cv { border-top: 3px solid var(--red); }
+  .cal-item.cs { border-top: 3px solid var(--amber); }
+  .cal-item.cp { border-top: 3px solid var(--blue); }
+  .cal-item.ca { border-top: 3px solid var(--green); }
+  .cal-item.cr { border-top: 3px solid var(--pink); }
+
+  /* ══════════════════════════
+     ADS
+  ══════════════════════════ */
+  .budget-row {
+    margin-bottom: 14px;
+  }
+  .budget-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .budget-meta span { font-size: 13px; font-weight: 700; color: var(--dark); }
+  .budget-meta em { font-style: normal; font-size: 12px; color: var(--mid); }
+  .budget-track {
+    height: 10px;
+    background: var(--light);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .budget-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1s ease;
+  }
+
+  .platform-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    transition: all 0.2s;
+  }
+  .platform-card:hover { box-shadow: var(--shadow-lg); }
+  .platform-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .platform-card h4 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+  .platform-card .role { font-size: 12px; color: var(--mid); margin-bottom: 12px; }
+  .platform-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .platform-card ul li {
+    font-size: 12px; color: var(--dark2);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .platform-card ul li::before { content: '›'; color: var(--red); font-weight: 700; }
+
+  .funnel-item {
+    display: flex;
+    gap: 16px;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .funnel-item:last-child { border-bottom: none; }
+  .funnel-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .fn1 { background: var(--red-light); color: var(--red); }
+  .fn2 { background: var(--amber-light); color: var(--amber-dark); }
+  .fn3 { background: var(--green-light); color: var(--green); }
+  .fn4 { background: var(--blue-light); color: var(--blue); }
+  .funnel-item h4 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 5px; }
+  .funnel-item p { font-size: 13px; color: var(--mid); line-height: 1.7; }
+
+  .rt-row {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--light);
+    align-items: flex-start;
+  }
+  .rt-row:last-child { border-bottom: none; }
+  .rt-day {
+    flex-shrink: 0;
+    font-size: 11px; font-weight: 700;
+    color: var(--red);
+    width: 70px;
+    padding-top: 2px;
+  }
+  .rt-text { font-size: 13px; color: var(--dark2); line-height: 1.7; }
+  .rt-text strong { font-weight: 700; color: var(--dark); }
+
+  /* ══════════════════════════
+     HOOKS
+  ══════════════════════════ */
+  .hooks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+  }
+  .hook-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .hook-item:hover { border-color: var(--red); box-shadow: var(--shadow); }
+  .hook-item:hover .hook-num { background: var(--red); color: #fff; }
+  .hook-top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .hook-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--light);
+    color: var(--mid);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .hook-cat { font-size: 10px; font-weight: 700; color: var(--mid); text-transform: uppercase; letter-spacing: 1px; }
+  .hook-text { font-size: 14px; color: var(--dark); line-height: 1.7; font-weight: 500; }
+
+  /* ══════════════════════════
+     KPIs
+  ══════════════════════════ */
+  .kpi-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .kpi-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+  .kpi-card .kpi-icon { font-size: 28px; margin-bottom: 10px; }
+  .kpi-card .kpi-num {
+    font-size: 28px; font-weight: 900;
+    color: var(--dark);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .kpi-card .kpi-num span { color: var(--red); }
+  .kpi-card .kpi-label { font-size: 12px; color: var(--mid); line-height: 1.5; }
+
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--light);
+    gap: 12px;
+  }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-name { font-size: 13px; color: var(--dark); }
+  .metric-target { flex-shrink: 0; }
+
+  .week-row {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--light);
+  }
+  .week-row:last-child { border-bottom: none; }
+  .week-num {
+    flex-shrink: 0;
+    font-size: 11px; font-weight: 700;
+    color: var(--red);
+    width: 75px;
+    padding-top: 3px;
+  }
+  .week-content h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+  .week-content p { font-size: 13px; color: var(--mid); line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px;
+    margin-top: 3rem;
+  }
+  footer strong { color: var(--red); }
+
+  /* ── PRINT ── */
+  @media print {
+    .nav-wrap { position: static; }
+    .tab-panel { display: block !important; page-break-before: always; }
+    .tab-panel:first-child { page-break-before: auto; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    main { padding: 1rem; }
+    .header-inner { padding: 2rem 1rem; }
+    .script-head { flex-direction: column; align-items: flex-start; }
+    .cal-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .tab-panel.active > * {
+    animation: fadeUp 0.3s ease both;
+  }
+  .tab-panel.active > *:nth-child(2) { animation-delay: 0.05s; }
+  .tab-panel.active > *:nth-child(3) { animation-delay: 0.10s; }
+  .tab-panel.active > *:nth-child(4) { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-bg"></div>
+  <div class="header-inner">
+    <div class="header-badge">English Zone · خطة مايو 2026</div>
+    <h1>احنا مش بندرّس...<br><span>بنخليك تعيش اللغة</span></h1>
+    <p>خطة تسويقية متكاملة لشهر مايو — قائمة على الإيموشن والألم الحقيقي. هدفها الأول: أكبر عدد تسجيلات.</p>
+    <div class="header-stats">
+      <div class="hstat"><div class="hstat-num">30</div><div class="hstat-label">يوم محتوى مخطط</div></div>
+      <div class="hstat"><div class="hstat-num">3</div><div class="hstat-label">فيديوهات فيروسية</div></div>
+      <div class="hstat"><div class="hstat-num">18</div><div class="hstat-label">هوك جاهز</div></div>
+      <div class="hstat"><div class="hstat-num">400+</div><div class="hstat-label">lead متوقع</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showTab('bigidea', this)">الفكرة الكبرى</button>
+    <button class="nav-tab" onclick="showTab('scripts', this)">السكريبتات الـ3</button>
+    <button class="nav-tab" onclick="showTab('calendar', this)">تقويم المحتوى</button>
+    <button class="nav-tab" onclick="showTab('ads', this)">إستراتيجية الإعلانات</button>
+    <button class="nav-tab" onclick="showTab('hooks', this)">مكتبة الهوكس</button>
+    <button class="nav-tab" onclick="showTab('kpis', this)">KPIs والنتائج</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- ══ BIG IDEA ══ -->
+  <section id="tab-bigidea" class="tab-panel active">
+
+    <div class="bigidea-hero mb3">
+      <h2>"الإنجليزي اللي اتعلمته <span>خذلك</span><br>احنا هنخليك تتكلم"</h2>
+      <p>الفكرة المحورية: الناس مش بتشتري كورس — بتشتري نسخة أحسن منهم. كل قطعة محتوى لازم تضرب الفرق اللي ضاع بسبب اللغة.</p>
+    </div>
+
+    <div class="sec-title mb1">شعار الحملة</div>
+    <div class="card mb3" style="border-right: 4px solid var(--red); background: #fffdf9;">
+      <div style="font-size: 26px; font-weight: 900; color: var(--dark); margin-bottom: 10px;">"مش وقت تتعلم — وقت تتكلم"</div>
+      <div style="font-size: 14px; color: var(--mid); line-height: 1.8;">بالإنجليزي: <strong style="color:var(--dark)">Stop Learning. Start Speaking.</strong><br>ده أقوى من أي كلام عن المنهج أو الأسعار — بيضرب القلب مباشرة.</div>
+    </div>
+
+    <div class="sec-title mb1">أعمدة الحملة</div>
+    <div class="grid-3 mb3">
+      <div class="pillar-card">
+        <div class="pillar-icon">🔥</div>
+        <h4>المشكلة</h4>
+        <p>سنين بتتعلم ومش بتعرف تتكلم — الطرق التقليدية فشلت في بناء المتحدث الواثق</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">💡</div>
+        <h4>الحل</h4>
+        <p>مش حفظ — محادثة حقيقية، مواقف حياة، ممارسة يومية في groups صغيرة</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">✨</div>
+        <h4>النتيجة</h4>
+        <p>من ساكت خايف لشخص بيتكلم بثقة ويمسك الفرصة اللي فاتته من قبل</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">🎯</div>
+        <h4>الطريقة</h4>
+        <p>Role plays + Open Discussions + Presentations + Cinema Sessions — تجربة مش كورس</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">👥</div>
+        <h4>Groups صغيرة</h4>
+        <p>3–6 طلاب بس — كل واحد بياخد attention كاملة ومش بيتخبى وراء الباقيين</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">📊</div>
+        <h4>قياس حقيقي</h4>
+        <p>Scorecard بعد كل Level — مش بس "خلصت المستوى" — عارف فين وصلت بالظبط</p>
+      </div>
+    </div>
+
+    <div class="sec-title mb1">الجمهور المستهدف — أولويات مايو</div>
+    <div class="mb3">
+      <div class="audience-row">
+        <div class="aud-num">1</div>
+        <div class="aud-info">
+          <h4>باحثين عن شغل</h4>
+          <p>الألم: "الإنجليزي بيوقفني من الوظيفة اللي أنا عايزها" — أكبر سيجمنت وأعلى intent للتسجيل</p>
+        </div>
+        <span class="badge b-red">أولوية 1</span>
+      </div>
+      <div class="audience-row">
+        <div class="aud-num n2">2</div>
+        <div class="aud-info">
+          <h4>طلاب جامعات</h4>
+          <p>الألم: "فاهم بس مش بعرف أتكلم" — عايزين يتميزوا قبل التخرج ودخول سوق الشغل</p>
+        </div>
+        <span class="badge b-amber">أولوية 2</span>
+      </div>
+      <div class="audience-row">
+        <div class="aud-num n3">3</div>
+        <div class="aud-info">
+          <h4>موظفين وبروفيشنالز</h4>
+          <p>الألم: "مش بعرف أتكلم في الشغل" — محتاجين Business English للترقية أو فرصة أحسن</p>
+        </div>
+        <span class="badge b-blue">أولوية 3</span>
+      </div>
+      <div class="audience-row">
+        <div class="aud-num n4">4</div>
+        <div class="aud-info">
+          <h4>أمهات في البيت</h4>
+          <p>الألم: "مش فاهمة أساعد ولادي في الإنجليزي" — motivation عاطفية عالية جداً</p>
+        </div>
+        <span class="badge b-green">أولوية 4</span>
+      </div>
+    </div>
+
+    <div class="sec-title mb1">نقاط الألم الجوهرية</div>
+    <div class="grid-2 mb2">
+      <div style="padding:1rem;background:var(--red-light);border-radius:var(--radius-sm);border-right:3px solid var(--red);">
+        <div style="font-size:13px;font-weight:700;color:var(--red-dark);">فاهم بس مش بعرف أتكلم</div>
+      </div>
+      <div style="padding:1rem;background:var(--amber-light);border-radius:var(--radius-sm);border-right:3px solid var(--amber);">
+        <div style="font-size:13px;font-weight:700;color:var(--amber-dark);">بخاف أغلط وناس تضحك عليّ</div>
+      </div>
+      <div style="padding:1rem;background:var(--blue-light);border-radius:var(--radius-sm);border-right:3px solid var(--blue);">
+        <div style="font-size:13px;font-weight:700;color:var(--blue);">درست كتير ومفيش نتيجة حقيقية</div>
+      </div>
+      <div style="padding:1rem;background:var(--green-light);border-radius:var(--radius-sm);border-right:3px solid var(--green);">
+        <div style="font-size:13px;font-weight:700;color:var(--green);">بحفظ ومش بستخدم</div>
+      </div>
+      <div style="padding:1rem;background:var(--pink-light);border-radius:var(--radius-sm);border-right:3px solid var(--pink);">
+        <div style="font-size:13px;font-weight:700;color:var(--pink);">معنديش فرصة أمارس في الحياة الحقيقية</div>
+      </div>
+      <div style="padding:1rem;background:var(--light);border-radius:var(--radius-sm);border-right:3px solid var(--mid);">
+        <div style="font-size:13px;font-weight:700;color:var(--dark2);">بنسى كل حاجة بسرعة بعد ما أخلص</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ SCRIPTS ══ -->
+  <section id="tab-scripts" class="tab-panel">
+
+    <div style="margin-bottom:1rem;padding:1rem 1.25rem;background:var(--red-light);border-radius:var(--radius-sm);">
+      <div style="font-size:13px;font-weight:700;color:var(--red-dark);margin-bottom:4px;">تعليمات الإنتاج</div>
+      <div style="font-size:12px;color:var(--mid);line-height:1.7;">الفيديوهات دي هي قلب الحملة. Hook أول 3 ثواني يحكم مصير الفيديو. مفيش موسيقى اكتر من اللازم. الصمت أحياناً أقوى من أي صوت. الإضاءة طبيعية. الممثلين ناس عادية مش موديلز.</div>
+    </div>
+
+    <!-- Script 1 -->
+    <div class="script-card mb2">
+      <div class="script-head">
+        <div class="script-num">1</div>
+        <div>
+          <h3>الفرصة اللي ضاعت</h3>
+          <p><span class="badge b-red">3–5 دقايق</span> &nbsp; دراما + إيموشن عالي &nbsp; | &nbsp; Facebook & Instagram</p>
+        </div>
+      </div>
+      <div class="scene-wrap">
+        <div class="scene">
+          <div class="scene-tag st-hook">◉ هوك</div>
+          <div class="scene-body">
+            <span class="dir">[كاميرا قريبة على وجه رجل 27 سنة — ملابس رسمية — قلق واضح في عيونه]</span>
+            <strong>صوت من جوا (Voice Over):</strong><br>
+            "أنا اتعلمت إنجليزي 10 سنين... ليه أنا خايف دلوقتي؟"
+            <span class="screen-text">نص الشاشة: "يوم غير حياته... أو كسرها"</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-setup">◎ سيتأب</div>
+          <div class="scene-body">
+            <span class="dir">[فلاش باك — غرفة صغيرة — كتب إنجليزي على المكتب]</span>
+            أحمد بيذاكر وحده كل ليلة. Grammar. Vocabulary. بيحفظ. بيحفظ. بيحفظ.<br><br>
+            <strong>أمه من بره الباب:</strong> "نام يا حمادة، بكره عندك إنترفيو المهم!"<br>
+            <strong>أحمد:</strong> بيبتسم. هو عارف إنه مذاكر. هو مستعد.
+            <span class="dir">[الموسيقى هادية — حاجة زي الأمل]</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-pain">🔥 الألم</div>
+          <div class="scene-body">
+            <span class="dir">[غرفة إنترفيو — مكتب شركة كبيرة — HR أجنبي بيبتسم بشكل احترافي]</span>
+            <strong>HR:</strong> "So Ahmed, tell me about yourself and your experience..."<br><br>
+            <span class="dir">[صمت. أحمد بيحس إن دماغه واقف. جوف. الكلام مش طالع.]</span>
+            <strong>أحمد (بالعربي في دماغه):</strong> "أنا مهندس خبرة 3 سنين... بس إزاي أقولها؟"<br><br>
+            <strong>أحمد (بالإنجليزي بصوت متردد):</strong> "I... I am... engineer... I have... three year..."<br><br>
+            <span class="dir">[HR بيكتب حاجة. وجهه Neutral تماماً. مافيش حاجة بتبان.]</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-break">💔 الكسر</div>
+          <div class="scene-body">
+            <span class="dir">[برة المصعد — أحمد واقف وحده — الكاميرا بعيدة]</span>
+            موبايله بيرن. أمه.<br><br>
+            <strong>أمه:</strong> "إيه يا حمادة؟ عامل إيه؟ تمام؟"<br>
+            <span class="dir">[صوته بيتكسر]</span>
+            <strong>أحمد:</strong> "تمام يا أمه..."<br><br>
+            <span class="dir">[ساكت. الكاميرا بتزوم ببطء على وشه]</span>
+            <span class="screen-text">مش الشغلانة اللي ضاعت — إحساسه في نفسه هو اللي ضاع</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-bridge">✦ التحول</div>
+          <div class="scene-body">
+            <span class="dir">[لقطة تانية — نفس الغرفة — نفس أحمد — كتابة: "3 شهور بعدين"]</span>
+            بس الوجه مختلف. هادي. واثق. فيه حاجة اتغيرت.<br><br>
+            <strong>HR:</strong> "Tell me about a challenge you faced..."<br><br>
+            <strong>أحمد (بثقة وبدون تردد):</strong> "Actually, the biggest challenge I faced was learning to communicate — not just in English, but expressing my ideas clearly under pressure. And honestly... that challenge made me much stronger."<br><br>
+            <span class="dir">[HR بيبتسم. بيكتب. بيومئ.]</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-solution">✅ الحل</div>
+          <div class="scene-body">
+            <span class="dir">[أحمد بيكلم الكاميرا مباشرة — casual — مش scripted — ضوء طبيعي]</span>
+            "مش كنت غبي. مش كنت مش بذاكر.<br>
+            كنت بتعلم إنجليزي عشان الامتحانات — مش عشان الحياة.<br>
+            لما بدأت أتكلم فعلاً، مع ناس حقيقية، في مواقف حقيقية...<br>
+            كل حاجة اتغيرت."
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-cta">▶ CTA</div>
+          <div class="scene-body">
+            <span class="dir">[شاشة سوداء — نص أبيض بسيط]</span>
+            <strong>انت كمان فاهم — بس مش بتتكلم؟</strong><br><br>
+            <span class="cta-final">اكتب START على الواتساب دلوقتي — English Zone بيستناك</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script 2 -->
+    <div class="script-card mb2">
+      <div class="script-head">
+        <div class="script-num">2</div>
+        <div>
+          <h3>لما Google Translate خذلك</h3>
+          <p><span class="badge b-amber">90 ثانية</span> &nbsp; كوميدي دراما &nbsp; | &nbsp; TikTok & Reels</p>
+        </div>
+      </div>
+      <div class="scene-wrap">
+        <div class="scene">
+          <div class="scene-tag st-hook">◉ هوك</div>
+          <div class="scene-body">
+            <span class="dir">[شاشة موبايل بتتحرك بشكل سريع — Loading circle دوران — فجأة "No Internet Connection"]</span>
+            <span class="screen-text">وهو بالظبط في أهم لحظة في حياته...</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-setup">◎ سيتأب</div>
+          <div class="scene-body">
+            <span class="dir">[مكتب كبير — Zoom call شاشة كبيرة — رئيس أجنبي بيتكلم]</span>
+            <strong>Boss:</strong> "Karim, I need you to present the Q3 results directly to the client next week. They specifically asked for you."<br><br>
+            <span class="dir">[كريم بيبتسم — وبهدوء بيفتح Google Translate تحت الشاشة]</span>
+            <strong>كريم (بإيموشن):</strong> "Of course. I will... prepare everything."<br>
+            <span class="dir">[الكل سعيد — كل حاجة تمام — طالما النت شغال]</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-pain">🔥 الكارثة</div>
+          <div class="scene-body">
+            <span class="dir">[يوم البريزنتيشن — غرفة اجتماعات فاخرة — clients أجانب جنب بعض]</span>
+            <strong>كريم:</strong> بيفتح اللاب توب. بيفتح التطبيق. بيبدأ يترجم جملته الأولى...<br><br>
+            <span class="dir">[فجأة: النت انقطع. ❌ No Connection]</span>
+            بيحاول تاني: ❌<br>
+            بيفتح موبايله: ❌<br>
+            بينظر لـ Client اللي بيبص عليه بتركيز.<br><br>
+            <strong>Client:</strong> "Ready, Karim?"<br><br>
+            <span class="dir">[صمت مدمر — 5 ثواني — الكاميرا على وش كريم]</span>
+            <strong>كريم:</strong> "I... the presentation is... the... data showing..."<br><br>
+            <span class="dir">[Boss بيخفض رأسه ببطء]</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-break">💔 اللحظة</div>
+          <div class="scene-body">
+            <span class="dir">[كريم في السيارة بعدين — وحده — بيبص في المرايا]</span>
+            "ده مش تطبيق مكسور... أنا اللي محتاج أتصلح."<br><br>
+            <span class="screen-text">لما بتعيش على ترجمة حد تاني — مش بتتكلم. بيتكلموا عنك.</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-solution">✅ الحل</div>
+          <div class="scene-body">
+            <span class="dir">[صوت كريم على صور من سيشنز English Zone — ناس بتتكلم وبتضحك]</span>
+            "اتعلمت إزاي أفكر بالإنجليزي — مش أترجم من عربي في دماغي.<br>
+            وده فرق السما والأرض."<br><br>
+            <span class="dir">[كريم في Zoom call جديدة — بيتكلم بطلاقة — Boss بيبتسم]</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-cta">▶ CTA</div>
+          <div class="scene-body">
+            <strong>متفضلش تعيش على ترجمة حد تاني.</strong><br><br>
+            <span class="cta-final">اكتب START على الواتساب — English Zone هنخليك تتكلم فعلاً</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script 3 -->
+    <div class="script-card">
+      <div class="script-head">
+        <div class="script-num">3</div>
+        <div>
+          <h3>الإجابة اللي ما جاتش</h3>
+          <p><span class="badge b-blue">60 ثانية</span> &nbsp; صاعق + واقعي &nbsp; | &nbsp; TikTok الأكثر فيروسية</p>
+        </div>
+      </div>
+      <div class="scene-wrap">
+        <div class="scene">
+          <div class="scene-tag st-hook">◉ هوك</div>
+          <div class="scene-body">
+            <span class="dir">[شخص بيكلم الكاميرا مباشرة — نظرة مباشرة — بدون موسيقى]</span>
+            <strong>"كام إنترفيو عديت عليك بسبب إنك مش عارف تتكلم إنجليزي؟"</strong><br>
+            <span class="dir">[ركود تام — ثانيتين صمت]</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-setup">◎ القصة</div>
+          <div class="scene-body">
+            <span class="dir">[بنت الـ 24 — ماشية على باب شركة كبيرة — ملابس محترمة]</span>
+            CV ممتاز. خبرة كويسة. مؤهلة 100%.<br>
+            الفرصة دي كانت هتغير حياتها.<br><br>
+            <strong>HR:</strong> "Tell me about a challenge you faced and how you handled it..."<br><br>
+            <span class="dir">[وجهها بيتجمد — عيونها بتتحرك — بتفكر]</span>
+            هي <em>عارفة</em> الإجابة. بالعربي هتقول جملة ذكية جداً.<br>
+            بالإنجليزي؟<br><br>
+            <strong>هي (بصوت متردد):</strong> "I... had... challenge... in my work... it was... very difficult..."<br><br>
+            <span class="dir">[HR بيكتب ببطء — مافيش reaction]</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-pain">🔥 النهاية</div>
+          <div class="scene-body">
+            <span class="dir">[إيميل على الشاشة]</span>
+            <strong>"We regret to inform you that we have moved forward with other candidates..."</strong><br><br>
+            <span class="dir">[وجهها — مفيش دموع — بس في عيونها حاجة أصعب من الدموع — خيبة أمل هادية]</span>
+            <span class="screen-text">مش فاشلة. مش مش مؤهلة. بس مش عارفة تتكلم.</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-bridge">✦ التحول</div>
+          <div class="scene-body">
+            <span class="dir">[كاميرا تانية — نفس البنت — على Zoom call — وشها مختلف تماماً]</span>
+            <strong>هي (بثقة كاملة):</strong> "...and that challenge actually made me stronger in decision-making. It taught me that pressure is just feedback."<br><br>
+            <span class="dir">[المحاور بيبتسم — بيكتب بحماس]</span>
+          </div>
+        </div>
+        <div class="scene">
+          <div class="scene-tag st-cta">▶ CTA</div>
+          <div class="scene-body">
+            <strong>الفرق بين الاتنين؟ مش الذكاء. مش الخبرة. مش المجهود.</strong><br>
+            كانت محتاجة حد يعلمها تتكلم — مش تحفظ.<br><br>
+            <span class="cta-final">ابدأ دلوقتي قبل ما إنترفيو تاني يعدي — English Zone — اكتب START</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ CALENDAR ══ -->
+  <section id="tab-calendar" class="tab-panel">
+
+    <div style="font-size:13px;color:var(--mid);margin-bottom:1rem;">تقويم مايو الكامل — 30 يوم محتوى منظم ومتنوع</div>
+
+    <div class="cal-legend mb2">
+      <span class="dp-video">فيديو دراما</span>
+      <span class="dp-story">ستوري / إنتراكشن</span>
+      <span class="dp-post">بوست عضوي</span>
+      <span class="dp-ad">إعلان مدفوع</span>
+      <span class="dp-reel">رييل خفيف</span>
+    </div>
+
+    <div class="cal-grid" id="calGrid"></div>
+
+  </section>
+
+  <!-- ══ ADS ══ -->
+  <section id="tab-ads" class="tab-panel">
+
+    <div class="sec-title mb1">توزيع الميزانية — مايو</div>
+    <div class="card mb3">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+        <div>
+          <div style="font-size:12px;color:var(--mid);margin-bottom:4px;">إجمالي الميزانية المقترحة لمايو</div>
+          <div style="font-size:32px;font-weight:900;color:var(--dark);">15,000 <span style="font-size:16px;color:var(--mid);">جنيه</span></div>
+        </div>
+        <div style="text-align:center;padding:1rem 1.5rem;background:var(--green-light);border-radius:var(--radius-sm);">
+          <div style="font-size:22px;font-weight:900;color:var(--green);">4–6x</div>
+          <div style="font-size:11px;color:var(--green);">ROAS متوقع</div>
+        </div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-meta"><span>Facebook Lead Ads</span><em>40% — 6,000 ج</em></div>
+        <div class="budget-track"><div class="budget-fill" style="width:40%;background:var(--red);"></div></div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-meta"><span>Instagram / Reels (Meta)</span><em>30% — 4,500 ج</em></div>
+        <div class="budget-track"><div class="budget-fill" style="width:30%;background:var(--amber);"></div></div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-meta"><span>TikTok Ads</span><em>20% — 3,000 ج</em></div>
+        <div class="budget-track"><div class="budget-fill" style="width:20%;background:var(--blue);"></div></div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-meta"><span>Retargeting (Cross-platform)</span><em>10% — 1,500 ج</em></div>
+        <div class="budget-track"><div class="budget-fill" style="width:10%;background:var(--green);"></div></div>
+      </div>
+    </div>
+
+    <div class="sec-title mb1">إستراتيجية المنصات</div>
+    <div class="grid-3 mb3">
+      <div class="platform-card">
+        <div class="platform-icon" style="background:var(--blue-light);">📘</div>
+        <h4>Facebook</h4>
+        <div class="role">المحرك الأول للليدز</div>
+        <ul>
+          <li>Lead Generation Ads</li>
+          <li>Messenger Campaigns</li>
+          <li>Video View Campaigns</li>
+          <li>Retargeting + Lookalike</li>
+          <li>Event-based targeting</li>
+        </ul>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon" style="background:var(--pink-light);">📸</div>
+        <h4>Instagram</h4>
+        <div class="role">التوعية + بناء الثقة</div>
+        <ul>
+          <li>Reels (3–5 أسبوعياً)</li>
+          <li>Stories يومية تفاعلية</li>
+          <li>Carousel educational</li>
+          <li>Collab مع كريتورز</li>
+          <li>Save-worthy content</li>
+        </ul>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon" style="background:var(--dark);color:#fff;font-size:16px;">▶</div>
+        <h4>TikTok</h4>
+        <div class="role">الفيروسية + جيل Z</div>
+        <ul>
+          <li>In-Feed Videos</li>
+          <li>TopView للمحتوى القوي</li>
+          <li>Hashtag Challenges</li>
+          <li>Spark Ads (boost organic)</li>
+          <li>Duet & Stitch content</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sec-title mb1">الفانيل الكامل — من Awareness لـ Enrollment</div>
+    <div class="card mb3">
+      <div class="funnel-item">
+        <div class="funnel-num fn1">1</div>
+        <div>
+          <h4>Awareness — ضرب الألم (أسبوع 1–2)</h4>
+          <p>الفيديوهات الـ3 الكبيرة. هدفها: الناس تقول "ده أنا بالظبط!" — Video Views + Reach campaigns — مفيش Conversion بعد. بنبني الـ Audience الأول.</p>
+        </div>
+      </div>
+      <div class="funnel-item">
+        <div class="funnel-num fn2">2</div>
+        <div>
+          <h4>Consideration — شرح الحل (أسبوع 2–3)</h4>
+          <p>فيديوهات من جوا السيشنز — طريقة التدريس — تستيمونيالز حقيقية — Engagement + Traffic campaigns — بنبدأ نبني الثقة مش بس الأوعي.</p>
+        </div>
+      </div>
+      <div class="funnel-item">
+        <div class="funnel-num fn3">3</div>
+        <div>
+          <h4>Conversion — اتخاذ القرار (أسبوع 3–4)</h4>
+          <p>Lead Ads + Messenger مع عرض محدود — "أول سيشن مجاناً" أو "خصم 20% لأول 30 طالب" — Urgency حقيقية — واتساب للـ warm leads.</p>
+        </div>
+      </div>
+      <div class="funnel-item">
+        <div class="funnel-num fn4">4</div>
+        <div>
+          <h4>Retargeting — من شاف ومسجلش</h4>
+          <p>ريتارجيت كل من شاف 50%+ من أي فيديو — رسالة مختلفة تضرب ألم تاني — Lookalike من الطلاب المسجلين.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title mb1">خطة الريتارجيتنج التفصيلية</div>
+    <div class="card">
+      <div class="rt-row">
+        <div class="rt-day">يوم 1–3</div>
+        <div class="rt-text"><strong>شاف الفيديو +50%:</strong> إعلان تستيمونيال بسيط — "عمر زيك غير حياته في 3 شهور"</div>
+      </div>
+      <div class="rt-row">
+        <div class="rt-day">يوم 4–7</div>
+        <div class="rt-text"><strong>زار الصفحة ومسجلش:</strong> Lead Ad مع عرض — "أول سيشن مجاني — أماكن محدودة"</div>
+      </div>
+      <div class="rt-row">
+        <div class="rt-day">يوم 8–14</div>
+        <div class="rt-text"><strong>فتح الماسينجر ومردش:</strong> رسالة واتساب أوتوماتيك — "هيا، انت فاهم — بس عارف تتكلم؟"</div>
+      </div>
+      <div class="rt-row">
+        <div class="rt-day">يوم 15+</div>
+        <div class="rt-text"><strong>Lookalike Audience:</strong> بنى بيانات من الطلاب المسجلين — ناس شبههم بالضبط في Facebook + TikTok</div>
+      </div>
+      <div class="rt-row">
+        <div class="rt-day">مستمر</div>
+        <div class="rt-text"><strong>Custom Audience من الموقع:</strong> كل زائر للموقع أو لأي Landing Page بيدخل في Retargeting pool لـ 30 يوم</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ HOOKS ══ -->
+  <section id="tab-hooks" class="tab-panel">
+
+    <div style="font-size:13px;color:var(--mid);margin-bottom:1.5rem;">18 هوك جاهز — متنوع في الكاتيجوريز والإيموشن. اختار اللي يناسب كل محتوى.</div>
+
+    <div class="hooks-grid" id="hooksGrid"></div>
+
+  </section>
+
+  <!-- ══ KPIs ══ -->
+  <section id="tab-kpis" class="tab-panel">
+
+    <div class="sec-title mb1">الأرقام المتوقعة في مايو</div>
+    <div class="grid-3 mb3">
+      <div class="kpi-card">
+        <div class="kpi-icon">🎯</div>
+        <span class="kpi-num"><span>250</span>–400</span>
+        <div class="kpi-label">Lead متوقع خلال الشهر</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">📈</div>
+        <span class="kpi-num">15–<span>25</span>%</span>
+        <div class="kpi-label">معدل تحويل Lead → تسجيل</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">🎓</div>
+        <span class="kpi-num">35–<span>65</span></span>
+        <div class="kpi-label">طالب جديد متوقع</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">👁️</div>
+        <span class="kpi-num"><span>2M</span>+</span>
+        <div class="kpi-label">مشاهدة محتوى عضوي ومدفوع</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">💰</div>
+        <span class="kpi-num">40–<span>60</span>ج</span>
+        <div class="kpi-label">تكلفة الـ Lead الواحد (CPL)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">🚀</div>
+        <span class="kpi-num">4–<span>6</span>x</span>
+        <div class="kpi-label">ROAS متوقع على الإعلانات</div>
+      </div>
+    </div>
+
+    <div class="sec-title mb1">معايير النجاح ومتى تتدخل</div>
+    <div class="card mb3">
+      <div class="metric-row">
+        <div class="metric-name">Video Watch Rate (أهم مؤشر من Views)</div>
+        <div class="metric-target"><span class="badge b-green">هدف +40%</span></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-name">Cost Per Lead (CPL)</div>
+        <div class="metric-target"><span class="badge b-amber">40–60 جنيه</span></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-name">Lead → Enrollment Rate</div>
+        <div class="metric-target"><span class="badge b-red">هدف +20%</span></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-name">WhatsApp Response Rate</div>
+        <div class="metric-target"><span class="badge b-blue">هدف +60%</span></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-name">Organic Reach شهري (Facebook + IG)</div>
+        <div class="metric-target"><span class="badge b-green">+500K</span></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-name">Reel Saves Rate (مؤشر جودة المحتوى)</div>
+        <div class="metric-target"><span class="badge b-pink">هدف +3%</span></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-name">Story Completion Rate</div>
+        <div class="metric-target"><span class="badge b-amber">هدف +70%</span></div>
+      </div>
+    </div>
+
+    <div class="sec-title mb1">الخطة أسبوع بأسبوع</div>
+    <div class="card">
+      <div class="week-row">
+        <div class="week-num">أسبوع 1<br>1–7 مايو</div>
+        <div class="week-content">
+          <h4>Launch + Awareness — بنشعل النار</h4>
+          <p>لانش الفيديو 1 و2 — Awareness campaigns فقط — قياس Watch Rate وCTR وEngagement — مفيش Conversion بعد. هدف: أكبر reach ممكن بأقل تكلفة.</p>
+        </div>
+      </div>
+      <div class="week-row">
+        <div class="week-num">أسبوع 2<br>8–14 مايو</div>
+        <div class="week-content">
+          <h4>Push + Retarget — بنرفع درجة الحرارة</h4>
+          <p>فيديو 3 + محتوى خفيف — بنبدأ Retargeting الـ Warm Audience — افتح Lead Ads بالتدريج — قياس CPL أول مرة.</p>
+        </div>
+      </div>
+      <div class="week-row">
+        <div class="week-num">أسبوع 3<br>15–21 مايو</div>
+        <div class="week-content">
+          <h4>Conversion Peak — وقت الحصاد</h4>
+          <p>كل الأدوات شغالة مع بعض — Early Bird Offer واضح — أقوى CTAs — Follow-up بالواتساب فوري على كل Lead — تستيمونيالز حقيقية.</p>
+        </div>
+      </div>
+      <div class="week-row">
+        <div class="week-num">أسبوع 4<br>22–31 مايو</div>
+        <div class="week-content">
+          <h4>Closing + Analysis — إغلاق وتحسين</h4>
+          <p>Last Chance Messaging — Urgency حقيقية "آخر 10 أماكن" — تحليل النتايج الكاملة — حضير لحملة يونيو بناءً على البيانات.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <strong>English Zone</strong> — خطة حملة مايو 2026 &nbsp;·&nbsp; إعداد: فريق التسويق &nbsp;·&nbsp; سري للاستخدام الداخلي
+</footer>
+
+<script>
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const calData = [
+    { d:'1 مايو', t:'لانش الفيديو 1 — "الفرصة اللي ضاعت"', type:'cv', pill:'dp-video', label:'فيديو' },
+    { d:'2 مايو', t:'ستوري: "انت مش وحدك في الموضوع ده"', type:'cs', pill:'dp-story', label:'ستوري' },
+    { d:'3 مايو', t:'رييل: 5 مواقف إنجليزي كلنا عشناها', type:'cr', pill:'dp-reel', label:'رييل' },
+    { d:'4 مايو', t:'بوست: قبل وبعد — طالب حقيقي', type:'cp', pill:'dp-post', label:'بوست' },
+    { d:'5 مايو', t:'لانش الفيديو 2 — "Google Translate"', type:'cv', pill:'dp-video', label:'فيديو' },
+    { d:'6 مايو', t:'ستوري: سؤال — "ليه بتخاف تتكلم؟"', type:'cs', pill:'dp-story', label:'ستوري' },
+    { d:'7 مايو', t:'رييل: "بحفظ وبنسى؟ ليه بيحصل ده"', type:'cr', pill:'dp-reel', label:'رييل' },
+    { d:'8 مايو', t:'إعلان Lead Ad — أول سيشن مجاني', type:'ca', pill:'dp-ad', label:'إعلان' },
+    { d:'9 مايو', t:'فيديو snippet من داخل سيشن حقيقي', type:'cv', pill:'dp-video', label:'فيديو' },
+    { d:'10 مايو', t:'بوست: "الفرق بين حفظ وكلام حقيقي"', type:'cp', pill:'dp-post', label:'بوست' },
+    { d:'11 مايو', t:'رييل: "لو بتترجم في دماغك اعمل كده"', type:'cr', pill:'dp-reel', label:'رييل' },
+    { d:'12 مايو', t:'ستوري: Poll — شايف نفسك فين بعد 3 شهور؟', type:'cs', pill:'dp-story', label:'ستوري' },
+    { d:'13 مايو', t:'لانش الفيديو 3 — "الإجابة اللي ما جاتش"', type:'cv', pill:'dp-video', label:'فيديو' },
+    { d:'14 مايو', t:'إعلان Retargeting — Warm Audience', type:'ca', pill:'dp-ad', label:'إعلان' },
+    { d:'15 مايو', t:'رييل: "ليه 10 سنين إنجليزي مفدتيش؟"', type:'cr', pill:'dp-reel', label:'رييل' },
+    { d:'16 مايو', t:'بوست: تستيمونيال + نتيجة حقيقية', type:'cp', pill:'dp-post', label:'بوست' },
+    { d:'17 مايو', t:'ستوري: snippet من سيشن حقيقي', type:'cs', pill:'dp-story', label:'ستوري' },
+    { d:'18 مايو', t:'فيديو: Role Play مباشر من السيشن', type:'cv', pill:'dp-video', label:'فيديو' },
+    { d:'19 مايو', t:'إعلان: Early Bird — آخر 20 مكان', type:'ca', pill:'dp-ad', label:'إعلان' },
+    { d:'20 مايو', t:'رييل: "انت مؤهل — بس الإنجليزي..."', type:'cr', pill:'dp-reel', label:'رييل' },
+    { d:'21 مايو', t:'بوست: 3 جمل business تفيدك في الشغل', type:'cp', pill:'dp-post', label:'بوست' },
+    { d:'22 مايو', t:'ستوري: Q&A لايف مع الكوتش', type:'cs', pill:'dp-story', label:'ستوري' },
+    { d:'23 مايو', t:'فيديو: طريقة التعليم explained بشكل بسيط', type:'cv', pill:'dp-video', label:'فيديو' },
+    { d:'24 مايو', t:'إعلان Lookalike: Conversion Peak', type:'ca', pill:'dp-ad', label:'إعلان' },
+    { d:'25 مايو', t:'رييل: "لو هتاخد قرار — خده النهارده"', type:'cr', pill:'dp-reel', label:'رييل' },
+    { d:'26 مايو', t:'بوست: Before/After طالبة مع quote', type:'cp', pill:'dp-post', label:'بوست' },
+    { d:'27 مايو', t:'ستوري: Countdown — "آخر 5 أماكن"', type:'cs', pill:'dp-story', label:'ستوري' },
+    { d:'28 مايو', t:'فيديو: تستيمونيال قصير وقوي (60 ثانية)', type:'cv', pill:'dp-video', label:'فيديو' },
+    { d:'29 مايو', t:'إعلان Last Chance — Urgency ماكسيمام', type:'ca', pill:'dp-ad', label:'إعلان' },
+    { d:'30 مايو', t:'رييل: "شكراً May Batch الأولى"', type:'cr', pill:'dp-reel', label:'رييل' },
+  ];
+
+  const grid = document.getElementById('calGrid');
+  calData.forEach(item => {
+    grid.innerHTML += `<div class="cal-item ${item.type}">
+      <span class="day-n">${item.d}</span>
+      <div class="day-t">${item.t}</div>
+      <span class="day-pill ${item.pill}">${item.label}</span>
+    </div>`;
+  });
+
+  const hooksData = [
+    { cat:'ألم مباشر', text:'كام مرة قلت "أنا عارف" وماعرفتش تتكلم بالإنجليزي؟' },
+    { cat:'صدمة', text:'10 سنين إنجليزي في المدرسة... ومش بتعرف تقول جملة كاملة في إنترفيو.' },
+    { cat:'خسارة', text:'الشغلانة اللي كانت هتغير حياتك... راحت بسبب جملتين إنجليزي.' },
+    { cat:'مرآة', text:'لو الإنجليزي محظلكش — مش انت المشكلة. الطريقة هي المشكلة.' },
+    { cat:'تحدي', text:'قول لي جملة واحدة عن نفسك بالإنجليزي... بدون جوجل تراسليت.' },
+    { cat:'واقعي', text:'الفرق بين حد بياخد الشغلانة وحد بيتمنى؟ ثلاث جمل إنجليزي.' },
+    { cat:'كوميدي', text:'أنا: إنجليزي عندي تمام. الإنترفيو: Tell me about yourself. أنا: 🫥' },
+    { cat:'ألم الأمهات', text:'ابنك بيجيب 60 في الإنجليزي... وانت مش قادرة تساعديه ليه؟' },
+    { cat:'إيموشنال', text:'مش صح إنك تعرف كل حاجة وماتقدرش توصلها بالكلام.' },
+    { cat:'فاكت صادم', text:'90% من الناس اللي اتعلموا إنجليزي 5+ سنين مش بيقدروا يكملوا محادثة 2 دقيقة.' },
+    { cat:'حل جديد', text:'مش محتاج تحفظ أكتر. محتاج تتكلم أكتر. فرق بسيط — بيغير كل حاجة.' },
+    { cat:'فرصة ضايعة', text:'كل يوم بيعدي من غير ما تبدأ... هو يوم تاني في نفس المكان.' },
+    { cat:'شخصي', text:'لو الإنجليزي هو الحاجة الوحيدة اللي بتوقفك — احنا هنوقفها.' },
+    { cat:'تحويل', text:'من "أنا مش كويس في الإنجليزي" لـ "أقدر أتكلم في أي حتة" — في 3 شهور.' },
+    { cat:'سبب الفشل', text:'مش الكسل هو السبب. إنك اتعلمت إنجليزي للأوراق — مش للحياة.' },
+    { cat:'إيموشنال خفيف', text:'تخيل إنك تدخل أي اجتماع وتتكلم بثقة... وكلامك ياخد الغرفة.' },
+    { cat:'مفاجأة', text:'مش محتاج تكون عبقري. محتاج بس حد يعلمك تتكلم — مش يحشيك قواعد.' },
+    { cat:'إلحاح', text:'كل دفعة بنعمل بتتملى. مش هينفعك إنك تاخر على نفسك.' },
+  ];
+
+  const hg = document.getElementById('hooksGrid');
+  hooksData.forEach((h, i) => {
+    hg.innerHTML += `<div class="hook-item">
+      <div class="hook-top">
+        <div class="hook-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="hook-cat">${h.cat}</div>
+      </div>
+      <div class="hook-text">${h.text}</div>
+    </div>`;
+  });
+</script>
+</body>
+</html>
