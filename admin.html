@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Campaign Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#3170C4;
+  --dark:#081A33;
+  --bg:#eef3f8;
+  --muted:#64748b;
+  --border:#d8e1ea;
+  --danger:#dc2626;
+}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark)}
+.app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+.sidebar{background:var(--dark);color:white;padding:24px;position:sticky;top:0;height:100vh;overflow:auto}
+.logo{font-size:24px;font-weight:900;margin-bottom:8px}
+.sub{font-size:12px;color:#9fb3c8;margin-bottom:30px}
+.nav button{width:100%;border:0;background:transparent;color:#cbd5e1;text-align:right;padding:13px 14px;border-radius:14px;margin-bottom:8px;font-family:inherit;font-weight:700;cursor:pointer;transition:.2s}
+.nav button.active,.nav button:hover{background:white;color:var(--dark)}
+.main{padding:28px;min-width:0}
+.topbar{background:white;border-radius:24px;padding:22px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.topbar h1{font-size:26px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:14px;padding:12px 18px;font-family:inherit;font-weight:900;cursor:pointer}
+.btn-dark{background:var(--dark);color:white}
+.btn-light{background:#e8eef5;color:var(--dark)}
+.section{display:none}
+.section.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{background:white;border-radius:24px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,.06);margin-bottom:18px}
+.card h2{font-size:20px;margin-bottom:16px}
+label{display:block;font-size:13px;font-weight:800;margin-bottom:8px;color:#334155}
+input,textarea,select{width:100%;border:1px solid var(--border);border-radius:14px;padding:12px 14px;font-family:inherit;margin-bottom:14px;outline:none;background:white}
+textarea{min-height:110px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--primary)}
+.color-row{display:grid;grid-template-columns:1fr 90px;gap:10px;align-items:center}
+.list-item{border:1px solid #e2e8f0;border-radius:18px;padding:16px;margin-bottom:12px;background:#f8fafc}
+.list-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:10px;align-items:center}
+.small-btn{border:0;border-radius:10px;padding:8px 12px;background:var(--dark);color:white;font-family:inherit;font-weight:800;cursor:pointer}
+.delete{background:var(--danger)}
+.preview-box{background:linear-gradient(135deg,var(--dark),var(--primary));color:white;border-radius:24px;padding:30px;min-height:160px}
+.preview-box h3{font-size:28px;margin-bottom:10px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{background:#f8fafc;border-radius:18px;padding:16px}
+.status{font-size:13px;font-weight:800;padding:10px 14px;border-radius:14px;background:#f8fafc;color:var(--muted);margin-bottom:18px}
+.status.ok{background:#dcfce7;color:#166534}
+.status.bad{background:#fee2e2;color:#991b1b}
+.status.warn{background:#fef3c7;color:#92400e}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:relative}.grid,.kpi-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">Campaign OS</div>
+    <div class="sub">لوحة تحكم الحملات والكلينتات</div>
+    <div class="nav">
+      <button class="active" type="button" data-section="overview">Overview</button>
+      <button type="button" data-section="branding">Branding & Colors</button>
+      <button type="button" data-section="hero">Hero & Slogan</button>
+      <button type="button" data-section="scripts">Scripts</button>
+      <button type="button" data-section="posts">Posts</button>
+      <button type="button" data-section="stories">Stories</button>
+      <button type="button" data-section="calendar">Calendar</button>
+      <button type="button" data-section="kpis">KPIs</button>
+      <button type="button" data-section="save">Save</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p style="color:#64748b;font-size:13px">عدل كل تفاصيل الكامبين من مكان واحد</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-light" type="button" id="previewBtn">Preview</button>
+        <button class="btn btn-dark" type="button" id="saveBtn">Save</button>
+      </div>
+    </div>
+
+    <div id="status" class="status">Dashboard ready</div>
+
+    <section id="overview" class="section active">
+      <div class="grid">
+        <div class="card">
+          <h2>بيانات العميل</h2>
+          <label>اسم العميل</label>
+          <input id="clientName">
+          <label>اسم الحملة</label>
+          <input id="campaignName">
+        </div>
+        <div class="card">
+          <h2>Live Preview</h2>
+          <div class="preview-box" id="livePreview">
+            <h3 id="pvTitle">Campaign Title</h3>
+            <p id="pvSub">Campaign subtitle</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="branding" class="section">
+      <div class="card">
+        <h2>الألوان والهوية</h2>
+        <div class="grid">
+          <div>
+            <label>Primary Color</label>
+            <div class="color-row">
+              <input id="primaryColor">
+              <input type="color" id="primaryPicker">
+            </div>
+          </div>
+          <div>
+            <label>Dark Color</label>
+            <div class="color-row">
+              <input id="darkColor">
+              <input type="color" id="darkPicker">
+            </div>
+          </div>
+          <div>
+            <label>Background Color</label>
+            <div class="color-row">
+              <input id="bgColor">
+              <input type="color" id="bgPicker">
+            </div>
+          </div>
+          <div>
+            <label>Logo URL أو Base64</label>
+            <input id="logoUrl" placeholder="ضع رابط اللوجو هنا">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="hero" class="section">
+      <div class="card">
+        <h2>Hero / Slogan</h2>
+        <label>عنوان الهيرو</label>
+        <input id="heroTitle">
+        <label>وصف الهيرو</label>
+        <textarea id="heroSubtitle"></textarea>
+        <label>السلوجان</label>
+        <textarea id="slogan"></textarea>
+        <label>الفكرة الرئيسية</label>
+        <textarea id="bigIdea"></textarea>
+      </div>
+    </section>
+
+    <section id="scripts" class="section">
+      <div class="card">
+        <div class="list-head">
+          <h2>Scripts</h2>
+          <button class="small-btn" type="button" id="addScriptBtn">+ Add Script</button>
+        </div>
+        <div id="scriptsList"></div>
+      </div>
+    </section>
+
+    <section id="posts" class="section">
+      <div class="card">
+        <div class="list-head">
+          <h2>Posts</h2>
+          <button class="small-btn" type="button" id="addPostBtn">+ Add Post</button>
+        </div>
+        <div id="postsList"></div>
+      </div>
+    </section>
+
+    <section id="stories" class="section">
+      <div class="card">
+        <div class="list-head">
+          <h2>Stories</h2>
+          <button class="small-btn" type="button" id="addStoryBtn">+ Add Story</button>
+        </div>
+        <div id="storiesList"></div>
+      </div>
+    </section>
+
+    <section id="calendar" class="section">
+      <div class="card">
+        <div class="list-head">
+          <h2>Calendar</h2>
+          <button class="small-btn" type="button" id="addCalendarBtn">+ Add Day</button>
+        </div>
+        <div id="calendarList"></div>
+      </div>
+    </section>
+
+    <section id="kpis" class="section">
+      <div class="card">
+        <h2>KPIs</h2>
+        <div class="kpi-grid">
+          <div class="kpi"><label>Reach</label><input id="kpiReach"></div>
+          <div class="kpi"><label>Engagement</label><input id="kpiEngagement"></div>
+          <div class="kpi"><label>Leads</label><input id="kpiLeads"></div>
+          <div class="kpi"><label>Visits</label><input id="kpiVisits"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="save" class="section">
+      <div class="card">
+        <h2>Save</h2>
+        <p style="color:#64748b;margin-bottom:14px">زرار Save بيحفظ البيانات في Supabase مباشرة. لو Supabase رفض، هتلاقي الخطأ في Console.</p>
+        <button class="btn btn-dark" type="button" id="saveBtn2">Save to Supabase</button>
+        <textarea id="jsonOutput" style="margin-top:18px;min-height:300px" readonly></textarea>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const SUPABASE_URL = "https://nnhxnswtzcqjnsmvytzr.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09";
+  const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+  const DEFAULT_DATA = {
+    client: { name: "English Zone", campaignName: "انت بيتعمل عليك فيلم" },
+    hero: { title: "حملة السينما", subtitle: "انت بيتعمل عليك فيلم" },
+    slogan: "",
+    bigIdea: "",
+    theme: { primary: "#3170C4", dark: "#081A33", background: "#F4F8FD", logo: "" },
+    scripts: [],
+    stories: [],
+    posts: [{ tov: "", caption: "" }],
+    calendar: [],
+    kpis: { reach: "0", engagement: "0", leads: "0", visits: "0" }
+  };
+
+  let campaignData = safeClone(DEFAULT_DATA);
+
+  function $(id) { return document.getElementById(id); }
+
+  function safeClone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+
+  function setStatus(message, type = "") {
+    const el = $("status");
+    if (!el) return;
+    el.textContent = message;
+    el.className = "status " + type;
+  }
+
+  function normalizeData(data) {
+    const d = data && typeof data === "object" ? data : {};
+    return {
+      client: { ...DEFAULT_DATA.client, ...(d.client || {}) },
+      hero: { ...DEFAULT_DATA.hero, ...(d.hero || {}) },
+      slogan: d.slogan || "",
+      bigIdea: d.bigIdea || "",
+      theme: { ...DEFAULT_DATA.theme, ...(d.theme || {}) },
+      scripts: Array.isArray(d.scripts) ? d.scripts : [],
+      stories: Array.isArray(d.stories) ? d.stories : [],
+      posts: Array.isArray(d.posts) ? d.posts : [{ tov: "", caption: "" }],
+      calendar: Array.isArray(d.calendar) ? d.calendar : [],
+      kpis: { ...DEFAULT_DATA.kpis, ...(d.kpis || {}) }
+    };
+  }
+
+  async function loadData() {
+    if (!supabase) {
+      campaignData = normalizeData(DEFAULT_DATA);
+      fillInputs();
+      renderAll();
+      setStatus("Supabase library not loaded. Dashboard works locally, but Save will fail.", "warn");
+      return;
+    }
+
+    try {
+      setStatus("Loading data from Supabase...");
+      const { data, error } = await supabase
+        .from("campaign_content")
+        .select("data")
+        .eq("id", "main")
+        .maybeSingle();
+
+      if (error) throw error;
+
+      campaignData = normalizeData(data ? data.data : DEFAULT_DATA);
+      fillInputs();
+      renderAll();
+      setStatus("Dashboard loaded successfully", "ok");
+    } catch (error) {
+      console.error("Load error:", error);
+      campaignData = normalizeData(DEFAULT_DATA);
+      fillInputs();
+      renderAll();
+      setStatus("Supabase load failed. Dashboard opened with default data. Check Console.", "bad");
+    }
+  }
+
+  function fillInputs() {
+    $("clientName").value = campaignData.client.name;
+    $("campaignName").value = campaignData.client.campaignName;
+    $("heroTitle").value = campaignData.hero.title;
+    $("heroSubtitle").value = campaignData.hero.subtitle;
+    $("slogan").value = campaignData.slogan;
+    $("bigIdea").value = campaignData.bigIdea;
+
+    $("primaryColor").value = campaignData.theme.primary;
+    $("darkColor").value = campaignData.theme.dark;
+    $("bgColor").value = campaignData.theme.background;
+    $("logoUrl").value = campaignData.theme.logo;
+
+    $("primaryPicker").value = campaignData.theme.primary;
+    $("darkPicker").value = campaignData.theme.dark;
+    $("bgPicker").value = campaignData.theme.background;
+
+    $("kpiReach").value = campaignData.kpis.reach;
+    $("kpiEngagement").value = campaignData.kpis.engagement;
+    $("kpiLeads").value = campaignData.kpis.leads;
+    $("kpiVisits").value = campaignData.kpis.visits;
+
+    updatePreview();
+    updateJsonOutput();
+  }
+
+  function collectInputs() {
+    campaignData.client.name = $("clientName").value;
+    campaignData.client.campaignName = $("campaignName").value;
+    campaignData.hero.title = $("heroTitle").value;
+    campaignData.hero.subtitle = $("heroSubtitle").value;
+    campaignData.slogan = $("slogan").value;
+    campaignData.bigIdea = $("bigIdea").value;
+
+    campaignData.theme.primary = $("primaryColor").value || "#3170C4";
+    campaignData.theme.dark = $("darkColor").value || "#081A33";
+    campaignData.theme.background = $("bgColor").value || "#F4F8FD";
+    campaignData.theme.logo = $("logoUrl").value;
+
+    campaignData.kpis.reach = $("kpiReach").value;
+    campaignData.kpis.engagement = $("kpiEngagement").value;
+    campaignData.kpis.leads = $("kpiLeads").value;
+    campaignData.kpis.visits = $("kpiVisits").value;
+
+    updatePreview();
+    updateJsonOutput();
+  }
+
+  function updatePreview() {
+    $("pvTitle").textContent = $("heroTitle").value || "Campaign Title";
+    $("pvSub").textContent = $("heroSubtitle").value || "Campaign Subtitle";
+    $("livePreview").style.background = `linear-gradient(135deg, ${$("darkColor").value || "#081A33"}, ${$("primaryColor").value || "#3170C4"})`;
+  }
+
+  function updateJsonOutput() {
+    $("jsonOutput").value = JSON.stringify(campaignData, null, 2);
+  }
+
+  function renderAll() {
+    renderScripts();
+    renderPosts();
+    renderStories();
+    renderCalendar();
+  }
+
+  function escapeAttr(value) {
+    return String(value || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+  }
+  function escapeText(value) {
+    return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  }
+
+  function renderScripts() {
+    $("scriptsList").innerHTML = campaignData.scripts.map((s, i) => `
+      <div class="list-item">
+        <div class="list-head">
+          <strong>Script ${i + 1}</strong>
+          <button class="small-btn delete" type="button" data-delete-script="${i}">Delete</button>
+        </div>
+        <label>العنوان</label>
+        <input value="${escapeAttr(s.title)}" data-script-field="title" data-index="${i}">
+        <label>اللوكيشن</label>
+        <input value="${escapeAttr(s.location)}" data-script-field="location" data-index="${i}">
+        <label>الممثلين</label>
+        <input value="${escapeAttr(s.actors)}" data-script-field="actors" data-index="${i}">
+        <label>السكريبت كامل</label>
+        <textarea data-script-field="body" data-index="${i}">${escapeText(s.body)}</textarea>
+      </div>
+    `).join("");
+  }
+
+  function renderPosts() {
+    $("postsList").innerHTML = campaignData.posts.map((p, i) => `
+      <div class="list-item">
+        <div class="list-head">
+          <strong>Post ${i + 1}</strong>
+          <button class="small-btn delete" type="button" data-delete-post="${i}">Delete</button>
+        </div>
+        <label>TOV</label>
+        <textarea data-post-field="tov" data-index="${i}">${escapeText(p.tov)}</textarea>
+        <label>Caption</label>
+        <textarea data-post-field="caption" data-index="${i}">${escapeText(p.caption)}</textarea>
+      </div>
+    `).join("");
+  }
+
+  function renderStories() {
+    $("storiesList").innerHTML = campaignData.stories.map((s, i) => `
+      <div class="list-item">
+        <div class="list-head">
+          <strong>Story ${i + 1}</strong>
+          <button class="small-btn delete" type="button" data-delete-story="${i}">Delete</button>
+        </div>
+        <textarea data-story-index="${i}">${escapeText(s)}</textarea>
+      </div>
+    `).join("");
+  }
+
+  function renderCalendar() {
+    $("calendarList").innerHTML = campaignData.calendar.map((c, i) => `
+      <div class="list-item">
+        <div class="list-head">
+          <strong>Day ${escapeText(c.day || i + 1)}</strong>
+          <button class="small-btn delete" type="button" data-delete-calendar="${i}">Delete</button>
+        </div>
+        <label>اليوم</label>
+        <input value="${escapeAttr(c.day)}" data-calendar-field="day" data-index="${i}">
+        <label>نوع المحتوى</label>
+        <input value="${escapeAttr(c.type)}" data-calendar-field="type" data-index="${i}">
+        <label>العنوان</label>
+        <input value="${escapeAttr(c.title)}" data-calendar-field="title" data-index="${i}">
+        <label>ملاحظات</label>
+        <textarea data-calendar-field="notes" data-index="${i}">${escapeText(c.notes)}</textarea>
+      </div>
+    `).join("");
+  }
+
+  function addScript() {
+    campaignData.scripts.push({ title: "", location: "", actors: "", body: "" });
+    renderScripts();
+    collectInputs();
+  }
+  function addPost() {
+    campaignData.posts.push({ tov: "", caption: "" });
+    renderPosts();
+    collectInputs();
+  }
+  function addStory() {
+    campaignData.stories.push("");
+    renderStories();
+    collectInputs();
+  }
+  function addCalendarItem() {
+    campaignData.calendar.push({ day: "", type: "", title: "", notes: "" });
+    renderCalendar();
+    collectInputs();
+  }
+
+  async function saveData() {
+    collectInputs();
+
+    if (!supabase) {
+      setStatus("Save failed: Supabase library not loaded.", "bad");
+      alert("Supabase library not loaded");
+      return;
+    }
+
+    try {
+      setStatus("Saving to Supabase...");
+      const { error } = await supabase
+        .from("campaign_content")
+        .upsert({
+          id: "main",
+          data: campaignData,
+          updated_at: new Date().toISOString()
+        }, { onConflict: "id" });
+
+      if (error) throw error;
+      setStatus("Saved successfully", "ok");
+      alert("تم الحفظ بنجاح 🔥");
+    } catch (error) {
+      console.error("Save error:", error);
+      setStatus("Save failed. Check Console.", "bad");
+      alert("في مشكلة في الحفظ. افتح Console وشوف الخطأ.");
+    }
+  }
+
+  function showSection(id) {
+    document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
+    const target = document.getElementById(id);
+    if (target) target.classList.add("active");
+
+    document.querySelectorAll(".nav button").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.section === id);
+    });
+  }
+
+  document.querySelectorAll(".nav button[data-section]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      showSection(btn.dataset.section);
+    });
+  });
+
+  $("addScriptBtn").addEventListener("click", addScript);
+  $("addPostBtn").addEventListener("click", addPost);
+  $("addStoryBtn").addEventListener("click", addStory);
+  $("addCalendarBtn").addEventListener("click", addCalendarItem);
+  $("saveBtn").addEventListener("click", saveData);
+  $("saveBtn2").addEventListener("click", saveData);
+  $("previewBtn").addEventListener("click", function () {
+    collectInputs();
+    alert("تم تحديث المعاينة");
+  });
+
+  document.addEventListener("click", function(e) {
+    const ds = e.target.dataset.deleteScript;
+    if (ds !== undefined) {
+      campaignData.scripts.splice(Number(ds), 1);
+      renderScripts();
+      collectInputs();
+      return;
+    }
+
+    const dp = e.target.dataset.deletePost;
+    if (dp !== undefined) {
+      campaignData.posts.splice(Number(dp), 1);
+      renderPosts();
+      collectInputs();
+      return;
+    }
+
+    const dStory = e.target.dataset.deleteStory;
+    if (dStory !== undefined) {
+      campaignData.stories.splice(Number(dStory), 1);
+      renderStories();
+      collectInputs();
+      return;
+    }
+
+    const dc = e.target.dataset.deleteCalendar;
+    if (dc !== undefined) {
+      campaignData.calendar.splice(Number(dc), 1);
+      renderCalendar();
+      collectInputs();
+      return;
+    }
+  });
+
+  document.addEventListener("input", function(e) {
+    if (e.target.dataset.scriptField) {
+      campaignData.scripts[Number(e.target.dataset.index)][e.target.dataset.scriptField] = e.target.value;
+      updateJsonOutput();
+      return;
+    }
+    if (e.target.dataset.postField) {
+      campaignData.posts[Number(e.target.dataset.index)][e.target.dataset.postField] = e.target.value;
+      updateJsonOutput();
+      return;
+    }
+    if (e.target.dataset.storyIndex !== undefined) {
+      campaignData.stories[Number(e.target.dataset.storyIndex)] = e.target.value;
+      updateJsonOutput();
+      return;
+    }
+    if (e.target.dataset.calendarField) {
+      campaignData.calendar[Number(e.target.dataset.index)][e.target.dataset.calendarField] = e.target.value;
+      updateJsonOutput();
+      return;
+    }
+    collectInputs();
+  });
+
+  $("primaryPicker").addEventListener("input", function(e) {
+    $("primaryColor").value = e.target.value;
+    collectInputs();
+  });
+  $("darkPicker").addEventListener("input", function(e) {
+    $("darkColor").value = e.target.value;
+    collectInputs();
+  });
+  $("bgPicker").addEventListener("input", function(e) {
+    $("bgColor").value = e.target.value;
+    collectInputs();
+  });
+
+  loadData();
+});
+</script>
+</body>
+</html>
