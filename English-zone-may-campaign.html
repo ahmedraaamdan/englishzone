@@ -150,28 +150,21 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
     <h1 id="heroTitle">Campaign Title</h1>
     <p class="hero-sub" id="heroSubtitle">Campaign subtitle</p>
     <div class="hero-slogan" id="heroSlogan" style="display:none"></div>
-    <div class="kpi-strip" id="kpiStrip" style="display:none">
-      <div class="kpi-box"><strong id="kpiReach">0</strong><span>Reach</span></div>
-      <div class="kpi-box"><strong id="kpiEngagement">0</strong><span>Engagement</span></div>
-      <div class="kpi-box"><strong id="kpiLeads">0</strong><span>Leads</span></div>
-      <div class="kpi-box"><strong id="kpiVisits">0</strong><span>Visits</span></div>
-    </div>
   </div>
 </header>
 
 <nav class="sticky-nav">
   <div class="nav-inner">
     <span class="nav-brand" id="navBrand">Campaign OS</span>
-    <a href="#bigidea">💡 Big Idea</a>
-    <a href="#objectives">🎯 Objectives</a>
-    <a href="#audience">👥 Audience</a>
-    <a href="#phases">🗓 Phases</a>
-    <a href="#scripts">🎬 Scripts</a>
-    <a href="#posts">📱 Posts</a>
-    <a href="#stories">🔮 Stories</a>
-    <a href="#ads">📣 Ads</a>
-    <a href="#calendar">📅 Calendar</a>
-    <a href="#kpis">📈 KPIs</a>
+    <a href="#bigidea">Big Idea</a>
+    <a href="#objectives">Objectives</a>
+    <a href="#audience">Audience</a>
+    <a href="#phases">Phases</a>
+    <a href="#scripts">Scripts</a>
+    <a href="#posts">Posts</a>
+    <a href="#stories">Stories</a>
+    <a href="#calendar">Calendar</a>
+    <a href="#kpis">KPIs</a>
   </div>
 </nav>
 
@@ -220,16 +213,6 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
     <div class="info-grid" id="infoGrid"></div>
   </div>
 
-  <!-- PHASES -->
-  <div class="section-block" id="phases">
-    <div class="section-label">🗓 Campaign Phases</div>
-    <div class="phases-list" id="phasesDisplay"></div>
-    <div class="empty-state" id="phasesEmpty" style="display:none">
-      <div class="empty-icon">🗓</div>
-      <p>No phases defined yet</p>
-    </div>
-  </div>
-
   <!-- SCRIPTS -->
   <div class="section-block" id="scripts">
     <div class="section-label">🎬 Scripts</div>
@@ -257,16 +240,6 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
     <div class="empty-state" id="storiesEmpty" style="display:none">
       <div class="empty-icon">🔮</div>
       <p>No stories added yet</p>
-    </div>
-  </div>
-
-  <!-- ADS -->
-  <div class="section-block" id="ads">
-    <div class="section-label">📣 Ads Copy</div>
-    <div class="content-grid" id="adsGrid"></div>
-    <div class="empty-state" id="adsEmpty" style="display:none">
-      <div class="empty-icon">📣</div>
-      <p>No ad copies added yet</p>
     </div>
   </div>
 
@@ -340,15 +313,6 @@ function render(c){
 
   if(hero.slogan){$('heroSlogan').textContent=hero.slogan;$('heroSlogan').style.display='inline-block';}
 
-  const hasKpi = kpis.reach||kpis.engagement||kpis.leads||kpis.visits;
-  if(hasKpi){
-    $('kpiStrip').style.display='grid';
-    $('kpiReach').textContent=kpis.reach||'0';
-    $('kpiEngagement').textContent=kpis.engagement||'0';
-    $('kpiLeads').textContent=kpis.leads||'0';
-    $('kpiVisits').textContent=kpis.visits||'0';
-  }
-
   $('sloganDisplay').textContent = hero.slogan || hero.title || client.campaignName || 'Slogan';
   $('bigIdeaDisplay').textContent = hero.bigIdea || 'Big Idea ✨';
   if(hero.keyMessage){$('keyMessageDisplay').textContent=hero.keyMessage;$('keyMessageBlock').style.display='block';}
@@ -387,22 +351,6 @@ function render(c){
   if(client.start||client.end){infoItems.push({l:'مدة الحملة',v:[client.start,client.end].filter(Boolean).join(' → ')});$('campinfo').style.display='block';}
   if(client.progress){infoItems.push({l:'Campaign Progress',v:client.progress+'%'});$('campinfo').style.display='block';}
   $('infoGrid').innerHTML=infoItems.map(i=>`<div class="info-card"><div class="ic-label">${safe(i.l)}</div><div class="ic-value">${safe(i.v)}</div></div>`).join('');
-
-  // Phases
-  const phases=c.phases||[];
-  if(!phases.length){$('phasesDisplay').innerHTML='';$('phasesEmpty').style.display='block';}
-  else{
-    $('phasesEmpty').style.display='none';
-    $('phasesDisplay').innerHTML=phases.map((p,i)=>`
-      <div class="phase-card">
-        <div class="phase-num">${i+1}</div>
-        <div class="phase-name">${safe(p.name||'Phase '+(i+1))}</div>
-        ${p.duration?`<div class="phase-duration">⏱ ${safe(p.duration)}</div>`:''}
-        ${p.goal?`<div class="phase-goal">🎯 ${safe(p.goal)}</div>`:''}
-        ${p.activities?`<div class="phase-activities">📋 ${safe(p.activities)}</div>`:''}
-      </div>
-    `).join('');
-  }
 
   // Scripts
   const scripts=c.scripts||[];
@@ -472,28 +420,6 @@ function render(c){
         </div>
       `;
     }).join('');
-  }
-
-  // Ads
-  const ads=c.ads||[];
-  if(!ads.length){$('adsGrid').innerHTML='';$('adsEmpty').style.display='block';}
-  else{
-    $('adsEmpty').style.display='none';
-    $('adsGrid').innerHTML=ads.map((a,i)=>`
-      <div class="content-card">
-        <div class="content-card-header">
-          <div class="card-num">${i+1}</div>
-          <div class="card-title-block"><h3>${safe(a.name||'Ad '+(i+1))}</h3></div>
-        </div>
-        <div class="meta-pills">
-          ${a.adType?`<span class="pill accent">${safe(a.adType)}</span>`:''}
-        </div>
-        ${a.headline?`<div class="card-section-label">Headline</div><div class="body-text" style="font-size:17px;font-weight:900;color:var(--dark)">${safe(a.headline)}</div>`:''}
-        ${a.primary?`<div class="card-section-label">Primary Text</div><div class="body-text">${safe(a.primary)}</div>`:''}
-        ${a.description?`<div class="card-section-label">Description</div><div class="body-text">${safe(a.description)}</div>`:''}
-        ${a.cta?`<div class="cta-badge">👆 ${safe(a.cta.replace(/_/g,' '))}</div>`:''}
-      </div>
-    `).join('');
   }
 
   // Calendar
