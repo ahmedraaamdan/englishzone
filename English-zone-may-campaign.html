@@ -1,179 +1,547 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Campaign Preview</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--primary:#3170C4;--dark:#081A33;--bg:#F4F8FD;--card:#fff;--muted:#5A7290;--border:rgba(49,112,196,.14);--shadow:0 8px 28px rgba(13,45,94,.10);--radius:18px;font-family:'Cairo',sans-serif}
-body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;line-height:1.8}
-header{background:linear-gradient(135deg,var(--dark),var(--primary));color:#fff;text-align:center;padding:58px 20px 48px;position:relative;overflow:hidden}
-header:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.16),transparent 30%),radial-gradient(circle at 80% 10%,rgba(255,255,255,.12),transparent 35%)}
-.header-inner{position:relative;max-width:1000px;margin:auto}.logo{max-width:420px;width:80%;margin:0 auto 24px;display:none}.badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:7px 18px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:22px}h1{font-size:clamp(32px,6vw,58px);font-weight:900;margin-bottom:14px}header p{max-width:680px;margin:auto;color:rgba(255,255,255,.82);font-size:17px}.stats{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:14px;max-width:760px;margin:34px auto 0}.stat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:17px}.stat strong{font-size:26px;display:block}.stat span{font-size:12px;color:rgba(255,255,255,.75)}nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.05)}nav .wrap{max-width:1050px;margin:auto;display:flex;gap:8px;overflow:auto;padding:10px 16px}nav a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13px;font-weight:800;padding:10px 14px;border-radius:999px}nav a:hover{background:var(--bg);color:var(--primary)}main{max-width:1050px;margin:auto;padding:32px 18px}.section{margin-bottom:34px}.sec-title{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--primary);font-weight:900;margin-bottom:14px}.hero-card{background:linear-gradient(135deg,var(--dark),var(--primary));color:#fff;border-radius:var(--radius);padding:36px 24px;text-align:center;box-shadow:var(--shadow)}.hero-card h2{font-size:clamp(26px,4vw,42px);font-weight:900;margin-bottom:12px}.hero-card p{color:rgba(255,255,255,.82);max-width:720px;margin:auto}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}.card h3{font-size:19px;margin-bottom:10px;color:var(--dark)}.meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.pill{background:var(--bg);color:var(--primary);font-size:12px;font-weight:800;border-radius:999px;padding:5px 10px}.body-text{white-space:pre-wrap;color:#16345F;font-size:14px}.calendar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}.day{background:#fff;border:1px solid var(--border);border-radius:15px;padding:15px;box-shadow:var(--shadow)}.day .num{font-weight:900;color:var(--primary);font-size:13px}.day .type{display:inline-block;margin:8px 0;background:var(--bg);padding:3px 9px;border-radius:99px;font-size:11px;font-weight:800;color:var(--muted)}.day h4{font-size:14px;line-height:1.6}footer{text-align:center;background:var(--dark);color:rgba(255,255,255,.65);padding:25px;font-size:13px}.status{max-width:1050px;margin:20px auto 0;padding:14px 18px;border-radius:14px;background:#fff4d6;color:#8a5a00;border:1px solid #ffe3a3;font-weight:800;display:none}@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}header{padding-top:38px}}
+:root{
+  --primary:#2563EB;--dark:#0F172A;--accent:#F59E0B;
+  --bg:#F1F5F9;--card:#fff;--muted:#64748B;
+  --border:rgba(37,99,235,.12);--shadow:0 4px 20px rgba(15,23,42,.08);
+  --radius:18px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);line-height:1.75;min-height:100vh}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--dark) 0%,var(--primary) 100%);color:#fff;padding:70px 20px 60px;position:relative;overflow:hidden;text-align:center}
+.hero-bg-circle{position:absolute;border-radius:50%;pointer-events:none}
+.hero-bg-circle.c1{width:500px;height:500px;top:-200px;right:-150px;background:rgba(255,255,255,.04)}
+.hero-bg-circle.c2{width:300px;height:300px;bottom:-100px;left:-80px;background:rgba(255,255,255,.05)}
+.hero-bg-circle.c3{width:200px;height:200px;top:40px;left:30%;background:rgba(255,255,255,.03)}
+.hero-inner{position:relative;max-width:900px;margin:auto}
+.hero-logo{max-width:200px;max-height:70px;object-fit:contain;margin:0 auto 24px;display:none;filter:brightness(0) invert(1)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:7px 18px;font-size:12px;font-weight:800;margin-bottom:22px;letter-spacing:.5px}
+.hero h1{font-size:clamp(30px,6vw,58px);font-weight:900;line-height:1.2;margin-bottom:16px}
+.hero-sub{font-size:clamp(15px,2.5vw,19px);color:rgba(255,255,255,.8);max-width:700px;margin:auto}
+.hero-slogan{display:inline-block;margin-top:20px;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 24px;font-size:16px;font-weight:800;color:rgba(255,255,255,.95)}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:800px;margin:36px auto 0}
+.kpi-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 10px;text-align:center;backdrop-filter:blur(10px)}
+.kpi-box strong{display:block;font-size:26px;font-weight:900;line-height:1}
+.kpi-box span{font-size:11px;color:rgba(255,255,255,.7);font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+
+/* NAV */
+.sticky-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 2px 16px rgba(0,0,0,.06)}
+.nav-inner{max-width:1100px;margin:auto;display:flex;align-items:center;padding:0 16px;overflow-x:auto;gap:4px}
+.nav-inner a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13px;font-weight:800;padding:14px 16px;border-bottom:2px solid transparent;transition:.2s;display:flex;align-items:center;gap:6px}
+.nav-inner a:hover{color:var(--primary);border-bottom-color:var(--primary-mid,#bfdbfe)}
+.nav-brand{margin-right:auto;font-weight:900;color:var(--dark);font-size:15px;padding:12px 0;white-space:nowrap}
+
+/* STATUS */
+.load-status{max-width:1100px;margin:24px auto 0;padding:14px 18px;border-radius:12px;font-weight:700;font-size:13px;background:#FFFBEB;color:#92400E;border:1px solid #FDE68A;display:none}
+
+/* CONTENT */
+.page{max-width:1100px;margin:auto;padding:32px 16px 60px}
+.section-block{margin-bottom:44px}
+.section-label{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:var(--primary);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-label:after{content:"";flex:1;height:1px;background:var(--border)}
+
+/* BIG IDEA */
+.big-idea-card{background:linear-gradient(135deg,var(--dark),var(--primary));color:#fff;border-radius:24px;padding:44px 36px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.big-idea-card:before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.04);top:-100px;right:-80px}
+.big-idea-card h2{font-size:clamp(22px,4vw,38px);font-weight:900;margin-bottom:14px;position:relative}
+.big-idea-card p{font-size:16px;color:rgba(255,255,255,.85);max-width:720px;margin:auto;position:relative;line-height:2}
+
+/* INFO CARDS */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.info-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+.info-card .ic-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.info-card .ic-value{font-size:16px;font-weight:700;color:var(--dark)}
+
+/* GRID CARDS */
+.content-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.content-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.content-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.1)}
+.content-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.card-num{width:32px;height:32px;border-radius:9px;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0}
+.card-title-block h3{font-size:16px;font-weight:800;line-height:1.3}
+.meta-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.pill{background:var(--bg);color:var(--primary);font-size:11px;font-weight:800;border-radius:8px;padding:4px 10px;border:1px solid var(--border)}
+.pill.accent{background:#FFF7ED;color:#C2410C;border-color:#FED7AA}
+.pill.green{background:#F0FDF4;color:#166534;border-color:#BBF7D0}
+.body-text{white-space:pre-wrap;color:#334155;font-size:14px;line-height:1.8}
+.card-section-label{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:12px 0 4px}
+.cta-badge{display:inline-flex;align-items:center;gap:5px;background:var(--primary);color:white;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:800;margin-top:10px}
+
+/* CALENDAR */
+.calendar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.cal-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.cal-card:before{content:"";position:absolute;top:0;right:0;width:3px;height:100%;background:var(--primary)}
+.cal-day-num{font-size:11px;font-weight:900;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.cal-type-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase}
+.cal-type-post{background:#EFF6FF;color:#1D4ED8}
+.cal-type-story{background:#F5F3FF;color:#6D28D9}
+.cal-type-reel,.cal-type-video{background:#FFF7ED;color:#C2410C}
+.cal-type-ad{background:#FEF2F2;color:#B91C1C}
+.cal-type-event{background:#F0FDF4;color:#166534}
+.cal-title{font-size:13px;font-weight:800;line-height:1.4;margin-bottom:4px}
+.cal-notes{font-size:12px;color:var(--muted);line-height:1.5}
+.status-done{background:#DCFCE7;color:#166534;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;display:inline-block}
+.status-inprogress{background:#FFFBEB;color:#92400E;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;display:inline-block}
+.status-planned{background:#F1F5F9;color:#475569;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;display:inline-block}
+
+/* PHASES */
+.phases-list{display:flex;flex-direction:column;gap:12px}
+.phase-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);display:grid;grid-template-columns:auto 1fr;gap:0 20px}
+.phase-num{width:44px;height:44px;border-radius:12px;background:var(--primary);color:white;font-size:18px;font-weight:900;display:flex;align-items:center;justify-content:center;grid-row:span 3;align-self:flex-start;margin-top:2px}
+.phase-name{font-size:17px;font-weight:900;margin-bottom:4px}
+.phase-duration{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px}
+.phase-goal{font-size:14px;color:#334155;line-height:1.7}
+.phase-activities{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.7;border-top:1px solid var(--border);padding-top:10px}
+
+/* AUDIENCE */
+.audience-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.audience-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+
+/* KPI BOXES */
+.kpi-result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.kpi-result-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;box-shadow:var(--shadow)}
+.kpi-result-card .kpi-val{font-size:32px;font-weight:900;color:var(--primary);display:block;line-height:1}
+.kpi-result-card .kpi-name{font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-top:6px}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:48px 20px;color:var(--muted);background:var(--card);border-radius:var(--radius);border:1px dashed var(--border)}
+.empty-state .empty-icon{font-size:48px;margin-bottom:12px}
+.empty-state p{font-size:14px}
+
+/* FOOTER */
+footer{background:var(--dark);color:rgba(255,255,255,.5);text-align:center;padding:28px 20px;font-size:12px}
+footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6px}
+
+/* OBJECTIVE DISPLAY */
+.objective-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-light,#EFF6FF);border:1px solid var(--primary-mid,#BFDBFE);border-radius:12px;padding:10px 20px;font-size:15px;font-weight:800;color:var(--primary)}
+
+/* PLATFORM TAGS */
+.platform-tag{display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--dark);margin:3px}
+
+@media(max-width:700px){
+  .hero{padding:48px 16px 40px}
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .content-grid{grid-template-columns:1fr}
+  .phase-card{grid-template-columns:1fr}
+  .phase-num{display:none}
+}
 </style>
 </head>
 <body>
-<header id="top">
-  <div class="header-inner">
-    <img id="logo" class="logo" alt="Logo" />
-    <div class="badge" id="badge">Loading campaign</div>
+
+<div id="loadStatus" class="load-status"></div>
+
+<header class="hero" id="top">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-bg-circle c3"></div>
+  <div class="hero-inner">
+    <img id="heroLogo" class="hero-logo" alt="Logo"/>
+    <div class="hero-badge" id="heroBadge">Loading...</div>
     <h1 id="heroTitle">Campaign Title</h1>
-    <p id="heroSubtitle">Campaign subtitle</p>
-    <div class="stats">
-      <div class="stat"><strong id="kpiReach">0</strong><span>Reach</span></div>
-      <div class="stat"><strong id="kpiEngagement">0</strong><span>Engagement</span></div>
-      <div class="stat"><strong id="kpiLeads">0</strong><span>Leads</span></div>
-      <div class="stat"><strong id="kpiVisits">0</strong><span>Visits</span></div>
+    <p class="hero-sub" id="heroSubtitle">Campaign subtitle</p>
+    <div class="hero-slogan" id="heroSlogan" style="display:none"></div>
+    <div class="kpi-strip" id="kpiStrip" style="display:none">
+      <div class="kpi-box"><strong id="kpiReach">0</strong><span>Reach</span></div>
+      <div class="kpi-box"><strong id="kpiEngagement">0</strong><span>Engagement</span></div>
+      <div class="kpi-box"><strong id="kpiLeads">0</strong><span>Leads</span></div>
+      <div class="kpi-box"><strong id="kpiVisits">0</strong><span>Visits</span></div>
     </div>
   </div>
 </header>
-<div id="status" class="status"></div>
-<nav><div class="wrap"><a href="#bigidea">Big Idea</a><a href="#scripts">Scripts</a><a href="#posts">Posts</a><a href="#stories">Stories</a><a href="#calendar">Calendar</a><a href="#kpis">KPIs</a></div></nav>
-<main>
-  <section id="bigidea" class="section">
-    <div class="sec-title">Big Idea</div>
-    <div class="hero-card"><h2 id="slogan">Slogan</h2><p id="bigIdea">Big idea</p></div>
-  </section>
-  <section id="scripts" class="section"><div class="sec-title">Scripts</div><div id="scriptsGrid" class="grid"></div></section>
-  <section id="posts" class="section"><div class="sec-title">Posts</div><div id="postsGrid" class="grid"></div></section>
-  <section id="stories" class="section"><div class="sec-title">Stories</div><div id="storiesGrid" class="grid"></div></section>
-  <section id="calendar" class="section"><div class="sec-title">Calendar</div><div id="calendarGrid" class="calendar-grid"></div></section>
-  <section id="kpis" class="section"><div class="sec-title">KPIs</div><div id="kpisGrid" class="grid"></div></section>
-</main>
-<footer id="footerText">Campaign Preview</footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-(async function () {
-  const client = window.supabase.createClient(
-    "https://nnhxnswtzcqjnsmvytzr.supabase.co",
-    "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09"
-  );
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <span class="nav-brand" id="navBrand">Campaign OS</span>
+    <a href="#bigidea">💡 Big Idea</a>
+    <a href="#objectives">🎯 Objectives</a>
+    <a href="#audience">👥 Audience</a>
+    <a href="#phases">🗓 Phases</a>
+    <a href="#scripts">🎬 Scripts</a>
+    <a href="#posts">📱 Posts</a>
+    <a href="#stories">🔮 Stories</a>
+    <a href="#ads">📣 Ads</a>
+    <a href="#calendar">📅 Calendar</a>
+    <a href="#kpis">📈 KPIs</a>
+  </div>
+</nav>
 
-  const $ = id => document.getElementById(id);
-  const safe = v => String(v ?? "").replace(/[&<>"']/g, m => ({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#39;'
-  }[m]));
+<div class="page">
 
-  function setStatus(msg){
-    const el = $("status");
-    el.style.display = "block";
-    el.textContent = msg;
-  }
-
-  function render(c){
-    document.title = `${c.client?.name || "Client"} — ${c.client?.campaignName || "Campaign"}`;
-
-    $("badge").textContent = `${c.client?.name || ""} • ${c.client?.campaignName || ""}`;
-    $("heroTitle").textContent = c.hero?.title || c.client?.campaignName || "Campaign Title";
-    $("heroSubtitle").textContent = c.hero?.subtitle || "";
-
-    $("slogan").textContent = c.slogan || c.client?.campaignName || "";
-    $("bigIdea").textContent = c.bigIdea || "";
-
-    $("kpiReach").textContent = c.kpis?.reach || "0";
-    $("kpiEngagement").textContent = c.kpis?.engagement || "0";
-    $("kpiLeads").textContent = c.kpis?.leads || "0";
-    $("kpiVisits").textContent = c.kpis?.visits || "0";
-
-    $("footerText").textContent = `${c.client?.name || ""} — ${c.client?.campaignName || ""}`;
-
-    if (c.theme) {
-      document.documentElement.style.setProperty("--primary", c.theme.primary || "#3170C4");
-      document.documentElement.style.setProperty("--dark", c.theme.dark || "#081A33");
-      document.documentElement.style.setProperty("--bg", c.theme.background || "#F4F8FD");
-      document.body.style.background = c.theme.background || "#F4F8FD";
-
-      if (c.theme.logo) {
-        $("logo").src = c.theme.logo;
-        $("logo").style.display = "block";
-      }
-    }
-
-    $("scriptsGrid").innerHTML = (c.scripts || []).length
-      ? c.scripts.map((s,i)=>`
-        <div class="card">
-          <h3>سكريبت ${i+1}: ${safe(s.title || "")}</h3>
-          <div class="meta">
-            ${s.location ? `<span class="pill">${safe(s.location)}</span>` : ""}
-            ${s.actors ? `<span class="pill">${safe(s.actors)}</span>` : ""}
-          </div>
-          <div class="body-text">${safe(s.body || s.summary || "")}</div>
-        </div>
-      `).join("")
-      : `<div class="card">لا توجد سكريبتات بعد</div>`;
-
-    $("postsGrid").innerHTML = (c.posts || []).length
-      ? c.posts.map((p,i)=>`
-        <div class="card">
-          <h3>Post ${i+1}</h3>
-          <p><b>TOV:</b></p>
-          <div class="body-text">${safe(p.tov || "-")}</div>
-          <br>
-          <p><b>Caption:</b></p>
-          <div class="body-text">${safe(p.caption || "-")}</div>
-        </div>
-      `).join("")
-      : `<div class="card">لا توجد بوستات بعد</div>`;
-
-    $("storiesGrid").innerHTML = (c.stories || []).length
-      ? c.stories.map((s,i)=>`
-        <div class="card">
-          <h3>Story ${i+1}</h3>
-          <div class="body-text">${safe(s)}</div>
-        </div>
-      `).join("")
-      : `<div class="card">لا توجد ستوريز بعد</div>`;
-
-    $("calendarGrid").innerHTML = (c.calendar || []).length
-      ? c.calendar.map((item,i)=>`
-        <div class="day">
-          <div class="num">Day ${safe(item.day || i+1)}</div>
-          ${item.type ? `<span class="type">${safe(item.type)}</span>` : ""}
-          <h4>${safe(item.title || "")}</h4>
-          ${item.notes ? `<p class="body-text">${safe(item.notes)}</p>` : ""}
-        </div>
-      `).join("")
-      : `<div class="day">لا يوجد كاليندر بعد</div>`;
-
-    $("kpisGrid").innerHTML = Object.entries(c.kpis || {}).map(([k,v])=>`
-      <div class="card">
-        <h3>${safe(k)}</h3>
-        <div class="body-text" style="font-size:24px;font-weight:900;color:var(--primary)">
-          ${safe(v)}
-        </div>
+  <!-- BIG IDEA -->
+  <div class="section-block" id="bigidea">
+    <div class="section-label">💡 Big Idea & Slogan</div>
+    <div class="big-idea-card" id="bigIdeaCard">
+      <h2 id="sloganDisplay">Slogan</h2>
+      <p id="bigIdeaDisplay">Big idea loading...</p>
+    </div>
+    <div id="keyMessageBlock" style="margin-top:14px;display:none">
+      <div class="info-card">
+        <div class="ic-label">Key Message</div>
+        <div class="ic-value" id="keyMessageDisplay" style="font-size:14px;line-height:1.8;white-space:pre-wrap"></div>
       </div>
-    `).join("");
+    </div>
+  </div>
+
+  <!-- OBJECTIVES -->
+  <div class="section-block" id="objectives">
+    <div class="section-label">🎯 Campaign Objective</div>
+    <div id="objDisplay" style="margin-bottom:12px"></div>
+    <div id="objNotes" style="display:none" class="info-card">
+      <div class="ic-label">Objective Notes</div>
+      <div class="ic-value" id="objNotesText" style="font-size:14px;line-height:1.8"></div>
+    </div>
+    <div id="platformsDisplay" style="margin-top:12px;display:none">
+      <div class="info-card">
+        <div class="ic-label">Target Platforms</div>
+        <div id="platformTagsList" style="margin-top:6px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIENCE -->
+  <div class="section-block" id="audience">
+    <div class="section-label">👥 Target Audience</div>
+    <div class="audience-grid" id="audienceGrid"></div>
+  </div>
+
+  <!-- CAMPAIGN INFO -->
+  <div class="section-block" id="campinfo" style="display:none">
+    <div class="section-label">📋 Campaign Info</div>
+    <div class="info-grid" id="infoGrid"></div>
+  </div>
+
+  <!-- PHASES -->
+  <div class="section-block" id="phases">
+    <div class="section-label">🗓 Campaign Phases</div>
+    <div class="phases-list" id="phasesDisplay"></div>
+    <div class="empty-state" id="phasesEmpty" style="display:none">
+      <div class="empty-icon">🗓</div>
+      <p>No phases defined yet</p>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <div class="section-block" id="scripts">
+    <div class="section-label">🎬 Scripts</div>
+    <div class="content-grid" id="scriptsGrid"></div>
+    <div class="empty-state" id="scriptsEmpty" style="display:none">
+      <div class="empty-icon">🎬</div>
+      <p>No scripts added yet</p>
+    </div>
+  </div>
+
+  <!-- POSTS -->
+  <div class="section-block" id="posts">
+    <div class="section-label">📱 Posts</div>
+    <div class="content-grid" id="postsGrid"></div>
+    <div class="empty-state" id="postsEmpty" style="display:none">
+      <div class="empty-icon">📱</div>
+      <p>No posts added yet</p>
+    </div>
+  </div>
+
+  <!-- STORIES -->
+  <div class="section-block" id="stories">
+    <div class="section-label">🔮 Stories</div>
+    <div class="content-grid" id="storiesGrid"></div>
+    <div class="empty-state" id="storiesEmpty" style="display:none">
+      <div class="empty-icon">🔮</div>
+      <p>No stories added yet</p>
+    </div>
+  </div>
+
+  <!-- ADS -->
+  <div class="section-block" id="ads">
+    <div class="section-label">📣 Ads Copy</div>
+    <div class="content-grid" id="adsGrid"></div>
+    <div class="empty-state" id="adsEmpty" style="display:none">
+      <div class="empty-icon">📣</div>
+      <p>No ad copies added yet</p>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="section-block" id="calendar">
+    <div class="section-label">📅 Content Calendar</div>
+    <div class="calendar-grid" id="calendarGrid"></div>
+    <div class="empty-state" id="calendarEmpty" style="display:none">
+      <div class="empty-icon">📅</div>
+      <p>No calendar items added yet</p>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="section-block" id="kpis">
+    <div class="section-label">📈 KPIs & Goals</div>
+    <div class="kpi-result-grid" id="kpisGrid"></div>
+    <div id="successDefBlock" style="margin-top:14px;display:none">
+      <div class="info-card">
+        <div class="ic-label">تعريف النجاح</div>
+        <div class="ic-value" id="successDefText" style="font-size:14px;line-height:1.8;white-space:pre-wrap"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-brand" id="footerBrand">Campaign OS</div>
+  <div id="footerSub"></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SURL = "https://nnhxnswtzcqjnsmvytzr.supabase.co";
+const SKEY = "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09";
+const sb = window.supabase.createClient(SURL, SKEY);
+const $ = id => document.getElementById(id);
+const safe = v => String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+function showStatus(msg,show=true){const el=$('loadStatus');el.textContent=msg;el.style.display=show?'block':'none';}
+
+function applyTheme(t={}){
+  const p=t.primary||'#2563EB',d=t.dark||'#0F172A',b=t.background||'#F1F5F9',a=t.accent||'#F59E0B';
+  document.documentElement.style.setProperty('--primary',p);
+  document.documentElement.style.setProperty('--dark',d);
+  document.documentElement.style.setProperty('--bg',b);
+  document.documentElement.style.setProperty('--accent',a);
+  document.body.style.background=b;
+  if(t.logo){$('heroLogo').src=t.logo;$('heroLogo').style.display='block';}
+  if(t.font){document.body.style.fontFamily=`'${t.font}',sans-serif`;}
+}
+
+const objLabels={awareness:'📢 Brand Awareness',engagement:'❤️ Engagement',leads:'🎯 Lead Generation',sales:'💰 Sales & Conversion',retention:'🔄 Retention',launch:'🚀 Product Launch'};
+const platformIcons={facebook:'🔵 Facebook',instagram:'📸 Instagram',tiktok:'🎵 TikTok',youtube:'▶️ YouTube',twitter:'🐦 X (Twitter)',snapchat:'👻 Snapchat',linkedin:'💼 LinkedIn',google:'🔍 Google Ads'};
+const typeClass={post:'cal-type-post',story:'cal-type-story',reel:'cal-type-reel',video:'cal-type-video',ad:'cal-type-ad',event:'cal-type-event'};
+const statusClass={done:'status-done',inprogress:'status-inprogress',planned:'status-planned'};
+
+function render(c){
+  const client = c.client||{}, hero = c.hero||{}, theme = c.theme||{}, kpis = c.kpis||{}, obj = c.objectives||{};
+
+  document.title = `${client.name||'Campaign'} — ${client.campaignName||'Preview'}`;
+  applyTheme(theme);
+
+  $('heroBadge').textContent = `${client.name||''} ${client.campaignName?'• '+client.campaignName:''}`;
+  $('heroTitle').textContent = hero.title || client.campaignName || 'Campaign Title';
+  $('heroSubtitle').textContent = hero.subtitle || '';
+  $('navBrand').textContent = client.name || 'Campaign OS';
+  $('footerBrand').textContent = client.name || 'Campaign OS';
+  $('footerSub').textContent = client.campaignName || '';
+
+  if(hero.slogan){$('heroSlogan').textContent=hero.slogan;$('heroSlogan').style.display='inline-block';}
+
+  const hasKpi = kpis.reach||kpis.engagement||kpis.leads||kpis.visits;
+  if(hasKpi){
+    $('kpiStrip').style.display='grid';
+    $('kpiReach').textContent=kpis.reach||'0';
+    $('kpiEngagement').textContent=kpis.engagement||'0';
+    $('kpiLeads').textContent=kpis.leads||'0';
+    $('kpiVisits').textContent=kpis.visits||'0';
   }
 
-  try {
-    setStatus("Loading campaign...");
+  $('sloganDisplay').textContent = hero.slogan || hero.title || client.campaignName || 'Slogan';
+  $('bigIdeaDisplay').textContent = hero.bigIdea || 'Big Idea ✨';
+  if(hero.keyMessage){$('keyMessageDisplay').textContent=hero.keyMessage;$('keyMessageBlock').style.display='block';}
 
-    const { data, error } = await client
-      .from("campaign_content")
-      .select("*")
-      .eq("id", "main")
-      .maybeSingle();
+  // Objective
+  if(obj.type && objLabels[obj.type]){
+    $('objDisplay').innerHTML=`<div class="objective-badge">${safe(objLabels[obj.type])}</div>`;
+  }
+  if(obj.notes){$('objNotes').style.display='block';$('objNotesText').textContent=obj.notes;}
+  if(obj.platforms&&obj.platforms.length){
+    $('platformsDisplay').style.display='block';
+    $('platformTagsList').innerHTML=obj.platforms.map(p=>`<span class="platform-tag">${safe(platformIcons[p]||p)}</span>`).join('');
+  }
 
-    if (error) throw error;
-    if (!data || !data.data) throw new Error("No data found");
+  // Audience
+  const audItems=[];
+  if(obj.ageRange)audItems.push({l:'الفئة العمرية',v:obj.ageRange});
+  if(obj.gender&&obj.gender!=='all')audItems.push({l:'الجنس',v:{male:'ذكور',female:'إناث'}[obj.gender]||obj.gender});
+  if(obj.location)audItems.push({l:'الموقع الجغرافي',v:obj.location});
+  if(client.industry)audItems.push({l:'القطاع',v:client.industry});
+  if(client.start||client.end)audItems.push({l:'مدة الحملة',v:[client.start,client.end].filter(Boolean).join(' — ')});
 
-    console.log("Loaded campaign:", data.data);
+  $('audienceGrid').innerHTML=audItems.length?audItems.map(a=>`
+    <div class="info-card"><div class="ic-label">${safe(a.l)}</div><div class="ic-value">${safe(a.v)}</div></div>
+  `).join(''):'<div class="empty-state"><div class="empty-icon">👥</div><p>No audience data yet</p></div>';
+
+  if(obj.interests||obj.painPoints){
+    $('audienceGrid').innerHTML+=`
+      ${obj.interests?`<div class="info-card"><div class="ic-label">الاهتمامات</div><div class="ic-value" style="font-size:13px;line-height:1.7">${safe(obj.interests)}</div></div>`:''}
+      ${obj.painPoints?`<div class="info-card"><div class="ic-label">Pain Points</div><div class="ic-value" style="font-size:13px;line-height:1.7">${safe(obj.painPoints)}</div></div>`:''}
+    `;
+  }
+
+  // Campaign Info
+  const infoItems=[];
+  if(client.start||client.end){infoItems.push({l:'مدة الحملة',v:[client.start,client.end].filter(Boolean).join(' → ')});$('campinfo').style.display='block';}
+  if(client.progress){infoItems.push({l:'Campaign Progress',v:client.progress+'%'});$('campinfo').style.display='block';}
+  $('infoGrid').innerHTML=infoItems.map(i=>`<div class="info-card"><div class="ic-label">${safe(i.l)}</div><div class="ic-value">${safe(i.v)}</div></div>`).join('');
+
+  // Phases
+  const phases=c.phases||[];
+  if(!phases.length){$('phasesDisplay').innerHTML='';$('phasesEmpty').style.display='block';}
+  else{
+    $('phasesEmpty').style.display='none';
+    $('phasesDisplay').innerHTML=phases.map((p,i)=>`
+      <div class="phase-card">
+        <div class="phase-num">${i+1}</div>
+        <div class="phase-name">${safe(p.name||'Phase '+(i+1))}</div>
+        ${p.duration?`<div class="phase-duration">⏱ ${safe(p.duration)}</div>`:''}
+        ${p.goal?`<div class="phase-goal">🎯 ${safe(p.goal)}</div>`:''}
+        ${p.activities?`<div class="phase-activities">📋 ${safe(p.activities)}</div>`:''}
+      </div>
+    `).join('');
+  }
+
+  // Scripts
+  const scripts=c.scripts||[];
+  if(!scripts.length){$('scriptsGrid').innerHTML='';$('scriptsEmpty').style.display='block';}
+  else{
+    $('scriptsEmpty').style.display='none';
+    $('scriptsGrid').innerHTML=scripts.map((s,i)=>`
+      <div class="content-card">
+        <div class="content-card-header">
+          <div class="card-num">${i+1}</div>
+          <div class="card-title-block"><h3>${safe(s.title||'Script '+(i+1))}</h3></div>
+        </div>
+        <div class="meta-pills">
+          ${s.type?`<span class="pill">${safe(s.type)}</span>`:''}
+          ${s.duration?`<span class="pill accent">⏱ ${safe(s.duration)}</span>`:''}
+          ${s.location?`<span class="pill">📍 ${safe(s.location)}</span>`:''}
+          ${s.actors?`<span class="pill">👤 ${safe(s.actors)}</span>`:''}
+        </div>
+        ${s.hook?`<div class="card-section-label">Hook</div><div class="body-text" style="font-weight:700;color:var(--primary)">${safe(s.hook)}</div>`:''}
+        ${s.body?`<div class="card-section-label">Script</div><div class="body-text">${safe(s.body)}</div>`:''}
+        ${s.cta?`<div class="cta-badge">📢 ${safe(s.cta)}</div>`:''}
+      </div>
+    `).join('');
+  }
+
+  // Posts
+  const posts=c.posts||[];
+  if(!posts.length){$('postsGrid').innerHTML='';$('postsEmpty').style.display='block';}
+  else{
+    $('postsEmpty').style.display='none';
+    $('postsGrid').innerHTML=posts.map((p,i)=>`
+      <div class="content-card">
+        <div class="content-card-header">
+          <div class="card-num">${i+1}</div>
+          <div class="card-title-block"><h3>${safe(p.title||'Post '+(i+1))}</h3></div>
+        </div>
+        <div class="meta-pills">
+          ${p.platform?`<span class="pill">${safe(platformIcons[p.platform]||p.platform)}</span>`:''}
+          ${p.contentType?`<span class="pill accent">${safe(p.contentType)}</span>`:''}
+        </div>
+        ${p.hook?`<div class="card-section-label">Hook 🪝</div><div class="body-text" style="font-weight:700">${safe(p.hook)}</div>`:''}
+        ${p.tov?`<div class="card-section-label">Tone of Voice</div><div class="body-text">${safe(p.tov)}</div>`:''}
+        ${p.caption?`<div class="card-section-label">Caption</div><div class="body-text">${safe(p.caption)}</div>`:''}
+        ${p.hashtags?`<div class="card-section-label">Hashtags</div><div style="color:var(--primary);font-size:13px;font-weight:700">${safe(p.hashtags)}</div>`:''}
+      </div>
+    `).join('');
+  }
+
+  // Stories
+  const stories=c.stories||[];
+  if(!stories.length){$('storiesGrid').innerHTML='';$('storiesEmpty').style.display='block';}
+  else{
+    $('storiesEmpty').style.display='none';
+    $('storiesGrid').innerHTML=stories.map((s,i)=>{
+      const text=typeof s==='string'?s:(s.text||'');
+      const cta=typeof s==='object'?s.cta:'';
+      const platform=typeof s==='object'?s.platform:'';
+      return `
+        <div class="content-card">
+          <div class="content-card-header">
+            <div class="card-num">${i+1}</div>
+            <div class="card-title-block"><h3>Story ${i+1}</h3></div>
+          </div>
+          ${platform?`<div class="meta-pills"><span class="pill">${safe(platformIcons[platform]||platform)}</span></div>`:''}
+          <div class="body-text">${safe(text)}</div>
+          ${cta?`<div class="cta-badge">🔗 ${safe(cta)}</div>`:''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Ads
+  const ads=c.ads||[];
+  if(!ads.length){$('adsGrid').innerHTML='';$('adsEmpty').style.display='block';}
+  else{
+    $('adsEmpty').style.display='none';
+    $('adsGrid').innerHTML=ads.map((a,i)=>`
+      <div class="content-card">
+        <div class="content-card-header">
+          <div class="card-num">${i+1}</div>
+          <div class="card-title-block"><h3>${safe(a.name||'Ad '+(i+1))}</h3></div>
+        </div>
+        <div class="meta-pills">
+          ${a.adType?`<span class="pill accent">${safe(a.adType)}</span>`:''}
+        </div>
+        ${a.headline?`<div class="card-section-label">Headline</div><div class="body-text" style="font-size:17px;font-weight:900;color:var(--dark)">${safe(a.headline)}</div>`:''}
+        ${a.primary?`<div class="card-section-label">Primary Text</div><div class="body-text">${safe(a.primary)}</div>`:''}
+        ${a.description?`<div class="card-section-label">Description</div><div class="body-text">${safe(a.description)}</div>`:''}
+        ${a.cta?`<div class="cta-badge">👆 ${safe(a.cta.replace(/_/g,' '))}</div>`:''}
+      </div>
+    `).join('');
+  }
+
+  // Calendar
+  const cal=c.calendar||[];
+  if(!cal.length){$('calendarGrid').innerHTML='';$('calendarEmpty').style.display='block';}
+  else{
+    $('calendarEmpty').style.display='none';
+    $('calendarGrid').innerHTML=cal.map((d,i)=>`
+      <div class="cal-card">
+        <div class="cal-day-num">Day ${safe(d.day||i+1)} ${d.platform?'• '+safe(d.platform):''}</div>
+        ${d.type?`<span class="cal-type-pill ${typeClass[d.type]||''}">${safe(d.type)}</span>`:''}
+        ${d.title?`<div class="cal-title">${safe(d.title)}</div>`:''}
+        ${d.notes?`<div class="cal-notes">${safe(d.notes)}</div>`:''}
+        ${d.status?`<div style="margin-top:8px"><span class="${statusClass[d.status]||''}">${safe(d.status)}</span></div>`:''}
+      </div>
+    `).join('');
+  }
+
+  // KPIs
+  const kpiMap=[
+    {k:'reach',l:'Reach'},{k:'engagement',l:'Engagement'},{k:'leads',l:'Leads'},
+    {k:'visits',l:'Visits'},{k:'conversions',l:'Conversions'},{k:'roas',l:'ROAS'},
+    {k:'views',l:'Video Views'},{k:'ctr',l:'CTR'}
+  ];
+  const kpiCards=kpiMap.filter(m=>kpis[m.k]).map(m=>`
+    <div class="kpi-result-card">
+      <span class="kpi-val">${safe(kpis[m.k])}</span>
+      <div class="kpi-name">${safe(m.l)}</div>
+    </div>
+  `).join('');
+  $('kpisGrid').innerHTML=kpiCards||'<div class="empty-state"><div class="empty-icon">📈</div><p>No KPIs defined yet</p></div>';
+  if(kpis.successDef){$('successDefBlock').style.display='block';$('successDefText').textContent=kpis.successDef;}
+}
+
+async function load(){
+  try{
+    showStatus('Loading campaign data...');
+    const{data,error}=await sb.from('campaign_content').select('*').eq('id','main').maybeSingle();
+    if(error)throw error;
+    if(!data||!data.data)throw new Error('No campaign data found');
     render(data.data);
-    $("status").style.display = "none";
-
-  } catch (err) {
-    console.error("Preview load error:", err);
-    setStatus("Error loading campaign. افتح Console وشوف الخطأ.");
+    showStatus('',false);
+  }catch(err){
+    console.error('Preview error:',err);
+    showStatus('⚠️ Error loading campaign — افتح Admin وتأكد إن البيانات اتحفظت صح.');
   }
-})();
+}
+load();
 </script>
-
 </body>
 </html>
