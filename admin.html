@@ -938,7 +938,24 @@ document.addEventListener("DOMContentLoaded", function () {
             <label class="field-label">اللوكيشن</label>
             <input type="text" value="${ea(s.location)}" data-sf="location" data-i="${i}">
             <label class="field-label">الممثلين / Cast</label>
-            <input type="text" value="${ea(s.actors)}" data-sf="actors" data-i="${i}">
+
+<div id="actorsWrap-${i}" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px">
+  ${(Array.isArray(s.actors) ? s.actors : []).map((a, ai) => `
+    <div style="display:grid;grid-template-columns:50px 1fr 80px auto;gap:8px;align-items:center;background:white;border:1px solid var(--border);border-radius:12px;padding:8px">
+      <img src="${ea(a.image)}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;background:#eee">
+      <input type="text" value="${ea(a.name)}" placeholder="اسم الممثل" data-actor-name="${i}" data-ai="${ai}">
+      <input type="number" value="${ea(a.age)}" placeholder="السن" data-actor-age="${i}" data-ai="${ai}">
+      <button type="button" class="btn btn-danger btn-sm" data-del-actor="${i}" data-ai="${ai}">حذف</button>
+    </div>
+  `).join("")}
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 90px 1fr auto;gap:8px;align-items:center">
+  <input type="text" placeholder="اسم الممثل" id="actorName-${i}">
+  <input type="number" placeholder="السن" id="actorAge-${i}">
+  <input type="file" accept="image/png,image/jpeg,image/webp" id="actorImage-${i}">
+  <button type="button" class="btn btn-primary btn-sm" data-add-actor="${i}">+ ممثل</button>
+</div>
             <label class="field-label">المدة الزمنية</label>
             <input type="text" value="${ea(s.duration)}" data-sf="duration" data-i="${i}" placeholder="مثال: 30 ثانية">
           </div>
@@ -1162,6 +1179,34 @@ document.addEventListener("DOMContentLoaded", function () {
     `).join("");
   }
 
+async function uploadImageToSupabase(file, folder = "actors") {
+  if (!file) return "";
+
+  if (!supabase) {
+    setStatus("Supabase مش متصل — مش هينفع نرفع الصورة", "bad");
+    return "";
+  }
+
+  const ext = file.name.split(".").pop();
+  const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+  const { error } = await supabase.storage
+    .from("images")
+    .upload(fileName, file);
+
+  if (error) {
+    console.error(error);
+    setStatus("فشل رفع الصورة. تأكد إن Bucket اسمها images و Public", "bad");
+    return "";
+  }
+
+  const { data } = supabase.storage
+    .from("images")
+    .getPublicUrl(fileName);
+
+  return data.publicUrl;
+}
+  
   async function saveData() {
     collectInputs();
     if (!supabase) { setStatus("Save failed: Supabase not available", "bad"); return; }
@@ -1190,7 +1235,20 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   // BUTTONS
-  $("addScriptBtn").addEventListener("click", () => { D.scripts.push({ title:"",location:"",actors:"",duration:"",type:"ad",hook:"",body:"",cta:"" }); renderScripts(); updateJsonOutput(); });
+  $("addScriptBtn").addEventListener("click", () => {
+  D.scripts.push({
+    title:"",
+    location:"",
+    actors:[],
+    duration:"",
+    type:"ad",
+    hook:"",
+    body:"",
+    cta:""
+  });
+  renderScripts();
+  updateJsonOutput();
+});
   $("addPostBtn").addEventListener("click", () => { D.posts.push({ title:"",platform:"facebook",contentType:"image",tov:"",hook:"",caption:"",hashtags:"" }); renderPosts(); updateJsonOutput(); });
   $("addStoryBtn").addEventListener("click", () => { D.stories.push({ text:"",cta:"",platform:"instagram" }); renderStories(); updateJsonOutput(); });
   $("addAdBtn").addEventListener("click", () => { D.ads.push({ name:"",adType:"awareness",headline:"",primary:"",description:"",cta:"learn_more" }); renderAds(); updateJsonOutput(); });
@@ -1264,6 +1322,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // DELETE HANDLERS
   document.addEventListener("click", e => {
+
+    const addActorIndex = e.target.dataset.addActor;
+    if (addActorIndex !== undefined) {
+      const i = +addActorIndex;
+      const name = $(`actorName-${i}`).value.trim();
+      const age = $(`actorAge-${i}`).value.trim();
+      const file = $(`actorImage-${i}`).files[0];
+
+      if (!name || !age || !file) {
+        setStatus("اكتب اسم الممثل والسن وارفع الصورة", "warn");
+        return;
+      }
+
+      setStatus("جاري رفع صورة الممثل...", "info");
+      uploadImageToSupabase(file, "actors").then(imageUrl => {
+        if (!imageUrl) return;
+
+        if (!Array.isArray(D.scripts[i].actors)) D.scripts[i].actors = [];
+
+        D.scripts[i].actors.push({
+          name,
+          age,
+          image: imageUrl
+        });
+
+        renderScripts();
+        updateJsonOutput();
+        setStatus("تم إضافة الممثل بنجاح", "ok");
+      });
+
+      return;
+    }
+
+    const delActorScript = e.target.dataset.delActor;
+    if (delActorScript !== undefined) {
+      const i = +delActorScript;
+      const ai = +e.target.dataset.ai;
+
+      if (Array.isArray(D.scripts[i].actors)) {
+        D.scripts[i].actors.splice(ai, 1);
+      }
+
+      renderScripts();
+      updateJsonOutput();
+      return;
+    }
+    
     const ds = e.target.dataset.delScript; if (ds !== undefined) { D.scripts.splice(+ds,1); renderScripts(); updateJsonOutput(); return; }
     const dp = e.target.dataset.delPost; if (dp !== undefined) { D.posts.splice(+dp,1); renderPosts(); updateJsonOutput(); return; }
     const dSt = e.target.dataset.delStory; if (dSt !== undefined) { D.stories.splice(+dSt,1); renderStories(); updateJsonOutput(); return; }
@@ -1275,6 +1380,22 @@ document.addEventListener("DOMContentLoaded", function () {
   // INPUT HANDLERS
   document.addEventListener("input", e => {
     const t = e.target;
+    if (t.dataset.actorName !== undefined) {
+      const i = +t.dataset.actorName;
+      const ai = +t.dataset.ai;
+      D.scripts[i].actors[ai].name = t.value;
+      updateJsonOutput();
+      return;
+    }
+
+    if (t.dataset.actorAge !== undefined) {
+      const i = +t.dataset.actorAge;
+      const ai = +t.dataset.ai;
+      D.scripts[i].actors[ai].age = t.value;
+      updateJsonOutput();
+      return;
+    }
+    
     // Scripts
     if (t.dataset.sf !== undefined) { D.scripts[+t.dataset.i][t.dataset.sf] = t.value; renderScripts.needsReheader=true; updateJsonOutput(); return; }
     // Posts
