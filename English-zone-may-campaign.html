@@ -164,6 +164,7 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
     <a href="#posts">Posts</a>
     <a href="#stories">Stories</a>
     <a href="#calendar">Calendar</a>
+      <a href="#budget">Budget</a>
     <a href="#kpis">KPIs</a>
   </div>
 </nav>
@@ -252,6 +253,12 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
       <p>No calendar items added yet</p>
     </div>
   </div>
+
+<!-- BUDGET -->
+<div class="section-block" id="budget">
+  <div class="section-label">💰 Budget الميزانية</div>
+  <div class="info-grid" id="budgetGrid"></div>
+</div>
 
   <!-- KPIs -->
   <div class="section-block" id="kpis">
@@ -437,6 +444,24 @@ function render(c){
       </div>
     `).join('');
   }
+
+// Budget
+const budget = c.budget || {};
+const budgetItems = [];
+
+if(budget.total) budgetItems.push({l:'الميزانية الإجمالية',v:budget.total});
+if(budget.production) budgetItems.push({l:'ميزانية الإنتاج',v:budget.production});
+if(budget.ads) budgetItems.push({l:'ميزانية الإعلانات',v:budget.ads});
+if(budget.influencer) budgetItems.push({l:'ميزانية المؤثرين',v:budget.influencer});
+if(budget.currency) budgetItems.push({l:'العملة',v:budget.currency});
+if(budget.notes) budgetItems.push({l:'ملاحظات',v:budget.notes});
+
+$('budgetGrid').innerHTML = budgetItems.length ? budgetItems.map(i=>`
+  <div class="info-card">
+    <div class="ic-label">${safe(i.l)}</div>
+    <div class="ic-value">${safe(i.v)}</div>
+  </div>
+`).join('') : '<div class="empty-state"><div class="empty-icon">💰</div><p>No budget data yet</p></div>';
 
   // KPIs
   const kpiMap=[
