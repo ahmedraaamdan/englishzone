@@ -360,58 +360,65 @@ function render(c){
   $('infoGrid').innerHTML=infoItems.map(i=>`<div class="info-card"><div class="ic-label">${safe(i.l)}</div><div class="ic-value">${safe(i.v)}</div></div>`).join('');
 
   // Scripts
-  const scripts=c.scripts||[];
-  if(!scripts.length){$('scriptsGrid').innerHTML='';$('scriptsEmpty').style.display='block';}
-  else{
-    $('scriptsEmpty').style.display='none';
-    $('scriptsGrid').innerHTML=scripts.map((s,i)=>`
-      <div class="content-card">
-        <div class="content-card-header">
-          <div class="card-num">${i+1}</div>
-          <div class="card-title-block"><h3>${safe(s.title||'Script '+(i+1))}</h3></div>
-        </div>
-        <div class="meta-pills">
-          ${s.type?`<span class="pill">${safe(s.type)}</span>`:''}
-          ${s.duration?`<span class="pill accent">⏱ ${safe(s.duration)}</span>`:''}
-          ${s.location?`<span class="pill">📍 ${safe(s.location)}</span>`:''}
-${Array.isArray(s.actors) && s.actors.length ? `
-  <div class="card-section-label">Actors</div>
+  // Scripts
+const scripts = c.scripts || [];
 
-  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">
-    ${s.actors.map(actor => `
-      <div style="
-        display:flex;
-        align-items:center;
-        gap:8px;
-        background:#F8FAFC;
-        border:1px solid var(--border);
-        border-radius:12px;
-        padding:8px 10px
-      ">
-        <img src="${safe(actor.image)}"
-             style="width:36px;height:36px;border-radius:50%;object-fit:cover">
+if (!scripts.length) {
+  $('scriptsGrid').innerHTML = '';
+  $('scriptsEmpty').style.display = 'block';
+} else {
+  $('scriptsEmpty').style.display = 'none';
 
-        <div>
-          <div style="font-size:12px;font-weight:800">
-            ${safe(actor.name)}
-          </div>
-
-          <div style="font-size:10px;color:#64748B">
-            ${safe(actor.age)} سنة
-          </div>
+  $('scriptsGrid').innerHTML = scripts.map((s, i) => `
+    <div class="content-card">
+      <div class="content-card-header">
+        <div class="card-num">${i + 1}</div>
+        <div class="card-title-block">
+          <h3>${safe(s.title || 'Script ' + (i + 1))}</h3>
         </div>
       </div>
-    `).join('')}
-  </div>
-` : ''}
-</div>
-        ${s.hook?`<div class="card-section-label">Hook</div><div class="body-text" style="font-weight:700;color:var(--primary)">${safe(s.hook)}</div>`:''}
-        ${s.body?`<div class="card-section-label">Script</div><div class="body-text">${safe(s.body)}</div>`:''}
-        ${s.cta?`<div class="cta-badge">📢 ${safe(s.cta)}</div>`:''}
-      </div>
-    `).join('');
-  }
 
+      <div class="meta-pills">
+        ${s.type ? `<span class="pill">${safe(s.type)}</span>` : ''}
+        ${s.duration ? `<span class="pill accent">⏱ ${safe(s.duration)}</span>` : ''}
+        ${s.location ? `<span class="pill">📍 ${safe(s.location)}</span>` : ''}
+      </div>
+
+      ${Array.isArray(s.actors) && s.actors.length ? `
+        <div class="card-section-label">Actors</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">
+          ${s.actors.map(actor => `
+            <div style="
+              display:flex;
+              align-items:center;
+              gap:8px;
+              background:#F8FAFC;
+              border:1px solid var(--border);
+              border-radius:12px;
+              padding:8px 10px
+            ">
+              <img src="${safe(actor.image)}"
+                   style="width:36px;height:36px;border-radius:50%;object-fit:cover">
+
+              <div>
+                <div style="font-size:12px;font-weight:800">
+                  ${safe(actor.name)}
+                </div>
+                <div style="font-size:10px;color:#64748B">
+                  ${safe(actor.age)} سنة
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      ${s.hook ? `<div class="card-section-label">Hook</div><div class="body-text" style="font-weight:700;color:var(--primary)">${safe(s.hook)}</div>` : ''}
+      ${s.body ? `<div class="card-section-label">Script</div><div class="body-text">${safe(s.body)}</div>` : ''}
+      ${s.cta ? `<div class="cta-badge">📢 ${safe(s.cta)}</div>` : ''}
+    </div>
+  `).join('');
+}
   // Posts
   const posts=c.posts||[];
   if(!posts.length){$('postsGrid').innerHTML='';$('postsEmpty').style.display='block';}
