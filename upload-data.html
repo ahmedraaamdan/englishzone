@@ -2,38 +2,160 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"/>
-<title>Upload Campaign Data</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Campaign OS — JSON Uploader</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
 <style>
-body{font-family:Cairo,sans-serif;background:#0F172A;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;margin:0;gap:20px}
-.card{background:#1E293B;border-radius:20px;padding:40px;max-width:500px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-h1{font-size:24px;margin-bottom:8px}
-p{color:#94A3B8;font-size:14px;margin-bottom:24px}
-.btn{background:#2563EB;color:white;border:none;border-radius:14px;padding:16px 32px;font-family:Cairo,sans-serif;font-size:16px;font-weight:900;cursor:pointer;width:100%;transition:.2s}
-.btn:hover{background:#1D4ED8}
-.btn:disabled{background:#475569;cursor:not-allowed}
-.status{margin-top:20px;padding:14px;border-radius:12px;font-weight:700;font-size:14px;display:none}
-.ok{background:#DCFCE7;color:#166534}
-.bad{background:#FEF2F2;color:#991B1B}
-.info{background:#EFF6FF;color:#1E40AF}
-.items{background:#0F172A;border-radius:12px;padding:16px;margin-bottom:20px;text-align:right;font-size:13px;color:#94A3B8;line-height:2}
-.items span{color:#E8B84B;font-weight:900}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#2563EB;--dark:#0F172A;--card:#1E293B;
+  --border:#334155;--muted:#94A3B8;--gold:#E8B84B;
+}
+body{font-family:'Cairo',sans-serif;background:var(--dark);color:white;min-height:100vh;padding:32px 16px}
+.page{max-width:780px;margin:auto;display:flex;flex-direction:column;gap:20px}
+
+.header{text-align:center;padding:8px 0 16px}
+.header h1{font-size:26px;font-weight:900;margin-bottom:6px}
+.header p{color:var(--muted);font-size:14px}
+
+/* DROP ZONE */
+.drop-zone{border:2px dashed var(--border);border-radius:20px;padding:48px 24px;text-align:center;cursor:pointer;transition:all .25s;background:#0F172A;position:relative}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--primary);background:rgba(37,99,235,.06)}
+.drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-icon{font-size:48px;margin-bottom:16px}
+.drop-title{font-size:18px;font-weight:900;margin-bottom:6px}
+.drop-sub{font-size:13px;color:var(--muted)}
+.drop-sub span{color:var(--primary);font-weight:700}
+
+/* FILE BADGE */
+.file-badge{display:none;align-items:center;gap:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:12px;padding:12px 16px;font-size:13px;font-weight:700;color:#86EFAC}
+.file-badge.show{display:flex}
+.file-badge .fname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-badge .clear-btn{background:transparent;border:none;color:#F87171;font-size:18px;cursor:pointer;padding:0 4px;line-height:1}
+
+/* PREVIEW CARD */
+.preview-card{background:var(--card);border-radius:20px;padding:24px;display:none}
+.preview-card.show{display:block}
+.preview-title{font-size:16px;font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:20px}
+.stat-box{background:#0F172A;border-radius:12px;padding:14px;text-align:center}
+.stat-box .stat-val{font-size:22px;font-weight:900;color:var(--gold);display:block;line-height:1}
+.stat-box .stat-key{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.stat-box.wide{grid-column:span 2}
+
+/* DATA SECTIONS */
+.data-sections{display:flex;flex-direction:column;gap:10px}
+.data-section{background:#0F172A;border-radius:14px;overflow:hidden}
+.sec-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;user-select:none;transition:.2s}
+.sec-header:hover{background:rgba(255,255,255,.04)}
+.sec-header-left{display:flex;align-items:center;gap:10px}
+.sec-icon{font-size:16px}
+.sec-name{font-size:14px;font-weight:800}
+.sec-count{font-size:11px;color:var(--muted);background:#1E293B;border-radius:6px;padding:2px 8px;font-weight:700}
+.sec-arrow{color:var(--muted);transition:.3s;font-size:12px}
+.sec-arrow.open{transform:rotate(180deg)}
+.sec-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
+.sec-body.open{display:block}
+
+/* ITEM CARDS */
+.item-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.item-card{background:#1E293B;border-radius:10px;padding:12px 14px}
+.item-card-title{font-size:13px;font-weight:800;color:white;margin-bottom:4px}
+.item-card-meta{font-size:12px;color:var(--muted);line-height:1.6;white-space:pre-wrap}
+.item-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;margin-right:6px;background:#1D4ED8;color:#BFDBFE}
+
+/* VALIDATION */
+.validation-list{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.v-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.v-item.pass{color:#86EFAC}
+.v-item.fail{color:#FCA5A5}
+.v-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.v-item.pass .v-dot{background:#22C55E}
+.v-item.fail .v-dot{background:#EF4444}
+
+/* JSON VIEWER */
+.json-viewer{background:#0A0F1A;border-radius:10px;padding:14px;font-family:monospace;font-size:12px;color:#7DD3FC;max-height:220px;overflow:auto;line-height:1.6;border:1px solid var(--border);margin-top:12px;white-space:pre-wrap;word-break:break-all;display:none}
+
+/* ACTIONS */
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{border:none;border-radius:14px;padding:14px 24px;font-family:'Cairo',sans-serif;font-size:15px;font-weight:900;cursor:pointer;transition:all .2s;flex:1;min-width:140px}
+.btn-primary{background:var(--primary);color:white}
+.btn-primary:hover{background:#1D4ED8;transform:translateY(-1px)}
+.btn-primary:disabled{background:#334155;color:var(--muted);cursor:not-allowed;transform:none}
+.btn-ghost{background:#1E293B;color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{background:#334155;color:white}
+
+/* STATUS */
+.status-msg{border-radius:14px;padding:14px 18px;font-weight:700;font-size:14px;display:none;text-align:center}
+.status-msg.show{display:block}
+.status-msg.ok{background:rgba(34,197,94,.15);color:#86EFAC;border:1px solid rgba(34,197,94,.3)}
+.status-msg.bad{background:rgba(239,68,68,.15);color:#FCA5A5;border:1px solid rgba(239,68,68,.3)}
+.status-msg.info{background:rgba(37,99,235,.15);color:#93C5FD;border:1px solid rgba(37,99,235,.3)}
+
+/* PROGRESS */
+.progress-wrap{display:none;background:#0F172A;border-radius:999px;height:8px;overflow:hidden}
+.progress-wrap.show{display:block}
+.progress-bar{height:100%;background:var(--primary);border-radius:999px;width:0%;transition:width .4s}
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>🎬 Upload Campaign Data</h1>
-  <p>English Zone — انت بيتعمل عليك فيلم</p>
-  <div class="items">
-    <div>Scripts <span>8 سكريبت</span></div>
-    <div>Posts <span>5 بوست</span></div>
-    <div>Stories <span>5 ستوري</span></div>
-    <div>Calendar <span>15 يوم</span></div>
-    <div>KPIs <span>8 مؤشر</span></div>
-    <div>Budget <span>50,000 ج</span></div>
+<div class="page">
+
+  <div class="header">
+    <h1>🎬 Campaign JSON Uploader</h1>
+    <p>ارفع ملف JSON — شوف الداتا كاملة — احفظ على Supabase بضغطة</p>
   </div>
-  <button class="btn" id="uploadBtn" onclick="uploadData()">🚀 رفع الداتا على Supabase</button>
-  <div class="status" id="status"></div>
+
+  <!-- DROP ZONE -->
+  <div class="drop-zone" id="dropZone">
+    <input type="file" id="fileInput" accept=".json,application/json"/>
+    <div class="drop-icon">📂</div>
+    <div class="drop-title">اسحب ملف JSON هنا</div>
+    <div class="drop-sub">أو <span>اضغط لاختيار الملف</span> من جهازك</div>
+  </div>
+
+  <!-- FILE BADGE -->
+  <div class="file-badge" id="fileBadge">
+    <span>✅</span>
+    <span class="fname" id="fileName">—</span>
+    <button class="clear-btn" id="clearBtn" title="إزالة الملف">✕</button>
+  </div>
+
+  <!-- PREVIEW CARD -->
+  <div class="preview-card" id="previewCard">
+
+    <div class="preview-title">📊 ملخص البيانات</div>
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <div class="preview-title" style="font-size:14px;color:var(--muted)">✅ التحقق من البيانات</div>
+    <div class="validation-list" id="validationList"></div>
+
+    <div class="preview-title">📋 تفاصيل المحتوى</div>
+    <div class="data-sections" id="dataSections"></div>
+
+    <div style="margin-top:16px">
+      <button class="btn btn-ghost" style="width:100%;font-size:13px;padding:10px" id="toggleJsonBtn">
+        { } عرض الـ JSON الخام
+      </button>
+      <div class="json-viewer" id="jsonViewer"></div>
+    </div>
+
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions" id="actionsRow" style="display:none">
+    <button class="btn btn-ghost" id="resetBtn">🔄 رفع ملف تاني</button>
+    <button class="btn btn-primary" id="saveBtn" disabled>💾 حفظ على Supabase</button>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="status-msg" id="statusMsg"></div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -43,429 +165,320 @@ const sb = window.supabase.createClient(
   "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09"
 );
 
-const CAMPAIGN_DATA = {
-  "client": {
-    "name": "English Zone",
-    "campaignName": "انت بيتعمل عليك فيلم",
-    "industry": "education",
-    "start": "1 مايو 2025",
-    "end": "30 مايو 2025",
-    "brief": "الكامبين مبني على فكرة إن الناس في حياتها اليومية بتتعمل فيها أفلام — بياع الكشك، الميكانيكي، الحلاق، الدليفري، السباك، الشحات — كلهم بيمثلوا عليك وبينفسوا فيك. الـ Insight هو إن المصريين متعودين يتغابوا ومعندهمش الـ confidence إنهم يكشفوا الـ bullshit. English Zone بيدي الناس الأدوات (اللغة) إنهم يكونوا أذكى وأقوى في تعاملاتهم. الكامبين 100% كوميدي، Reel Series بتوضع على TikTok و Instagram و Facebook.",
-    "progress": 45
-  },
-  "hero": {
-    "title": "انت بيتعمل عليك فيلم",
-    "subtitle": "في كل لحظة في يومك، في حد بيمثل عليك. سيبك من كل ده — وتعالى English Zone تشوف الأفلام اللي بجد.",
-    "slogan": "انت بيتعمل عليك فيلم — فا تعالى English Zone تشوف الأفلام اللي بجد 🎬",
-    "bigIdea": "الـ Big Idea: الحياة اليومية للمصري مليانة 'ممثلين' — ناس بتستغل طيبتك وثقتك عشان تكسب منك. English Zone مش بس بيعلمك إنجليزي — بيعلمك تفكر أذكى، تتكلم بثقة، وتبطل تتغابى.\\n\\nالـ Insight: المصري بيحس إنه بيتعمل عليه فيلم كل يوم، بس مبيعرفش يرد أو يواجه. اللغة والثقة اللي بيوفرهم English Zone هي السلاح اللي محتاجه.",
-    "keyMessage": "English Zone مش كورس إنجليزي — هو السلاح اللي بيخليك تعرف تتكلم، تفكر، وتكشف أي 'فيلم' بيتعمل عليك.\\n\\nتعلم إنجليزي صح → اتكلم بثقة → بطل تتغابى.",
-    "tov": [
-      "humorous",
-      "bold",
-      "emotional",
-      "direct"
-    ]
-  },
-  "theme": {
-    "primary": "#1A1A2E",
-    "dark": "#0D0D0D",
-    "background": "#F8F4EF",
-    "accent": "#E8B84B",
-    "logo": "",
-    "font": "Cairo",
-    "style": "bold",
-    "brandNotes": "الألوان مستوحاة من السينما الكلاسيكية — أسود، ذهبي، كريمي. التصميم يحس إنه سينمائي ودرامي مع لمسة كوميدية مصرية. الـ TOV جريء وكوميدي ومباشر."
-  },
-  "objectives": {
-    "type": "awareness",
-    "notes": "رفع الـ Brand Awareness لـ English Zone وإبراز فكرة إن الكورس مش مجرد إنجليزي — هو ثقة وذكاء في التعامل. الهدف الثانوي هو الـ Engagement والـ Shares لأن المحتوى الكوميدي الـ Relatable بيتشير جداً.",
-    "ageRange": "18 — 32",
-    "gender": "all",
-    "location": "مصر بالكامل — تركيز على القاهرة والجيزة",
-    "interests": "طلبة جامعيين، Fresh Graduates، موظفين جدد، ناس بتدور على شغل أو Promotion، محبين السينما والكوميديا المصرية، ناس بتتفرج على Reels وTikTok بكثرة",
-    "painPoints": "باخد كورسات إنجليزي بس مش بتكلم — بحس إني بيتضحك عليا — مش واثق في نفسي لما بتكلم — بحس إن الناس بتستغل طيبتي — عارف إنجليزي نظري بس مش بينفعني في الشغل أو الحياة",
-    "platforms": [
-      "facebook",
-      "instagram",
-      "tiktok",
-      "youtube"
-    ]
-  },
-  "scripts": [
-    {
-      "title": "بتاع الكشك",
-      "location": "محل بقالة — فيصل",
-      "actors": "البطل + بياع الكشك",
-      "duration": "30-40 ثانية",
-      "type": "reel",
-      "hook": "لما بتدي فلوس وتلاقي الحساب مش ماشي…",
-      "body": "ولد واقف قدام الكشك\\nبيدي الراجل ١٠٠ ج\\nفبيقوله هات ٣ ج فكة وخد ٧٠\\nبيديله ١٠ ج وبياخد نفس ال٧٠\\nطب هات ٢٠ وخد ١٠٠\\nطب خد ال٥٠ وهات ال٢٠٠\\nبس انا من رأيي بدل اننا مش لاقيين فكة انت تاخد ال ١٠ وتديني ال١٠٠ سليمة\\nولا تاخد ال ٢٠ وتديني ال٧٠ ؟\\nالولد: صوت صرصور الحقل وبيعطل وبعدين بيمشي من غير ما يراجع وراه..\\nوبعد ما بيمشي بيقف لحظة كده",
-      "cta": "انت بيتعمل عليك فيلم — فا سيبك من كل ده وتعالى English Zone شوف الأفلام اللي بجد 🎬"
-    },
-    {
-      "title": "بياع هدوم",
-      "location": "محل هدوم رجالي — فيصل",
-      "actors": "البياع + البطل",
-      "duration": "40-50 ثانية",
-      "type": "reel",
-      "hook": "لما البياع يقنعك إن التيشيرت ده خامة إيطالي مش موجود عند حد تاني…",
-      "body": "بياع في محل هدوم رجالي بيقول لنفس الولد:\\n- دي خامة إيطالي مش موجودة عند أي حد تاني وكمان تخفيضها ٥٠٪ عن تمنها الأصلي ده انا خسران فيها النص بس عشان خاطرك ماشي\\n- ده غير انها مش بتكش ولا لونها بيتغير في الغسيل وتعيش معاك سنة واتنين وتلبس احفادك كمان\\nالولد بانبهار: شكلها خامة عالية أوي\\nالبياع: طبعًا هو انا هديلك أي حاجة وخلاص!\\n- بيفرح الولد وبيشتري التيشيرت من غير ما يبص فيه\\nوأول ما بيطلع برا المحل وبيمشي شوية بيطلع التيشيرت بيلاقي مكتوب على التيكت: 'صنع في مصر'",
-      "cta": "انت بيتعمل عليك فيلم — فا سيبك من كل ده وتعالى English Zone شوف الأفلام اللي بجد 🎬"
-    },
-    {
-      "title": "الميكانيكي",
-      "location": "محل ميكانيكا — فيصل",
-      "actors": "الميكانيكي + البطل",
-      "duration": "45-55 ثانية",
-      "type": "reel",
-      "hook": "لما تروح تستلم عربيتك وتلاقي فاتورة مفيش فيها حاجة منطقية…",
-      "body": "عند الميكانيكي — الولد بيروح يستلم عربيته اللي وداها للميكانيكي\\nالميكانيكي: الاسليندر (وش العربية) بيأثر على الماتور يا فندم وده تكلفته بسيطة خالص\\nالولد: ماشي\\nالميكانيكي بيفتح العربية: وغيرنا زيت ومياه للماتور ودي تكلفتها حاجات عبيطة\\nالولد: ماشي\\nالميكانيكي: اما بقا عشان انت زبون متوصي عليك فأنا نفخت الكواتشات وأمنت على العربية\\nوعشان تنورنا تاني: انا غيرت القزاز اللي ورا عشان سلامتك انت والمدام\\nالولد: بس انا مش متجوز\\nالميكانيكي: بس هاتتجوز!!\\nالولد: عندك حق\\nالميكانيكي: وكل ده بـ ١٥٠٠ ج بس عشان براعي ظروف الشباب\\nبيدفع الولد الفلوس وبياخد العربية وبيمشي وبعد أول شارع بتعطل العربية والكوتشي بينام",
-      "cta": "انت بيتعمل عليك فيلم — فا سيبك من كل ده وتعالى English Zone شوف الأفلام اللي بجد 🎬"
-    },
-    {
-      "title": "الشحات",
-      "location": "في الشارع",
-      "actors": "الشحات + البطل",
-      "duration": "35-45 ثانية",
-      "type": "reel",
-      "hook": "لما قلبك يتأثر… وبعدين تلاقي الحقيقة!",
-      "body": "ولد ماشي في الشارع وبيدخل عليه متسول ساند على رجل واحدة والرجل التانية مش موجودة\\n'عندي غرغرينا — مش لاقي شغل وماكلتش من امبارح — عندي عيال بجري عليها — مراتي سابتهم — أكّل ولادي ربنا يغنيك من فضله يا بيه'\\nبيصعب على الولد وبيديله ٥٠ ج\\n\\n— قطع للمشهد —\\n\\nالولد بيمشي شوية بعيد فبيلاقيه بيمشي على رجلين عادي وبيطلع فلوس كتير وبيعدها\\nوأول ما بيلاقي حد جديد دخل الشارع بيروحله بسرعة وبيقوله نفس الكلام بالظبط!\\n\\nبترجع الكاميرا على وش الولد المصدوم",
-      "cta": "انت بيتعمل عليك فيلم — فا سيبك من كل ده وتعالى English Zone شوف الأفلام اللي بجد 🎬"
-    },
-    {
-      "title": "الحلاق",
-      "location": "محل حلاقة — فيصل",
-      "actors": "الحلاق + البطل",
-      "duration": "40-50 ثانية",
-      "type": "reel",
-      "hook": "لما الحلاق يطلب منك ٤٠٠ جنيه بدل الـ ٥٠ العاديين…",
-      "body": "ولد بعد ما بيخلص عند الحلاق\\nبيقوله: كده حسابنا كله ٤٠٠ ج\\nالولد: لييييه ما كل مرة بدفع ٥٠ ج وزي الفل\\n\\nالحلاق بتأثير حزين:\\n'انت عارف الإيجار بقا بكام — انت عارف الكهرباء اللي سشورت بيها شعرك دي هادفع قدامها كام — طب عارف خامات حمام الكريم وماسك الوش بقت بكام من التجار — انت عارف الصبي اللي بيكنس بعدك بكام؟ — والحظر؟ — الزباين قلت — ماحدش بقا يلحق يحلق بعد الشغل — ده انت أول زبون تنورنا'\\n\\nالولد بتأثُر: بيدفع ٤٠٠ ج وبيمشي\\nبيعدي على الحلاق اللي جنبه بيلاقي واحد دافع ٥٠ ج عادي والدنيا زحمه عنده",
-      "cta": "انت بيتعمل عليك فيلم — فا سيبك من كل ده وتعالى English Zone شوف الأفلام اللي بجد 🎬"
-    },
-    {
-      "title": "الدليفري",
-      "location": "English Zone — محي الدين",
-      "actors": "الدليفري + البطل",
-      "duration": "45-55 ثانية",
-      "type": "reel",
-      "hook": "لما البيتزا توصلك باردة والدليفري يقولك 'وصلت سخنة'…",
-      "body": "ولد بيفتح للدليفري\\nبياخد الأوردر منه وبيلاقي البيتزا باردة\\nالولد بتفهم: شكلك كان معاك أوردرات كتير\\nالدليفري بملل: آه كتير بس مضطر أعمل إيه؟\\nالولد بيتكسف وبيدي الدليفري فلوس التوصيل\\nفبيبصله بقرف: إيه ده يا فندم ٢٠ ج؟\\nالولد بيستغرب: أومال هو بكام؟\\nالدليفري بنفس القرف: ٢٠ بس خلي عندك نظر يعني الجو حر والبيتزا وصلت سخنة!\\nالولد: سخنة؟\\nالدليفري: لسه طازة\\n\\nوبعدين بيبدأ يتكلم بنبرة متأثرة:\\n'انت عارف البنزين بقا بكام — انت عارف بغير زيت للمكنة كل قد إيه — انت عارف الطريق كان حر عليا إزاي — عشان أحافظ على الأوردر يوصلك سخن وفي ميعاده تعبت قد إيه — احنا بني آدمين مش آلآلآت، إحنا بنحس وورانا مسؤوليات'\\n\\nالخلفية: صوت التصفيق كأنه ممثل — الكاميرا تيجي على الولد وهو بيمسح دموعه من التأثر",
-      "cta": "انت بيتعمل عليك فيلم — فا سيبك من كل ده وتعالى English Zone شوف الأفلام اللي بجد 🎬"
-    },
-    {
-      "title": "القهوة",
-      "location": "قهوة بلدي — فيصل",
-      "actors": "القهوجي + البطل + زبون غاضب",
-      "duration": "50-60 ثانية",
-      "type": "reel",
-      "hook": "لما القهوجي يبان إنه بيحمي ابن الزبون… وبعدين!",
-      "body": "قاعد الولد بيشرب شاي في هدوء\\nفجأة بيلاقي زبون داخل القهوة وهو متعصب بيسأل على صاحب القهوة\\nبيطلع صاحب القهوة على الصوت\\nالزبون: بقا يا راجل اقولك أول ما ابني يجيلك وهو هربان من الدروس تطرده وتقولي تقوم منزله حجرين قص؟\\nالقهوجي: يا باشا انا بشوف شغلي — انت عارف الحجرين دول بكام دلوقت — ثم ابنك هو ابني مايرضنيش يدخن في سن صغير — التدخين مضر للأطفال\\nالزبون: أومال بتنزل لزمايله شيشة ليه؟\\nالقهوجي بيتلغبط: بنزل لزمايله عشان أعطل مستقبلهم وابنك ينجح — انت عارف ابنك هو ابني — وبنتك هي بنتي — ومراتك لمؤاخذة\\nالراجل: إيه؟\\nالقهوجي: أختي يا باشا!\\nماتقلقش هنبّه على اللي معايا ماحدش يدخله القهوة أبدًا!\\nبيطمن الراجل وبيمشي\\nأول ما بيمشي بيجي عيل مراهق\\nأول ما بيدخل: حجرين الشيشة هنا يا معلم\\nالقهوجي: يا عم أبوك لسه عاملنا مشكلة مايينفعش تقعد\\nالولد بيكرمشله ١٠٠ ج عشان يسكت\\nالقهوجي بفرحة: حجرين شيشة هنا للبيه",
-      "cta": "انت بيتعمل عليك فيلم — فا سيبك من كل ده وتعالى English Zone شوف الأفلام اللي بجد 🎬"
-    },
-    {
-      "title": "السباك",
-      "location": "شقة البطل",
-      "actors": "السباك + البطل",
-      "duration": "45-55 ثانية",
-      "type": "reel",
-      "hook": "لما السباك يشوف الحنفية ويبدأ يشخّص مشاكل مش موجودة…",
-      "body": "ولد بيجيب سباك يصلح الحنفية\\nالسباك: مين اللي اشتغل قبلي\\nالولد: ماحدش! دي أول مرة تبوظ\\nالسباك بيحس بخطر إنه مش هيعدّل على غيره — وبعدين يقول:\\n\\n(بيبص على الحنفية من برا ويمين وشمال)\\nبثقة: الحنفية محتاجة قلب وجلدة — ومحتاجين نغير المحبس عشان مش بيوصل مياه للحنفية — ونغير الأوكرة بتاعة السخن عشان مش بتنزل\\n(بيفتح الحنفية بالغلط وبتنزل مياه سخنة)\\nالسباك بيتلغبط: أقصد نغير الساقع\\n(وبيروح ناحية الدش)\\nومحتاجين نغير الدش عشان مابينزلش مياه متساوية من الأخرام!\\nالولد: الأخرام؟\\nالسباك: مهمة على فكرة — انت عارف كام واحد بيتأخر على شغله بسبب ان المياه مش بتوصل للدش؟ — انت عارف اننا بنرشد المياه عشان مصلحة الدولة..\\n\\nوصوت السباك يوطي بالتدريج..\\nووش الولد بيكون مصدوم",
-      "cta": "انت بيتعمل عليك فيلم — فا سيبك من كل ده وتعالى English Zone شوف الأفلام اللي بجد 🎬"
-    }
-  ],
-  "posts": [
-    {
-      "title": "Launch Post — الإعلان عن الكامبين",
-      "platform": "facebook",
-      "contentType": "video",
-      "tov": "كوميدي، مباشر، relatable — بيتكلم زي الأصحاب مش زي البراند",
-      "hook": "بتتعمل عليك فيلم كل يوم؟ 🎬",
-      "caption": "من الكشك لحد السباك… في حد بيمثل عليك.\\n\\nاحنا شفنا الأفلام دي كلها.\\nوقررنا نطلعها على الشاشة.\\n\\nانت بيتعمل عليك فيلم — فا سيبك من كل ده.\\nوتعالى English Zone تتعلم إنجليزي صح وتبطل تتغابى 😎\\n\\n🎬 شوف الـ Series كاملة على صفحتنا\\n🔗 سجل دلوقتي",
-      "hashtags": "#انت_بيتعمل_عليك_فيلم #English_Zone #تعلم_انجليزي #كورس_انجليزي #مصر"
-    },
-    {
-      "title": "Engagement Post — استطلاع رأي",
-      "platform": "instagram",
-      "contentType": "carousel",
-      "tov": "تفاعلي وكوميدي — بيسأل الجمهور عن تجاربهم الشخصية",
-      "hook": "أنهي فيلم اتعمل عليك أكتر؟ 👇",
-      "caption": "الكشك؟ الميكانيكي؟ الحلاق؟ الدليفري؟\\n\\nاحنا عارفين إن كلنا عدينا بالمواقف دي 😂\\nبس السؤال: قدرت ترد في الوقت ده ولا قلبك اتأثر وسكت؟\\n\\nالفرق بين اللي بيتعمل فيه فيلم واللي مش بيتعمل فيه؟\\nالثقة في نفسه وإنه يعرف يتكلم.\\n\\nده بالظبط اللي بيدّيك English Zone. 💪\\n\\nكمّل على الكاروسيل وقولنا رأيك ⬇️",
-      "hashtags": "#انت_بيتعمل_عليك_فيلم #English_Zone #اتعلم_انجليزي #مواقف_يومية"
-    },
-    {
-      "title": "Educational Post — ليه English Zone مختلف",
-      "platform": "facebook",
-      "contentType": "carousel",
-      "tov": "مباشر وواضح مع لمسة كوميدية — بيشرح الـ Value Proposition",
-      "hook": "فرق بين تعلم إنجليزي… وتشوف الأفلام اللي بجد 🎬",
-      "caption": "مش كل كورسات الإنجليزي بيخلوك تتكلم.\\nبعضها بيخليك تحفظ قواعد وتسكت.\\n\\nEnglish Zone بيعلمك إنجليزي تشتغل بيه — تتكلم بيه — تدافع بيه عن نفسك.\\n\\nعشان لما حد يعمل عليك فيلم في الشغل أو في حياتك — تعرف ترد. 💪\\n\\n🎬 مش كورس — ده سلاح.\\nسجل دلوقتي 🔗",
-      "hashtags": "#English_Zone #تعلم_انجليزي #كورس_انجليزي #تطوير_الذات #وظائف_مصر"
-    },
-    {
-      "title": "Behind the Scenes — كواليس التصوير",
-      "platform": "instagram",
-      "contentType": "reel",
-      "tov": "خفيف وإنساني — بيورّي الـ human side للكامبين",
-      "hook": "كواليس أفلامنا… اللي احنا عملناها عليكم 😂",
-      "caption": "من وراء الكاميرا 🎥\\n\\nاللقطات دي حصلت فعلاً.\\nالضحك ده حقيقي.\\nوالأفلام دي بالظبط زي اللي بتتعمل عليكم كل يوم.\\n\\nبس إحنا قررنا نوريها قبل ما تحصلوا بيها تاني.\\n\\nEnglish Zone — اشمعنى ما تكونش جاهز؟ 🎬",
-      "hashtags": "#كواليس #BTS #English_Zone #انت_بيتعمل_عليك_فيلم"
-    },
-    {
-      "title": "CTA Post — سجل دلوقتي",
-      "platform": "all",
-      "contentType": "image",
-      "tov": "مباشر وعاجل — بيدفع الجمهور للاكشن",
-      "hook": "خليت كتير يعملوا عليك فيلم… مش وقت تبدأ؟",
-      "caption": "سنة وانت بتقول 'هبدأ أتعلم إنجليزي'.\\n\\nوفي الأثناء:\\n🎬 الكشك بيعمل فيك فيلم.\\n🎬 الميكانيكي بيعمل فيك فيلم.\\n🎬 حتى الدليفري بيعمل فيك فيلم!\\n\\nخلاص. الوقت ده.\\n\\nEnglish Zone — سجل دلوقتي وابدأ تتكلم بثقة.\\n🔗 [رابط التسجيل]",
-      "hashtags": "#English_Zone #تعلم_انجليزي #سجل_دلوقتي #كورس_انجليزي_مصر #انت_بيتعمل_عليك_فيلم"
-    }
-  ],
-  "stories": [
-    {
-      "text": "اليوم بيتعمل عليك فيلم؟\\nاضغط على الاستطلاع 👇\\n[Poll: آه طبعاً / لأ أنا فاهم]\\n\\nEnglish Zone — تعلم تدافع عن نفسك 🎬",
-      "cta": "سجل دلوقتي",
-      "platform": "instagram"
-    },
-    {
-      "text": "Swipe up وشوف آخر فيلم اتعمل علينا…\\n🎬 الشحات اللي مشيش على رجل وبيعدي\\n\\nEnglish Zone — سيبك من الأفلام وتعالى تتعلم صح",
-      "cta": "شوف الفيديو",
-      "platform": "instagram"
-    },
-    {
-      "text": "اختار الفيلم اللي بيتعمل عليك أكتر 🎬\\n[Poll]\\n🔧 الميكانيكي\\n✂️ الحلاق\\n🍕 الدليفري\\n🧦 بياع الهدوم",
-      "cta": "شوف باقي الأفلام",
-      "platform": "instagram"
-    },
-    {
-      "text": "الفرق بين اللي بيتعمل فيه فيلم واللي مش بيتعمل فيه = الثقة في الكلام.\\n\\nEnglish Zone بيديك الثقة دي 💪\\n\\nسجل دلوقتي 🔗",
-      "cta": "اعرف أكتر",
-      "platform": "facebook"
-    },
-    {
-      "text": "8 أفلام.\\n8 مواقف من حياتك.\\n1 حل.\\n\\nEnglish Zone 🎬\\nتعلم إنجليزي — تكلم بثقة — بطل تتغابى",
-      "cta": "شوف الـ Series",
-      "platform": "tiktok"
-    }
-  ],
-  "ads": [
-    {
-      "name": "Awareness — Hero Reel",
-      "adType": "awareness",
-      "headline": "انت بيتعمل عليك فيلم كل يوم",
-      "primary": "من الكشك لحد السباك… في حد بيمثل عليك دايماً.\\n\\nEnglish Zone بيعلمك تتكلم بثقة وتبطل تتغابى.\\n\\nسجل دلوقتي 🎬",
-      "description": "تعلم إنجليزي صح — اتكلم بثقة — ابدأ دلوقتي",
-      "cta": "sign_up"
-    },
-    {
-      "name": "Retargeting — الناس اللي شافت الـ Reels",
-      "adType": "retargeting",
-      "headline": "شوف الأفلام دي وعارف هتتعمل عليك تاني؟",
-      "primary": "لو شفت الـ Reels بتاعتنا، انت عارف الأفلام دي بتحصل فعلاً.\\n\\nالسؤال: هتفضل تتغابى ولا تبدأ تتكلم بثقة؟\\n\\nEnglish Zone — الدفعة الجديدة بدأت.",
-      "description": "سجل دلوقتي — أماكن محدودة",
-      "cta": "sign_up"
-    },
-    {
-      "name": "Lead Gen — تسجيل ليدز",
-      "adType": "leads",
-      "headline": "ابدأ تتكلم إنجليزي بثقة من أول أسبوع",
-      "primary": "مش كورس تحفظ فيه قواعد.\\nده برنامج بيخليك تتكلم وتدافع عن نفسك.\\n\\nEnglish Zone — سجل بياناتك وهنتواصل معاك.",
-      "description": "سجل مجاناً — هنتواصل معاك",
-      "cta": "sign_up"
-    }
-  ],
-  "calendar": [
-    {
-      "day": "1 مايو",
-      "type": "video",
-      "platform": "Facebook, Instagram, TikTok",
-      "title": "Launch — فيلم الكشك",
-      "status": "planned",
-      "notes": "أول فيديو في الـ Series — يكون عليه Paid Boost من أول يوم"
-    },
-    {
-      "day": "3 مايو",
-      "type": "story",
-      "platform": "Instagram, Facebook",
-      "title": "Poll Story — أنهي فيلم اتعمل عليك؟",
-      "status": "planned",
-      "notes": "Story تفاعلية بـ Poll عشان نجمع Engagement ونفهم الجمهور"
-    },
-    {
-      "day": "5 مايو",
-      "type": "reel",
-      "platform": "Instagram, TikTok",
-      "title": "فيلم بياع الهدوم",
-      "status": "planned",
-      "notes": "ثاني فيديو في الـ Series — ينزل بدون Paid في الأول ونشوف الـ Organic Reach"
-    },
-    {
-      "day": "7 مايو",
-      "type": "post",
-      "platform": "Facebook, Instagram",
-      "title": "Engagement Post — استطلاع رأي الجمهور",
-      "status": "planned",
-      "notes": "Carousel بيسأل الجمهور عن أكتر موقف اتعمل فيه فيلم"
-    },
-    {
-      "day": "10 مايو",
-      "type": "reel",
-      "platform": "Instagram, TikTok, Facebook",
-      "title": "فيلم الميكانيكي",
-      "status": "planned",
-      "notes": "تالت فيديو — من المتوقع يكون الأعلى Reach بسبب الكوميديا"
-    },
-    {
-      "day": "12 مايو",
-      "type": "story",
-      "platform": "Instagram",
-      "title": "Story — Swipe Up للفيديو الجديد",
-      "status": "planned",
-      "notes": "تقليد للـ Series بـ Swipe Up على الفيديو الأخير"
-    },
-    {
-      "day": "14 مايو",
-      "type": "reel",
-      "platform": "Instagram, TikTok",
-      "title": "فيلم الشحات",
-      "status": "planned",
-      "notes": "رابع فيديو — متوقع يكون Emotional أكتر والـ Shares فيه أعلى"
-    },
-    {
-      "day": "16 مايو",
-      "type": "post",
-      "platform": "Facebook",
-      "title": "Educational Post — ليه English Zone مختلف",
-      "status": "planned",
-      "notes": "Carousel يشرح الـ Value Proposition بعد ما الجمهور اتعرض للـ Reels"
-    },
-    {
-      "day": "18 مايو",
-      "type": "reel",
-      "platform": "Instagram, TikTok, Facebook",
-      "title": "فيلم الحلاق",
-      "status": "planned",
-      "notes": "خامس فيديو — الـ Hook قوي جداً"
-    },
-    {
-      "day": "20 مايو",
-      "type": "reel",
-      "platform": "Instagram, TikTok",
-      "title": "فيلم الدليفري",
-      "status": "planned",
-      "notes": "سادس فيديو — سيناريو Universal ومتوقع يوصل لناس كتير جداً"
-    },
-    {
-      "day": "22 مايو",
-      "type": "story",
-      "platform": "Instagram, Facebook",
-      "title": "Mid-Campaign Story — Progress Update",
-      "status": "planned",
-      "notes": "Story بتورّي عدد المشاهدات والـ Reactions عشان تخلق FOMO"
-    },
-    {
-      "day": "24 مايو",
-      "type": "reel",
-      "platform": "Instagram, TikTok, Facebook",
-      "title": "فيلم القهوة",
-      "status": "planned",
-      "notes": "سابع فيديو — سيناريو أطول وأكثر تعقيداً — ممكن يتعمل Part 1 و Part 2"
-    },
-    {
-      "day": "26 مايو",
-      "type": "reel",
-      "platform": "Instagram, TikTok, Facebook",
-      "title": "فيلم السباك — نهاية الـ Series",
-      "status": "planned",
-      "notes": "تامن وآخر فيديو في الـ Series — يكون فيه Paid Boost قوي"
-    },
-    {
-      "day": "28 مايو",
-      "type": "video",
-      "platform": "All Platforms",
-      "title": "Compilation — كل الأفلام في فيديو واحد",
-      "status": "planned",
-      "notes": "فيديو يجمع أقوى لحظات الـ Series + CTA قوي للتسجيل — Paid Boost"
-    },
-    {
-      "day": "30 مايو",
-      "type": "post",
-      "platform": "All Platforms",
-      "title": "CTA Final — آخر يوم للتسجيل",
-      "status": "planned",
-      "notes": "Post بـ Urgency عالية — آخر يوم للتسجيل في الدفعة الجديدة"
-    }
-  ],
-  "phases": [
-    {
-      "name": "Phase 1 — Teaser & Launch",
-      "duration": "1 — 7 مايو",
-      "goal": "إطلاق الفكرة وبناء الـ Awareness — الجمهور يعرف الكامبين وييجي فضولي",
-      "activities": "إطلاق أول فيلمين (الكشك + بياع الهدوم) — Paid Boost على الأول — Story Polls تفاعلية — جمع أول موجة Engagement"
-    },
-    {
-      "name": "Phase 2 — Momentum",
-      "duration": "8 — 20 مايو",
-      "goal": "بناء الـ Series ورفع الـ Reach والـ Shares — الجمهور يبدأ يشارك المحتوى ويتفاعل",
-      "activities": "نزول أفلام الميكانيكي والشحات والحلاق والدليفري — Engagement Posts — Retargeting Ads للناس اللي شافت الأفلام"
-    },
-    {
-      "name": "Phase 3 — Conversion & Closing",
-      "duration": "21 — 30 مايو",
-      "goal": "تحويل الـ Awareness لـ Leads وتسجيلات فعلية",
-      "activities": "أفلام القهوة والسباك — Compilation Video — Lead Gen Ads — CTA Posts بـ Urgency — Final Push للتسجيل"
-    }
-  ],
-  "kpis": {
-    "reach": "500,000+",
-    "engagement": "8%+",
-    "leads": "300+",
-    "visits": "15,000+",
-    "conversions": "150+ تسجيل",
-    "roas": "3x+",
-    "views": "1,000,000+ مشاهدة",
-    "ctr": "3%+",
-    "successDef": "الكامبين ينجح لو:\\n✅ وصل الـ Reels لـ 500K+ شخص على الأقل\\n✅ كل فيديو اتشارك +500 مرة عضوياً\\n✅ الـ Comments بتحكي مواقف مشابهة = الجمهور Relate\\n✅ الـ Leads وصلت 300+ في الشهر\\n✅ معدل التحويل من Lead لـ Enrollment > 50%"
-  },
-  "budget": {
-    "total": "50,000 جنيه",
-    "production": "20,000 جنيه — تصوير، مونتاج، إضاءة، مكياج، لوكيشن",
-    "ads": "25,000 جنيه — Facebook Ads, Instagram Ads, TikTok Ads",
-    "influencer": "5,000 جنيه — Micro Influencers لتضخيم الـ Series",
-    "currency": "EGP",
-    "notes": "التوزيع المقترح للـ Paid:\\n- Phase 1 (Launch): 8,000 ج\\n- Phase 2 (Momentum): 10,000 ج\\n- Phase 3 (Conversion): 7,000 ج\\nالباقي Reserve للـ Best Performing Content"
-  }
-};
+let parsedData = null;
 
-async function uploadData() {
-  const btn = document.getElementById("uploadBtn");
-  const status = document.getElementById("status");
-  
-  btn.disabled = true;
-  btn.textContent = "⏳ جاري الرفع...";
-  status.className = "status info";
-  status.textContent = "⏳ بيترفع على Supabase...";
-  status.style.display = "block";
-  
-  try {
-    const { error } = await sb.from("campaign_content").upsert({
-      id: "main",
-      data: CAMPAIGN_DATA,
-      updated_at: new Date().toISOString()
-    }, { onConflict: "id" });
-    
-    if (error) throw error;
-    
-    status.className = "status ok";
-    status.textContent = "✅ تم الرفع بنجاح! افتح preview.html دلوقتي.";
-    btn.textContent = "✅ تم!";
-  } catch(err) {
-    console.error(err);
-    status.className = "status bad";
-    status.textContent = "❌ فشل: " + err.message;
-    btn.disabled = false;
-    btn.textContent = "🔄 حاول تاني";
-  }
+const $ = id => document.getElementById(id);
+
+function showStatus(msg, type) {
+  const el = $('statusMsg');
+  el.textContent = msg;
+  el.className = 'status-msg show ' + type;
 }
+function hideStatus() { $('statusMsg').className = 'status-msg'; }
+function safe(v) {
+  return String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+// ── Drag & Drop ──────────────────────────────────────────────
+const dropZone = $('dropZone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+$('fileInput').addEventListener('change', e => {
+  if (e.target.files[0]) handleFile(e.target.files[0]);
+});
+$('clearBtn').addEventListener('click', resetAll);
+$('resetBtn').addEventListener('click', resetAll);
+
+function resetAll() {
+  parsedData = null;
+  $('fileInput').value = '';
+  $('fileBadge').classList.remove('show');
+  $('previewCard').classList.remove('show');
+  $('actionsRow').style.display = 'none';
+  $('progressWrap').classList.remove('show');
+  $('progressBar').style.width = '0%';
+  $('saveBtn').disabled = true;
+  $('saveBtn').textContent = '💾 حفظ على Supabase';
+  $('saveBtn').style.background = '';
+  hideStatus();
+  dropZone.style.display = 'block';
+}
+
+// ── File Handler ─────────────────────────────────────────────
+function handleFile(file) {
+  if (!file.name.endsWith('.json') && file.type !== 'application/json') {
+    showStatus('❌ الملف مش JSON — ارفع ملف بامتداد .json فقط', 'bad');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      parsedData = JSON.parse(e.target.result);
+      $('fileName').textContent = file.name + '  (' + (file.size / 1024).toFixed(1) + ' KB)';
+      $('fileBadge').classList.add('show');
+      dropZone.style.display = 'none';
+      renderPreview(parsedData);
+      hideStatus();
+    } catch(err) {
+      showStatus('❌ الملف فيه خطأ في الـ JSON: ' + err.message, 'bad');
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+// ── Preview ──────────────────────────────────────────────────
+function renderPreview(d) {
+  // Stats
+  const stats = [
+    { k: 'Scripts', v: (d.scripts||[]).length, icon: '🎬' },
+    { k: 'Posts', v: (d.posts||[]).length, icon: '📱' },
+    { k: 'Stories', v: (d.stories||[]).length, icon: '🔮' },
+    { k: 'Ads', v: (d.ads||[]).length, icon: '📣' },
+    { k: 'Calendar', v: (d.calendar||[]).length, icon: '📅' },
+    { k: 'Phases', v: (d.phases||[]).length, icon: '🗓' },
+  ];
+  let statsHtml = stats.map(s => `
+    <div class="stat-box">
+      <span class="stat-val">${s.icon} ${s.v}</span>
+      <div class="stat-key">${s.k}</div>
+    </div>
+  `).join('');
+  if (d.client) {
+    statsHtml += `
+      <div class="stat-box wide">
+        <span class="stat-val" style="font-size:15px;line-height:1.3">${safe(d.client.name||'—')}</span>
+        <div class="stat-key">${safe(d.client.campaignName||'—')}</div>
+      </div>
+    `;
+  }
+  $('statsGrid').innerHTML = statsHtml;
+
+  // Validation
+  const checks = [
+    { label: 'client.name موجود', pass: !!(d.client?.name) },
+    { label: 'hero.title موجود', pass: !!(d.hero?.title) },
+    { label: 'theme.primary موجود', pass: !!(d.theme?.primary) },
+    { label: 'scripts هي array', pass: Array.isArray(d.scripts) },
+    { label: 'posts هي array', pass: Array.isArray(d.posts) },
+    { label: 'calendar هي array', pass: Array.isArray(d.calendar) },
+    { label: 'kpis موجودة', pass: !!(d.kpis) },
+    { label: 'budget موجود', pass: !!(d.budget) },
+  ];
+  $('validationList').innerHTML = checks.map(c => `
+    <div class="v-item ${c.pass?'pass':'fail'}">
+      <div class="v-dot"></div>${safe(c.label)}
+    </div>
+  `).join('');
+
+  // Sections
+  const sections = [
+    {
+      name: 'Client & Hero', icon: '🎯',
+      items: d.client ? [{
+        title: (d.client.name||'') + (d.client.campaignName ? ' — ' + d.client.campaignName : ''),
+        meta: [
+          d.hero?.title ? 'Hero Title: ' + d.hero.title : '',
+          d.hero?.slogan ? 'Slogan: ' + d.hero.slogan : '',
+          d.client.industry ? 'Industry: ' + d.client.industry : '',
+          (d.client.start||d.client.end) ? 'مدة: ' + [d.client.start,d.client.end].filter(Boolean).join(' — ') : '',
+          d.client.brief ? 'Brief: ' + d.client.brief.slice(0,120) + '...' : '',
+        ].filter(Boolean).join('\n')
+      }] : []
+    },
+    {
+      name: 'Scripts السكريبتات', icon: '🎬',
+      items: (d.scripts||[]).map((s,i) => ({
+        title: 'Script ' + (i+1) + ': ' + (s.title||'Untitled'),
+        meta: [
+          s.type ? 'Type: ' + s.type : '',
+          s.duration ? 'Duration: ' + s.duration : '',
+          s.location ? 'Location: ' + s.location : '',
+          s.actors ? 'Cast: ' + s.actors : '',
+          s.hook ? 'Hook: ' + s.hook : '',
+        ].filter(Boolean).join('\n'),
+        badge: s.type
+      }))
+    },
+    {
+      name: 'Posts البوستات', icon: '📱',
+      items: (d.posts||[]).map((p,i) => ({
+        title: 'Post ' + (i+1) + ': ' + (p.title||'Untitled'),
+        meta: [
+          p.platform ? 'Platform: ' + p.platform : '',
+          p.contentType ? 'Type: ' + p.contentType : '',
+          p.hook ? 'Hook: ' + p.hook : '',
+          p.hashtags ? 'Hashtags: ' + p.hashtags.slice(0,60) : '',
+        ].filter(Boolean).join('\n'),
+        badge: p.platform
+      }))
+    },
+    {
+      name: 'Stories الستوريز', icon: '🔮',
+      items: (d.stories||[]).map((s,i) => ({
+        title: 'Story ' + (i+1) + (typeof s==='object' && s.platform ? ' — ' + s.platform : ''),
+        meta: [
+          typeof s==='object' && s.cta ? 'CTA: ' + s.cta : '',
+          typeof s==='string' ? s.slice(0,100) : (s.text||'').slice(0,100),
+        ].filter(Boolean).join('\n'),
+        badge: typeof s==='object' ? s.platform : ''
+      }))
+    },
+    {
+      name: 'Ads Copy الإعلانات', icon: '📣',
+      items: (d.ads||[]).map((a,i) => ({
+        title: 'Ad ' + (i+1) + ': ' + (a.name||'Untitled'),
+        meta: [
+          a.adType ? 'Type: ' + a.adType : '',
+          a.headline ? 'Headline: ' + a.headline : '',
+          a.cta ? 'CTA: ' + a.cta : '',
+        ].filter(Boolean).join('\n'),
+        badge: a.adType
+      }))
+    },
+    {
+      name: 'Content Calendar', icon: '📅',
+      items: (d.calendar||[]).map((c,i) => ({
+        title: 'Day ' + (c.day||i+1) + ' — ' + (c.title||''),
+        meta: [
+          c.type ? 'Type: ' + c.type : '',
+          c.platform ? 'Platform: ' + c.platform : '',
+          c.status ? 'Status: ' + c.status : '',
+          c.notes ? c.notes.slice(0,80) : '',
+        ].filter(Boolean).join('\n'),
+        badge: c.type
+      }))
+    },
+    {
+      name: 'Campaign Phases', icon: '🗓',
+      items: (d.phases||[]).map((p,i) => ({
+        title: 'Phase ' + (i+1) + ': ' + (p.name||''),
+        meta: [
+          p.duration ? 'Duration: ' + p.duration : '',
+          p.goal ? 'Goal: ' + p.goal.slice(0,100) : '',
+        ].filter(Boolean).join('\n')
+      }))
+    },
+    {
+      name: 'KPIs & Goals', icon: '📈',
+      items: d.kpis ? Object.entries(d.kpis)
+        .filter(([k,v]) => v && k !== 'successDef')
+        .map(([k,v]) => ({ title: k.toUpperCase(), meta: String(v) })) : []
+    },
+    {
+      name: 'Budget الميزانية', icon: '💰',
+      items: d.budget ? [{
+        title: 'Total: ' + (d.budget.total||'—'),
+        meta: [
+          d.budget.production ? 'إنتاج: ' + d.budget.production : '',
+          d.budget.ads ? 'إعلانات: ' + d.budget.ads : '',
+          d.budget.influencer ? 'مؤثرين: ' + d.budget.influencer : '',
+          d.budget.currency ? 'عملة: ' + d.budget.currency : '',
+        ].filter(Boolean).join('\n')
+      }] : []
+    },
+  ];
+
+  $('dataSections').innerHTML = sections.map((sec, si) => `
+    <div class="data-section">
+      <div class="sec-header" onclick="toggleSec(${si})">
+        <div class="sec-header-left">
+          <span class="sec-icon">${sec.icon}</span>
+          <span class="sec-name">${sec.name}</span>
+          <span class="sec-count">${sec.items.length}</span>
+        </div>
+        <span class="sec-arrow" id="arr${si}">▼</span>
+      </div>
+      <div class="sec-body" id="sb${si}">
+        <div class="item-list">
+          ${sec.items.length
+            ? sec.items.map(item => `
+                <div class="item-card">
+                  <div class="item-card-title">
+                    ${item.badge ? `<span class="item-badge">${safe(item.badge)}</span>` : ''}
+                    ${safe(item.title)}
+                  </div>
+                  ${item.meta ? `<div class="item-card-meta">${safe(item.meta)}</div>` : ''}
+                </div>
+              `).join('')
+            : '<div style="color:var(--muted);font-size:13px;padding:8px 0">لا يوجد بيانات</div>'
+          }
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  $('jsonViewer').textContent = JSON.stringify(d, null, 2);
+
+  $('previewCard').classList.add('show');
+  $('actionsRow').style.display = 'flex';
+  $('saveBtn').disabled = false;
+}
+
+function toggleSec(i) {
+  const body = $('sb' + i), arrow = $('arr' + i);
+  const open = body.classList.toggle('open');
+  arrow.classList.toggle('open', open);
+}
+
+$('toggleJsonBtn').addEventListener('click', () => {
+  const v = $('jsonViewer');
+  const open = v.style.display === 'block';
+  v.style.display = open ? 'none' : 'block';
+  $('toggleJsonBtn').textContent = open ? '{ } عرض الـ JSON الخام' : '{ } إخفاء الـ JSON';
+});
+
+// ── Save to Supabase ─────────────────────────────────────────
+$('saveBtn').addEventListener('click', async () => {
+  if (!parsedData) return;
+
+  const btn = $('saveBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري الحفظ...';
+  showStatus('⏳ بيترفع على Supabase...', 'info');
+
+  const pw = $('progressWrap');
+  const pb = $('progressBar');
+  pw.classList.add('show');
+  pb.style.width = '0%';
+
+  let prog = 0;
+  const tick = setInterval(() => {
+    prog = Math.min(prog + Math.random() * 18, 85);
+    pb.style.width = prog + '%';
+  }, 180);
+
+  try {
+    const { error } = await sb.from('campaign_content').upsert({
+      id: 'main',
+      data: parsedData,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'id' });
+
+    clearInterval(tick);
+    if (error) throw error;
+
+    pb.style.width = '100%';
+    setTimeout(() => pw.classList.remove('show'), 900);
+
+    showStatus('✅ تم الحفظ بنجاح! افتح preview.html دلوقتي.', 'ok');
+    btn.textContent = '✅ تم الحفظ!';
+    btn.style.background = '#166534';
+
+  } catch(err) {
+    clearInterval(tick);
+    pw.classList.remove('show');
+    console.error(err);
+    showStatus('❌ فشل الحفظ: ' + err.message, 'bad');
+    btn.disabled = false;
+    btn.textContent = '💾 حاول تاني';
+    btn.style.background = '';
+  }
+});
 </script>
 </body>
 </html>
