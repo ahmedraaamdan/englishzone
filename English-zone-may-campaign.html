@@ -374,8 +374,37 @@ function render(c){
           ${s.type?`<span class="pill">${safe(s.type)}</span>`:''}
           ${s.duration?`<span class="pill accent">⏱ ${safe(s.duration)}</span>`:''}
           ${s.location?`<span class="pill">📍 ${safe(s.location)}</span>`:''}
-          ${s.actors?`<span class="pill">👤 ${safe(s.actors)}</span>`:''}
+${Array.isArray(s.actors) && s.actors.length ? `
+  <div class="card-section-label">Actors</div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">
+    ${s.actors.map(actor => `
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+        background:#F8FAFC;
+        border:1px solid var(--border);
+        border-radius:12px;
+        padding:8px 10px
+      ">
+        <img src="${safe(actor.image)}"
+             style="width:36px;height:36px;border-radius:50%;object-fit:cover">
+
+        <div>
+          <div style="font-size:12px;font-weight:800">
+            ${safe(actor.name)}
+          </div>
+
+          <div style="font-size:10px;color:#64748B">
+            ${safe(actor.age)} سنة
+          </div>
         </div>
+      </div>
+    `).join('')}
+  </div>
+` : ''}
+</div>
         ${s.hook?`<div class="card-section-label">Hook</div><div class="body-text" style="font-weight:700;color:var(--primary)">${safe(s.hook)}</div>`:''}
         ${s.body?`<div class="card-section-label">Script</div><div class="body-text">${safe(s.body)}</div>`:''}
         ${s.cta?`<div class="cta-badge">📢 ${safe(s.cta)}</div>`:''}
