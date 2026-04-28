@@ -518,7 +518,7 @@ $('budgetGrid').innerHTML = budgetItems.length ? budgetItems.map(i=>`
 async function load(){
   try{
     showStatus('Loading campaign data...');
-    const{data,error}=await sb.from('campaign_content').select('*').eq('id','main').maybeSingle();
+    const{data,error}=await sb.from('campaigns').select('*').eq('id','main').maybeSingle();
     if(error)throw error;
     if(!data||!data.data)throw new Error('No campaign data found');
     render(data.data);
