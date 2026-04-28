@@ -1259,6 +1259,20 @@ function renderAds(){
   `).join("");
 }
 
+function previewCampaign() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const campaignId = urlParams.get("id");
+
+  if (!campaignId) {
+    alert("احفظ الكامبين الأول");
+    return;
+  }
+
+  const previewUrl = `https://ahmedraaamdan.github.io/englishzone/campaign.html?id=${campaignId}`;
+  
+  window.open(previewUrl, "_blank");
+}
+  
 function renderCalendar(){
   const el=document.getElementById("calendarList"),empty=document.getElementById("calendarEmpty");
   if(!D.calendar.length){el.innerHTML="";empty.style.display="";return;}
