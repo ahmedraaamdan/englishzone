@@ -677,6 +677,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Delete handlers
   document.addEventListener("click", e => {
+
+    const uploadPostImageIndex = e.target.dataset.uploadPostImage;
+if (uploadPostImageIndex !== undefined) {
+  const i = +uploadPostImageIndex;
+  const file = document.getElementById(`postImage-${i}`).files[0];
+
+  if (!file) {
+    setStatus("اختار صورة الأول", "warn");
+    return;
+  }
+
+  setStatus("جاري رفع صورة البوست...", "info");
+
+  uploadImageToSupabase(file, "posts").then(imageUrl => {
+    if (!imageUrl) return;
+
+    D.posts[i].designImage = imageUrl;
+
+    renderPosts();
+    updateJsonOutput();
+    setStatus("تم رفع صورة البوست", "ok");
+  });
+
+  return;
+}
+
+const delPostImageIndex = e.target.dataset.delPostImage;
+if (delPostImageIndex !== undefined) {
+  const i = +delPostImageIndex;
+
+  D.posts[i].designImage = "";
+
+  renderPosts();
+  updateJsonOutput();
+  setStatus("تم حذف صورة البوست", "ok");
+
+  return;
+}
+    
     const addActorIndex = e.target.dataset.addActor;
 if (addActorIndex !== undefined) {
   const i = +addActorIndex;
@@ -1281,6 +1320,21 @@ function renderPosts(){
           </select>
           <label class="field-label" style="margin-top:8px">Hook</label>
           <input type="text" value="${ea(p.hook)}" data-pf="hook" data-i="${i}">
+
+<label class="field-label" style="margin-top:8px">Design Image</label>
+
+${p.designImage ? `
+  <div style="margin-bottom:8px;background:white;border:1px solid var(--border);border-radius:12px;padding:10px">
+    <img src="${ea(p.designImage)}" style="width:100%;max-height:220px;object-fit:contain;border-radius:10px;background:#f8fafc">
+    <button type="button" class="btn btn-danger btn-sm" data-del-post-image="${i}" style="margin-top:8px">حذف الصورة</button>
+  </div>
+` : ""}
+
+<div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center">
+  <input type="file" accept="image/png,image/jpeg,image/webp" id="postImage-${i}">
+  <button type="button" class="btn btn-primary btn-sm" data-upload-post-image="${i}">رفع صورة</button>
+</div>
+          
         </div>
         <div>
           <label class="field-label">TOV</label><textarea data-pf="tov" data-i="${i}" style="min-height:80px">${et(p.tov)}</textarea>
