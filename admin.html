@@ -266,15 +266,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
   .stat-grid,.grid-2,.campaigns-grid{grid-template-columns:1fr}
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
-<script>
-const supabase = window.supabase.createClient(
-  "https://nmhnswztzcqjnsmvytzr.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." 
-);
-</script>
-  
 </head>
 <body>
 
@@ -560,7 +551,7 @@ function getConfig() {
   if (stored) return JSON.parse(stored);
   return {
     password: "admin123",
-    supabaseUrl: "https://nnhxnswtzcqjnsmvytzr.supabase.co",
+    supabaseUrl: "https://nmhnswztzcqjnsmvytzr.supabase.co",
     supabaseKey: "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09"
   };
 }
@@ -590,6 +581,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Init Supabase
   if (cfg.supabaseUrl && cfg.supabaseKey && window.supabase) {
     dbClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
+  } else {
+    console.error("Supabase library/config missing", { hasLibrary: !!window.supabase, url: cfg.supabaseUrl, hasKey: !!cfg.supabaseKey });
   }
 
   // Check session
@@ -674,49 +667,52 @@ function setStatus(msg, type = "info") {
 
 async function loadAll() {
   setStatus("جاري التحميل...", "info");
+  if (!dbClient) {
+    setStatus("Supabase مش متوصل — راجع URL / Key في الإعدادات", "bad");
+    return;
+  }
   await Promise.all([loadCampaigns(), loadUsers()]);
   renderDashboard();
   renderCampaigns();
   renderUsers();
-  setStatus("تم التحميل بنجاح", "ok");
+  setStatus("تم التحميل من Supabase بنجاح", "ok");
 }
 
 async function loadCampaigns() {
   if (!dbClient) {
-    // Local fallback
-    const stored = localStorage.getItem("cos_campaigns");
-    campaigns = stored ? JSON.parse(stored) : [];
+    campaigns = [];
+    setStatus("Supabase مش متوصل", "bad");
     return;
   }
-  try {
-    const { data, error } = await dbClient
-      .from("campaigns")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error) throw error;
-    campaigns = data || [];
-  } catch (e) {
-    console.error(e);
-    const stored = localStorage.getItem("cos_campaigns");
-    campaigns = stored ? JSON.parse(stored) : [];
-    setStatus("Supabase error — بيشتغل locally", "warn");
+  const { data, error } = await dbClient
+    .from("campaigns")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.error("SUPABASE LOAD CAMPAIGNS ERROR:", error);
+    alert("Supabase Load Campaigns Error: " + error.message);
+    campaigns = [];
+    return;
   }
+  campaigns = data || [];
 }
 
 async function loadUsers() {
   if (!dbClient) {
-    const stored = localStorage.getItem("cos_users");
-    users = stored ? JSON.parse(stored) : [];
+    users = [];
     return;
   }
-  try {
-    const { data, error } = await dbClient.from("cos_users").select("*");
-    if (error) throw error;
-    users = data || [];
-  } catch (e) {
-    const stored = localStorage.getItem("cos_users");
-    users = stored ? JSON.parse(stored) : [];
+  const { data, error } = await dbClient
+    .from("cos_users")
+    .select("*")
+    .order("updated_at", { ascending: false });
+  if (error) {
+    console.error("SUPABASE LOAD USERS ERROR:", error);
+    alert("Supabase Load Users Error: " + error.message);
+    users = [];
+    return;
   }
+  users = data || [];
 }
 
 function saveLocal() {
@@ -741,7 +737,7 @@ function renderDashboard() {
   }
   el.innerHTML = recent.map(c => `
     <div class="user-row" style="cursor:pointer" onclick="openCampaign('${c.id}')">
-      <div class="user-avatar" style="background:${c.color||'var(--primary)'}">🎯</div>
+      <div class="user-avatar" style="background:${c.primaryColor||'var(--primary)'}">🎯</div>
       <div class="user-info">
         <div class="user-name">${esc(c.name || "بدون اسم")}</div>
         <div class="user-email">${esc(c.client || "")}</div>
@@ -832,12 +828,11 @@ if (dbClient) {
   return;
 }
 
-  campaigns.unshift(newCampaign);
-  saveLocal();
   closeModal("newCampaignModal");
+  await loadCampaigns();
   renderDashboard();
   renderCampaigns();
-  setStatus(`✅ تم إنشاء كامبين "${name}"`, "ok");
+  setStatus(`✅ تم إنشاء كامبين "${name}" في Supabase`, "ok");
 
   // Open it directly
   setTimeout(() => openCampaign(id), 500);
@@ -998,15 +993,23 @@ async function saveUser() {
     users.unshift(userData);
   }
 
-  if (dbClient) {
-    try {
-      await dbClient.from("cos_users").upsert(userData, { onConflict: "id" });
-    } catch (e) { console.error(e); }
+  if (!dbClient) {
+    alert("Supabase مش متوصل أصلاً");
+    return;
   }
-  saveLocal();
+
+  const { error } = await dbClient.from("cos_users").upsert(userData, { onConflict: "id" });
+  if (error) {
+    console.error("SUPABASE SAVE USER ERROR:", error);
+    alert("Supabase Save User Error: " + error.message);
+    return;
+  }
+
   closeModal("userModal");
+  await loadUsers();
   renderUsers();
-  setStatus(`✅ تم حفظ المستخدم "${name}"`, "ok");
+  renderDashboard();
+  setStatus(`✅ تم حفظ المستخدم "${name}" في Supabase`, "ok");
 }
 
 async function deleteUser(id) {
@@ -1045,6 +1048,7 @@ function saveSupabaseSettings() {
     dbClient = window.supabase.createClient(url, key);
   }
   setStatus("✅ تم حفظ إعدادات Supabase", "ok");
+  loadAll();
 }
 
 // ==========================================
