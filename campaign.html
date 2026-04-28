@@ -1312,8 +1312,14 @@ function renderPosts(){
         <div>
           <label class="field-label">عنوان</label><input type="text" value="${ea(p.title)}" data-pf="title" data-i="${i}">
           <label class="field-label" style="margin-top:8px">المنصة</label>
-          <select data-pf="platform" data-i="${i}">
-          <label class="field-label" style="margin-top:8px">نوع التصميم</label>
+<select data-pf="platform" data-i="${i}">
+  <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
+  <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
+  <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
+  <option ${p.platform==="all"?"selected":""} value="all">الكل</option>
+</select>
+
+<label class="field-label" style="margin-top:8px">نوع التصميم</label>
 <select data-pf="contentType" data-i="${i}">
   <option ${p.contentType==="post"?"selected":""} value="post">Post / Single Image</option>
   <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
@@ -1323,11 +1329,6 @@ function renderPosts(){
   <option ${p.contentType==="cover"?"selected":""} value="cover">Cover</option>
   <option ${p.contentType==="banner"?"selected":""} value="banner">Banner</option>
 </select>
-            <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
-            <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
-            <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
-            <option ${p.platform==="all"?"selected":""} value="all">الكل</option>
-          </select>
           <label class="field-label" style="margin-top:8px">Hook</label>
           <input type="text" value="${ea(p.hook)}" data-pf="hook" data-i="${i}">
 
