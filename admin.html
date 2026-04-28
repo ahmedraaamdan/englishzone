@@ -563,7 +563,7 @@ function saveConfig(cfg) {
 // ==========================================
 // STATE
 // ==========================================
-let supabase = null;
+let dbClient = null;
 let campaigns = [];
 let users = [];
 let editingUserId = null;
@@ -580,7 +580,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Init Supabase
   if (cfg.supabaseUrl && cfg.supabaseKey && window.supabase) {
-    supabase = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
+    dbClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
   }
 
   // Check session
@@ -673,14 +673,14 @@ async function loadAll() {
 }
 
 async function loadCampaigns() {
-  if (!supabase) {
+  if (!dbClient) {
     // Local fallback
     const stored = localStorage.getItem("cos_campaigns");
     campaigns = stored ? JSON.parse(stored) : [];
     return;
   }
   try {
-    const { data, error } = await supabase
+    const { data, error } = await dbClient
       .from("campaigns")
       .select("*")
       .order("created_at", { ascending: false });
@@ -695,13 +695,13 @@ async function loadCampaigns() {
 }
 
 async function loadUsers() {
-  if (!supabase) {
+  if (!dbClient) {
     const stored = localStorage.getItem("cos_users");
     users = stored ? JSON.parse(stored) : [];
     return;
   }
   try {
-    const { data, error } = await supabase.from("cos_users").select("*");
+    const { data, error } = await dbClient.from("cos_users").select("*");
     if (error) throw error;
     users = data || [];
   } catch (e) {
@@ -810,9 +810,9 @@ async function createCampaign() {
     data: {}
   };
 
-  if (supabase) {
+  if (dbClient) {
     try {
-      const { error } = await supabase.from("campaigns").insert(newCampaign);
+      const { error } = await dbClient.from("campaigns").insert(newCampaign);
       if (error) throw error;
     } catch (e) {
       console.error(e);
@@ -840,8 +840,8 @@ function openCampaign(id) {
 async function deleteCampaign(id) {
   if (!confirm("هتمسح الكامبين دي؟ مش هترجعها!")) return;
   campaigns = campaigns.filter(c => c.id !== id);
-  if (supabase) {
-    await supabase.from("campaigns").delete().eq("id", id);
+  if (dbClient) {
+    await dbClient.from("campaigns").delete().eq("id", id);
   }
   saveLocal();
   renderDashboard();
@@ -986,9 +986,9 @@ async function saveUser() {
     users.unshift(userData);
   }
 
-  if (supabase) {
+  if (dbClient) {
     try {
-      await supabase.from("cos_users").upsert(userData, { onConflict: "id" });
+      await dbClient.from("cos_users").upsert(userData, { onConflict: "id" });
     } catch (e) { console.error(e); }
   }
   saveLocal();
@@ -1000,7 +1000,7 @@ async function saveUser() {
 async function deleteUser(id) {
   if (!confirm("هتمسح المستخدم ده؟")) return;
   users = users.filter(u => u.id !== id);
-  if (supabase) await supabase.from("cos_users").delete().eq("id", id);
+  if (dbClient) await dbClient.from("cos_users").delete().eq("id", id);
   saveLocal();
   renderUsers();
   setStatus("تم حذف المستخدم", "ok");
@@ -1030,7 +1030,7 @@ function saveSupabaseSettings() {
   cfg.supabaseKey = key;
   saveConfig(cfg);
   if (url && key && window.supabase) {
-    supabase = window.supabase.createClient(url, key);
+    dbClient = window.supabase.createClient(url, key);
   }
   setStatus("✅ تم حفظ إعدادات Supabase", "ok");
 }
