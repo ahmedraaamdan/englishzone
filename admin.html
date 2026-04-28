@@ -768,10 +768,13 @@ function renderCampaigns() {
           <div class="progress-fill" style="width:${c.progress||0}%"></div>
         </div>
       </div>
-      <div class="campaign-card-actions" onclick="event.stopPropagation()">
-        <button class="btn btn-primary btn-sm" onclick="openCampaign('${c.id}')">✏️ فتح</button>
-        <button class="btn btn-ghost btn-sm" onclick="deleteCampaign('${c.id}')">🗑</button>
-      </div>
+<div class="campaign-card-actions" onclick="event.stopPropagation()">
+  <button class="btn btn-primary btn-sm" onclick="openCampaign('${c.id}')">✏️ فتح</button>
+
+  <button class="btn btn-ghost btn-sm" onclick="previewCampaign('${c.id}')">👁 عرض</button>
+
+  <button class="btn btn-ghost btn-sm" onclick="deleteCampaign('${c.id}')">🗑</button>
+</div>
     </div>
   `).join("");
 
@@ -1081,6 +1084,12 @@ function closeModal(id) {
 function esc(str) {
   return String(str || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
+
+function previewCampaign(id) {
+  const url = `English-zone-may-campaign.html?id=${id}`;
+  window.open(url, "_blank");
+}
+  
 </script>
 </body>
 </html>
