@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Campaign OS — Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#2563EB;
+  --primary-light:#EFF6FF;
+  --primary-mid:#BFDBFE;
+  --dark:#0F172A;
+  --dark2:#1E293B;
+  --bg:#F1F5F9;
+  --card:#FFFFFF;
+  --muted:#64748B;
+  --border:#E2E8F0;
+  --danger:#EF4444;
+  --success:#22C55E;
+  --warn:#F59E0B;
+  --radius:16px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);
+}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+
+/* USER LOGIN */
+#userLoginScreen{
+  position:fixed;inset:0;z-index:1000;
+  background:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+}
+.login-box{
+  background:#1E293B;border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;padding:48px 40px;width:100%;max-width:420px;text-align:center;
+  box-shadow:0 32px 80px rgba(0,0,0,.5);
+}
+.login-logo{width:64px;height:64px;background:var(--primary);border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:white;margin-bottom:20px}
+.login-box h1{color:white;font-size:24px;font-weight:900;margin-bottom:6px}
+.login-box p{color:#64748B;font-size:13px;margin-bottom:28px}
+.login-input{width:100%;background:#0F172A;border:1.5px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 16px;color:white;font-family:'Cairo',inherit;font-size:14px;font-weight:600;outline:none;text-align:right;transition:border .2s;margin-bottom:10px}
+.login-input:focus{border-color:var(--primary)}
+.login-input::placeholder{color:#475569}
+.login-btn{width:100%;background:var(--primary);border:0;border-radius:12px;padding:14px;color:white;font-family:'Cairo',inherit;font-size:15px;font-weight:900;cursor:pointer;transition:all .2s}
+.login-btn:hover{background:#1D4ED8}
+.login-error{color:#EF4444;font-size:12px;margin-top:10px;min-height:18px}
+.back-link{color:#64748B;font-size:12px;margin-top:14px;cursor:pointer;display:block}
+.back-link:hover{color:white}
+
+/* LAYOUT */
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{background:var(--dark);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:auto}
+.sidebar-header{padding:24px 20px 16px}
+.logo-mark{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.logo-icon{width:36px;height:36px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:white}
+.logo-text{font-size:20px;font-weight:900;color:white}
+.logo-sub{font-size:11px;color:#94A3B8;font-weight:500}
+.nav{padding:8px 12px;flex:1}
+.nav-group{margin-bottom:20px}
+.nav-label{font-size:10px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:1.5px;padding:0 8px;margin-bottom:8px}
+.nav button{width:100%;border:0;background:transparent;color:#94A3B8;text-align:right;padding:11px 12px;border-radius:12px;margin-bottom:2px;font-family:'Cairo',inherit;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px}
+.nav button .icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.nav button.active,.nav button:hover{background:rgba(255,255,255,.1);color:white}
+.nav button.active{background:var(--primary);color:white}
+.nav button.locked{opacity:.35;cursor:not-allowed;pointer-events:none}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07)}
+.sidebar-footer p{font-size:11px;color:#475569}
+
+/* MAIN */
+.main{min-width:0;padding:24px;display:flex;flex-direction:column;gap:20px}
+.topbar{background:var(--card);border-radius:var(--radius);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:var(--shadow)}
+.topbar-left h1{font-size:22px;font-weight:900}
+.topbar-left p{font-size:12px;color:var(--muted);margin-top:2px}
+.actions{display:flex;gap:10px}
+
+/* STATUS */
+.status-bar{border-radius:12px;padding:12px 16px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+.status-bar.ok{background:#DCFCE7;color:#166534}
+.status-bar.bad{background:#FEF2F2;color:#991B1B}
+.status-bar.warn{background:#FFFBEB;color:#92400E}
+.status-bar.info{background:#EFF6FF;color:#1E40AF}
+
+/* SECTIONS */
+.section{display:none}
+.section.active{display:flex;flex-direction:column;gap:16px}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px}
+.card-title{font-size:17px;font-weight:900}
+.card-sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* FORM */
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+label.field-label{display:block;font-size:12px;font-weight:800;color:#475569;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+input[type=text],input[type=url],input[type=number],textarea,select{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;font-family:'Cairo',inherit;font-size:13.5px;font-weight:500;outline:none;background:white;color:var(--dark);transition:border .2s}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+textarea{resize:vertical;min-height:100px}
+.color-row{display:grid;grid-template-columns:1fr 44px;gap:8px;align-items:center}
+input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px;height:42px;width:44px;cursor:pointer;background:white}
+
+/* BTN */
+.btn{border:0;border-radius:12px;padding:10px 18px;font-family:'Cairo',inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--primary);color:white}
+.btn-primary:hover{background:#1D4ED8}
+.btn-ghost{background:var(--bg);color:var(--dark)}
+.btn-ghost:hover{background:var(--border)}
+.btn-sm{padding:8px 14px;font-size:12px;border-radius:10px}
+.btn-danger{background:#FEF2F2;color:var(--danger)}
+
+/* KPI INPUTS */
+.kpi-card{background:var(--primary-light);border:1.5px solid var(--primary-mid);border-radius:14px;padding:16px;text-align:center}
+.kpi-card label{color:var(--primary);margin-bottom:8px;font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.kpi-card input{text-align:center;font-size:22px;font-weight:900;border:none;background:transparent;color:var(--primary);padding:4px}
+.kpi-card input:focus{box-shadow:none}
+
+/* LIST ITEMS */
+.list-item{border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;background:#FAFAFA;transition:border .2s}
+.list-item:hover{border-color:var(--primary-mid)}
+.list-item-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
+.item-num{background:var(--primary);color:white;width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0}
+.item-title{font-size:14px;font-weight:800;flex:1}
+
+/* PREVIEW */
+.preview-hero{background:linear-gradient(135deg,#0F172A,#2563EB);color:white;border-radius:16px;padding:28px;position:relative;overflow:hidden;min-height:160px}
+.preview-hero:before{content:"";position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05)}
+.preview-hero:after{content:"";position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04)}
+.preview-hero h3{font-size:24px;font-weight:900;position:relative;margin-bottom:8px}
+.preview-hero p{font-size:13px;color:rgba(255,255,255,.8);position:relative}
+
+/* PLATFORM PILLS */
+.platforms{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.platform-pill{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;transition:.2s}
+.platform-pill.sel{background:var(--primary);color:white;border-color:var(--primary)}
+
+/* OBJ GRID */
+.obj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.obj-card{border:2px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;transition:.2s;text-align:center}
+.obj-card:hover{border-color:var(--primary-mid)}
+.obj-card.sel{border-color:var(--primary);background:var(--primary-light)}
+.obj-card .obj-icon{font-size:22px;margin-bottom:4px}
+.obj-card .obj-label{font-size:11px;font-weight:800;color:var(--dark)}
+
+/* EMPTY */
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty .empty-icon{font-size:40px;margin-bottom:12px}
+.empty p{font-size:13px}
+
+/* JSON */
+#jsonOutput{font-family:monospace;font-size:12px;min-height:400px;background:#0F172A;color:#93C5FD;border:none;border-radius:12px;padding:16px}
+
+/* PROGRESS */
+.progress-bar{height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .5s}
+
+/* LOCKED SECTION */
+.locked-section{
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  padding:60px;text-align:center;color:var(--muted);
+}
+.locked-icon{font-size:48px;margin-bottom:16px}
+.locked-title{font-size:18px;font-weight:900;color:var(--dark);margin-bottom:8px}
+.locked-sub{font-size:13px}
+
+/* User badge */
+.user-badge-top{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);
+  border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--primary);
+}
+
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{height:auto;position:relative}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- USER LOGIN -->
+<div id="userLoginScreen">
+  <div class="login-box">
+    <div class="login-logo">C</div>
+    <h1 id="loginCampaignTitle">Campaign OS</h1>
+    <p>ادخل بيانات حسابك</p>
+    <input type="text" class="login-input" id="uLoginName" placeholder="اسم المستخدم">
+    <input type="password" class="login-input" id="uLoginPass" placeholder="الباسورد">
+    <button class="login-btn" id="uLoginBtn">دخول ←</button>
+    <div class="login-error" id="uLoginError"></div>
+    <span class="back-link" onclick="window.location.href='index.html'">← رجوع للرئيسية</span>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-mark">
+          <div class="logo-icon">C</div>
+          <div class="logo-text">Campaign OS</div>
+        </div>
+        <div class="logo-sub" id="campaignTitleSide">Loading...</div>
+      </div>
+      <nav class="nav">
+        <div class="nav-group">
+          <div class="nav-label">الأساسيات</div>
+          <button class="active" data-section="overview"><span class="icon">📊</span> Overview</button>
+          <button data-section="branding" data-perm="branding"><span class="icon">🎨</span> Branding</button>
+          <button data-section="hero" data-perm="hero"><span class="icon">✨</span> Hero & Big Idea</button>
+          <button data-section="objectives"><span class="icon">🎯</span> Objectives</button>
+        </div>
+        <div class="nav-group">
+          <div class="nav-label">المحتوى</div>
+          <button data-section="scripts" data-perm="scripts"><span class="icon">🎬</span> Scripts</button>
+          <button data-section="posts" data-perm="posts"><span class="icon">📱</span> Posts</button>
+          <button data-section="stories" data-perm="stories"><span class="icon">🔮</span> Stories</button>
+          <button data-section="ads" data-perm="ads"><span class="icon">📣</span> Ads Copy</button>
+        </div>
+        <div class="nav-group">
+          <div class="nav-label">التخطيط</div>
+          <button data-section="calendar" data-perm="calendar"><span class="icon">📅</span> Calendar</button>
+          <button data-section="phases" data-perm="phases"><span class="icon">🗓</span> Phases</button>
+          <button data-section="kpis" data-perm="kpis"><span class="icon">📈</span> KPIs</button>
+        </div>
+        <div class="nav-group">
+          <div class="nav-label">الإعدادات</div>
+          <button data-section="budget" data-perm="budget"><span class="icon">💰</span> Budget</button>
+          <button data-section="save"><span class="icon">💾</span> Save</button>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <p id="lastSaved">Last saved: Never</p>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html'" style="font-size:11px">← رجوع</button>
+          <button class="btn btn-danger btn-sm" id="userLogoutBtn" style="font-size:11px">خروج</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <h1 id="topbarTitle">Campaign Dashboard</h1>
+          <p id="topbarSub">عدّل كل تفاصيل الكامبين من مكان واحد</p>
+        </div>
+        <div class="actions">
+          <div class="user-badge-top" id="userBadge">👤 Loading</div>
+          <button class="btn btn-primary" id="saveBtn">💾 Save</button>
+        </div>
+      </div>
+
+      <div id="statusBar" class="status-bar info">⏳ جاري التحميل...</div>
+
+      <!-- OVERVIEW -->
+      <section id="overview" class="section active">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">بيانات الكامبين</div>
+                <div class="card-sub">المعلومات الأساسية</div>
+              </div>
+            </div>
+            <div class="field"><label class="field-label">اسم العميل / البراند</label><input type="text" id="clientName" placeholder="مثال: English Zone"></div>
+            <div class="field"><label class="field-label">اسم الحملة</label><input type="text" id="campaignName" placeholder="مثال: انت بيتعمل عليك فيلم"></div>
+            <div class="field"><label class="field-label">Industry / القطاع</label>
+              <select id="industry">
+                <option value="">اختر القطاع</option>
+                <option value="education">تعليم</option>
+                <option value="ecommerce">تجارة إلكترونية</option>
+                <option value="food">مطاعم وأكل</option>
+                <option value="fashion">موضة وأزياء</option>
+                <option value="tech">تكنولوجيا</option>
+                <option value="real-estate">عقارات</option>
+                <option value="health">صحة ولياقة</option>
+                <option value="beauty">جمال وعناية</option>
+                <option value="other">أخرى</option>
+              </select>
+            </div>
+            <div class="field"><label class="field-label">مدة الحملة</label>
+              <div class="grid-2" style="gap:8px">
+                <input type="text" id="campaignStart" placeholder="تاريخ البداية">
+                <input type="text" id="campaignEnd" placeholder="تاريخ النهاية">
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Live Preview</div></div>
+            <div class="preview-hero" id="livePreview">
+              <h3 id="pvTitle">Campaign Title</h3>
+              <p id="pvSub">Campaign subtitle</p>
+            </div>
+            <div style="margin-top:12px">
+              <div class="field">
+                <label class="field-label">Campaign Progress</label>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+              </div>
+              <div class="field" style="margin-top:10px">
+                <label class="field-label">Completion %</label>
+                <input type="number" id="campaignProgress" placeholder="0" min="0" max="100">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">الملاحظات والـ Brief</div></div>
+          <div class="field"><label class="field-label">ملاحظات خاصة / Brief عام</label>
+            <textarea id="brief" placeholder="اكتب هنا الـ Brief الخاص بالكامبين..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- BRANDING -->
+      <section id="branding" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">الألوان والهوية البصرية</div></div>
+          <div class="grid-2">
+            <div>
+              <div class="field"><label class="field-label">Primary Color</label><div class="color-row"><input type="text" id="primaryColor" placeholder="#2563EB"><input type="color" id="primaryPicker" value="#2563EB"></div></div>
+              <div class="field"><label class="field-label">Dark Color</label><div class="color-row"><input type="text" id="darkColor" placeholder="#0F172A"><input type="color" id="darkPicker" value="#0F172A"></div></div>
+              <div class="field"><label class="field-label">Background Color</label><div class="color-row"><input type="text" id="bgColor" placeholder="#F1F5F9"><input type="color" id="bgPicker" value="#F1F5F9"></div></div>
+              <div class="field"><label class="field-label">Accent Color</label><div class="color-row"><input type="text" id="accentColor" placeholder="#F59E0B"><input type="color" id="accentPicker" value="#F59E0B"></div></div>
+            </div>
+            <div>
+              <div class="field"><label class="field-label">Logo URL</label><input type="url" id="logoUrl" placeholder="رابط اللوجو (PNG/JPG/SVG)">
+                <div id="logoPreviewWrap" style="display:none;margin-top:8px;text-align:center;background:var(--bg);border-radius:10px;padding:12px">
+                  <img id="logoPreviewImg" style="max-height:60px;max-width:180px;object-fit:contain" alt="Logo"/>
+                </div>
+              </div>
+              <div class="field"><label class="field-label">Typography</label>
+                <select id="fontFamily">
+                  <option value="Cairo">Cairo</option>
+                  <option value="Tajawal">Tajawal</option>
+                  <option value="Almarai">Almarai</option>
+                </select>
+              </div>
+              <div class="field"><label class="field-label">Visual Style</label>
+                <select id="visualStyle">
+                  <option value="modern">Modern & Clean</option>
+                  <option value="bold">Bold & Energetic</option>
+                  <option value="elegant">Elegant & Luxury</option>
+                  <option value="playful">Playful & Fun</option>
+                  <option value="minimal">Minimal</option>
+                </select>
+              </div>
+              <div class="field"><label class="field-label">Brand Notes</label><textarea id="brandNotes" placeholder="DO's & DON'Ts..." style="min-height:80px"></textarea></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HERO -->
+      <section id="hero" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Hero Section & Big Idea</div></div>
+          <div class="grid-2">
+            <div>
+              <div class="field"><label class="field-label">عنوان الهيرو</label><input type="text" id="heroTitle" placeholder="العنوان الضارب"></div>
+              <div class="field"><label class="field-label">Subtitle</label><textarea id="heroSubtitle" placeholder="شرح مختصر" style="min-height:80px"></textarea></div>
+              <div class="field"><label class="field-label">السلوجان</label><input type="text" id="slogan" placeholder="جملة الكامبين"></div>
+            </div>
+            <div>
+              <div class="field"><label class="field-label">الـ Big Idea</label><textarea id="bigIdea" placeholder="الفكرة الكبيرة..." style="min-height:120px"></textarea></div>
+              <div class="field"><label class="field-label">الـ Key Message</label><textarea id="keyMessage" placeholder="الرسالة الأساسية..." style="min-height:80px"></textarea></div>
+            </div>
+          </div>
+          <div class="field" style="margin-top:8px">
+            <label class="field-label">Tone of Voice</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px" id="tovTags">
+              <span class="platform-pill" data-tov="friendly">Friendly</span>
+              <span class="platform-pill" data-tov="bold">Bold</span>
+              <span class="platform-pill" data-tov="emotional">Emotional</span>
+              <span class="platform-pill" data-tov="humorous">Humorous</span>
+              <span class="platform-pill" data-tov="inspiring">Inspiring</span>
+              <span class="platform-pill" data-tov="educational">Educational</span>
+              <span class="platform-pill" data-tov="luxury">Luxury</span>
+              <span class="platform-pill" data-tov="direct">Direct</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- OBJECTIVES -->
+      <section id="objectives" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Campaign Objective</div></div>
+          <div class="obj-grid" id="objGrid">
+            <div class="obj-card" data-obj="awareness"><div class="obj-icon">📢</div><div class="obj-label">Brand Awareness</div></div>
+            <div class="obj-card" data-obj="engagement"><div class="obj-icon">❤️</div><div class="obj-label">Engagement</div></div>
+            <div class="obj-card" data-obj="leads"><div class="obj-icon">🎯</div><div class="obj-label">Lead Generation</div></div>
+            <div class="obj-card" data-obj="sales"><div class="obj-icon">💰</div><div class="obj-label">Sales</div></div>
+            <div class="obj-card" data-obj="retention"><div class="obj-icon">🔄</div><div class="obj-label">Retention</div></div>
+            <div class="obj-card" data-obj="launch"><div class="obj-icon">🚀</div><div class="obj-label">Product Launch</div></div>
+          </div>
+          <div class="field" style="margin-top:14px"><label class="field-label">Notes</label><textarea id="objectiveNotes" placeholder="تفاصيل..." style="min-height:70px"></textarea></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Target Audience</div></div>
+          <div class="grid-2">
+            <div>
+              <div class="field"><label class="field-label">الفئة العمرية</label><input type="text" id="ageRange" placeholder="18–35"></div>
+              <div class="field"><label class="field-label">الجنس</label><select id="gender"><option value="all">الكل</option><option value="male">ذكور</option><option value="female">إناث</option></select></div>
+              <div class="field"><label class="field-label">الموقع</label><input type="text" id="location" placeholder="مصر، القاهرة الكبرى"></div>
+            </div>
+            <div>
+              <div class="field"><label class="field-label">Interests</label><textarea id="interests" placeholder="الاهتمامات..."></textarea></div>
+              <div class="field"><label class="field-label">Pain Points</label><textarea id="painPoints" placeholder="مشاكل الجمهور..." style="min-height:70px"></textarea></div>
+            </div>
+          </div>
+          <div class="field"><label class="field-label">Platforms</label>
+            <div class="platforms" id="platformTags">
+              <span class="platform-pill" data-platform="facebook">Facebook</span>
+              <span class="platform-pill" data-platform="instagram">Instagram</span>
+              <span class="platform-pill" data-platform="tiktok">TikTok</span>
+              <span class="platform-pill" data-platform="youtube">YouTube</span>
+              <span class="platform-pill" data-platform="twitter">X (Twitter)</span>
+              <span class="platform-pill" data-platform="snapchat">Snapchat</span>
+              <span class="platform-pill" data-platform="linkedin">LinkedIn</span>
+              <span class="platform-pill" data-platform="google">Google Ads</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCRIPTS -->
+      <section id="scripts" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Scripts السكريبتات</div><button class="btn btn-primary btn-sm" id="addScriptBtn">+ Add Script</button></div>
+          <div id="scriptsList"></div>
+          <div class="empty" id="scriptsEmpty"><div class="empty-icon">🎬</div><p>لا توجد سكريبتات — اضغط Add Script</p></div>
+        </div>
+      </section>
+
+      <!-- POSTS -->
+      <section id="posts" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Posts البوستات</div><button class="btn btn-primary btn-sm" id="addPostBtn">+ Add Post</button></div>
+          <div id="postsList"></div>
+          <div class="empty" id="postsEmpty"><div class="empty-icon">📱</div><p>لا توجد بوستات</p></div>
+        </div>
+      </section>
+
+      <!-- STORIES -->
+      <section id="stories" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Stories الستوريز</div><button class="btn btn-primary btn-sm" id="addStoryBtn">+ Add Story</button></div>
+          <div id="storiesList"></div>
+          <div class="empty" id="storiesEmpty"><div class="empty-icon">🔮</div><p>لا توجد ستوريز</p></div>
+        </div>
+      </section>
+
+      <!-- ADS -->
+      <section id="ads" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Ads Copy</div><button class="btn btn-primary btn-sm" id="addAdBtn">+ Add Ad</button></div>
+          <div id="adsList"></div>
+          <div class="empty" id="adsEmpty"><div class="empty-icon">📣</div><p>لا توجد Ads</p></div>
+        </div>
+      </section>
+
+      <!-- CALENDAR -->
+      <section id="calendar" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Content Calendar</div><button class="btn btn-primary btn-sm" id="addCalendarBtn">+ Add Day</button></div>
+          <div id="calendarList"></div>
+          <div class="empty" id="calendarEmpty"><div class="empty-icon">📅</div><p>لا يوجد جدول</p></div>
+        </div>
+      </section>
+
+      <!-- PHASES -->
+      <section id="phases" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Campaign Phases</div><button class="btn btn-primary btn-sm" id="addPhaseBtn">+ Add Phase</button></div>
+          <div id="phasesList"></div>
+          <div class="empty" id="phasesEmpty"><div class="empty-icon">🗓</div><p>لا توجد مراحل</p></div>
+        </div>
+      </section>
+
+      <!-- KPIS -->
+      <section id="kpis" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">KPIs & Goals</div></div>
+          <div class="grid-4">
+            <div class="kpi-card"><label class="field-label">Reach</label><input type="text" id="kpiReach" placeholder="0"></div>
+            <div class="kpi-card"><label class="field-label">Engagement</label><input type="text" id="kpiEngagement" placeholder="0%"></div>
+            <div class="kpi-card"><label class="field-label">Leads</label><input type="text" id="kpiLeads" placeholder="0"></div>
+            <div class="kpi-card"><label class="field-label">Visits</label><input type="text" id="kpiVisits" placeholder="0"></div>
+            <div class="kpi-card"><label class="field-label">Conversions</label><input type="text" id="kpiConversions" placeholder="0"></div>
+            <div class="kpi-card"><label class="field-label">ROAS</label><input type="text" id="kpiRoas" placeholder="0x"></div>
+            <div class="kpi-card"><label class="field-label">Video Views</label><input type="text" id="kpiViews" placeholder="0"></div>
+            <div class="kpi-card"><label class="field-label">CTR</label><input type="text" id="kpiCtr" placeholder="0%"></div>
+          </div>
+          <div class="field" style="margin-top:16px"><label class="field-label">تعريف النجاح</label><textarea id="successDef" placeholder="ازاي هنعرف إن الكامبين نجح؟"></textarea></div>
+        </div>
+      </section>
+
+      <!-- BUDGET -->
+      <section id="budget" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">💰 Budget الميزانية</div></div>
+          <div class="grid-2">
+            <div>
+              <div class="field"><label class="field-label">الميزانية الإجمالية</label><input type="text" id="budgetTotal" placeholder="مثال: 50,000 جنيه"></div>
+              <div class="field"><label class="field-label">ميزانية الإنتاج</label><input type="text" id="budgetProduction" placeholder="التصوير، المونتاج..."></div>
+              <div class="field"><label class="field-label">ميزانية الإعلانات</label><input type="text" id="budgetAds" placeholder="Facebook Ads, Google..."></div>
+            </div>
+            <div>
+              <div class="field"><label class="field-label">ميزانية المؤثرين</label><input type="text" id="budgetInfluencer" placeholder="Influencer budget"></div>
+              <div class="field"><label class="field-label">العملة</label>
+                <select id="currency">
+                  <option value="EGP">جنيه مصري (EGP)</option>
+                  <option value="USD">دولار (USD)</option>
+                  <option value="SAR">ريال سعودي (SAR)</option>
+                  <option value="AED">درهم إماراتي (AED)</option>
+                </select>
+              </div>
+              <div class="field"><label class="field-label">ملاحظات</label><textarea id="budgetNotes" placeholder="تفاصيل..." style="min-height:70px"></textarea></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SAVE -->
+      <section id="save" class="section">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Save & Export</div></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+            <button class="btn btn-primary" id="saveBtn2">💾 Save</button>
+            <button class="btn btn-ghost" id="copyJsonBtn">📋 Copy JSON</button>
+            <button class="btn btn-ghost" id="downloadJsonBtn">⬇️ Download JSON</button>
+          </div>
+          <label class="field-label">Raw JSON</label>
+          <textarea id="jsonOutput" readonly></textarea>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ==========================================
+// URL PARAMS
+// ==========================================
+const params = new URLSearchParams(window.location.search);
+const CAMPAIGN_ID = params.get("id");
+const IS_SUPER_ADMIN = params.get("auth") === "1";
+
+let dbClient = null;
+let currentUser = null;
+let userPermissions = {};
+let D = {};
+
+const DEFAULT_DATA = {
+  client:{name:"",campaignName:"",industry:"",start:"",end:"",brief:"",progress:0},
+  hero:{title:"",subtitle:"",slogan:"",bigIdea:"",keyMessage:"",tov:[]},
+  theme:{primary:"#2563EB",dark:"#0F172A",background:"#F1F5F9",accent:"#F59E0B",logo:"",font:"Cairo",style:"modern",brandNotes:""},
+  objectives:{type:"",notes:"",ageRange:"",gender:"all",location:"",interests:"",painPoints:"",platforms:[]},
+  scripts:[],stories:[],posts:[],ads:[],calendar:[],phases:[],
+  kpis:{reach:"",engagement:"",leads:"",visits:"",conversions:"",roas:"",views:"",ctr:"",successDef:""},
+  budget:{total:"",production:"",ads:"",influencer:"",currency:"EGP",notes:""}
+};
+
+// ==========================================
+// INIT
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+  const cfg = getConfig();
+  if (cfg.supabaseUrl && cfg.supabaseKey && window.supabase) {
+    dbClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
+  }
+
+  if (IS_SUPER_ADMIN) {
+    // Super admin — full access, skip login
+    currentUser = { name: "Super Admin", role: "superadmin" };
+    userPermissions = allPermissions();
+    document.getElementById("userLoginScreen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    document.getElementById("userBadge").textContent = "👑 Super Admin";
+    setupNav();
+    loadCampaignData();
+  } else {
+    // Regular user login
+    document.getElementById("uLoginBtn").addEventListener("click", doUserLogin);
+    document.getElementById("uLoginPass").addEventListener("keydown", e => { if (e.key === "Enter") doUserLogin(); });
+  }
+
+  document.getElementById("saveBtn").addEventListener("click", saveData);
+  document.getElementById("saveBtn2").addEventListener("click", saveData);
+  document.getElementById("userLogoutBtn").addEventListener("click", () => window.location.href = "index.html");
+  document.getElementById("copyJsonBtn").addEventListener("click", () => { navigator.clipboard.writeText(document.getElementById("jsonOutput").value); setStatus("JSON copied!", "ok"); });
+  document.getElementById("downloadJsonBtn").addEventListener("click", () => {
+    const blob = new Blob([document.getElementById("jsonOutput").value], {type:"application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "campaign.json"; a.click();
+  });
+  document.getElementById("addScriptBtn").addEventListener("click", () => { D.scripts.push({title:"",location:"",actors:[],duration:"",type:"ad",hook:"",body:"",cta:""}); renderScripts(); updateJsonOutput(); });
+  document.getElementById("addPostBtn").addEventListener("click", () => { D.posts.push({title:"",platform:"facebook",contentType:"image",tov:"",hook:"",caption:"",hashtags:""}); renderPosts(); updateJsonOutput(); });
+  document.getElementById("addStoryBtn").addEventListener("click", () => { D.stories.push({text:"",cta:"",platform:"instagram"}); renderStories(); updateJsonOutput(); });
+  document.getElementById("addAdBtn").addEventListener("click", () => { D.ads.push({name:"",adType:"awareness",headline:"",primary:"",description:"",cta:"learn_more"}); renderAds(); updateJsonOutput(); });
+  document.getElementById("addCalendarBtn").addEventListener("click", () => { D.calendar.push({day:"",type:"post",platform:"",title:"",status:"planned",notes:""}); renderCalendar(); updateJsonOutput(); });
+  document.getElementById("addPhaseBtn").addEventListener("click", () => { D.phases.push({name:"",duration:"",goal:"",activities:""}); renderPhases(); updateJsonOutput(); });
+
+  // Colors
+  document.getElementById("primaryPicker").addEventListener("input", e => { document.getElementById("primaryColor").value = e.target.value; collectInputs(); });
+  document.getElementById("darkPicker").addEventListener("input", e => { document.getElementById("darkColor").value = e.target.value; collectInputs(); });
+  document.getElementById("bgPicker").addEventListener("input", e => { document.getElementById("bgColor").value = e.target.value; collectInputs(); });
+  document.getElementById("accentPicker").addEventListener("input", e => { document.getElementById("accentColor").value = e.target.value; collectInputs(); });
+  document.getElementById("logoUrl").addEventListener("input", function() {
+    if (this.value) { document.getElementById("logoPreviewImg").src = this.value; document.getElementById("logoPreviewWrap").style.display = "block"; }
+  });
+
+  // TOV, Objectives, Platforms
+  document.querySelectorAll("[data-tov]").forEach(el => el.addEventListener("click", () => {
+    el.classList.toggle("sel");
+    D.hero.tov = Array.from(document.querySelectorAll("[data-tov].sel")).map(e => e.dataset.tov);
+    updateJsonOutput();
+  }));
+  document.querySelectorAll("[data-obj]").forEach(el => el.addEventListener("click", () => {
+    D.objectives.type = el.dataset.obj;
+    document.querySelectorAll("[data-obj]").forEach(e => e.classList.remove("sel")); el.classList.add("sel");
+    updateJsonOutput();
+  }));
+  document.querySelectorAll("[data-platform]").forEach(el => el.addEventListener("click", () => {
+    el.classList.toggle("sel");
+    D.objectives.platforms = Array.from(document.querySelectorAll("[data-platform].sel")).map(e => e.dataset.platform);
+    updateJsonOutput();
+  }));
+
+  // Delete handlers
+  document.addEventListener("click", e => {
+    const ds = e.target.dataset.delScript; if (ds !== undefined) { D.scripts.splice(+ds,1); renderScripts(); updateJsonOutput(); return; }
+    const dp = e.target.dataset.delPost; if (dp !== undefined) { D.posts.splice(+dp,1); renderPosts(); updateJsonOutput(); return; }
+    const dSt = e.target.dataset.delStory; if (dSt !== undefined) { D.stories.splice(+dSt,1); renderStories(); updateJsonOutput(); return; }
+    const da = e.target.dataset.delAd; if (da !== undefined) { D.ads.splice(+da,1); renderAds(); updateJsonOutput(); return; }
+    const dc = e.target.dataset.delCal; if (dc !== undefined) { D.calendar.splice(+dc,1); renderCalendar(); updateJsonOutput(); return; }
+    const dph = e.target.dataset.delPhase; if (dph !== undefined) { D.phases.splice(+dph,1); renderPhases(); updateJsonOutput(); return; }
+  });
+
+  // Input handlers
+  document.addEventListener("input", e => {
+    const t = e.target;
+    if (t.dataset.sf !== undefined) { D.scripts[+t.dataset.i][t.dataset.sf] = t.value; updateJsonOutput(); return; }
+    if (t.dataset.pf !== undefined) { D.posts[+t.dataset.i][t.dataset.pf] = t.value; updateJsonOutput(); return; }
+    if (t.dataset.storyText !== undefined) { D.stories[+t.dataset.storyText].text = t.value; updateJsonOutput(); return; }
+    if (t.dataset.storyCta !== undefined) { D.stories[+t.dataset.storyCta].cta = t.value; updateJsonOutput(); return; }
+    if (t.dataset.storyPlatform !== undefined) { D.stories[+t.dataset.storyPlatform].platform = t.value; updateJsonOutput(); return; }
+    if (t.dataset.af !== undefined) { D.ads[+t.dataset.i][t.dataset.af] = t.value; updateJsonOutput(); return; }
+    if (t.dataset.cf !== undefined) { D.calendar[+t.dataset.i][t.dataset.cf] = t.value; updateJsonOutput(); return; }
+    if (t.dataset.phf !== undefined) { D.phases[+t.dataset.i][t.dataset.phf] = t.value; updateJsonOutput(); return; }
+    collectInputs();
+  });
+});
+
+// ==========================================
+// USER LOGIN
+// ==========================================
+function doUserLogin() {
+  const username = document.getElementById("uLoginName").value.trim();
+  const pass = document.getElementById("uLoginPass").value;
+  
+  const users = JSON.parse(localStorage.getItem("cos_users") || "[]");
+  const user = users.find(u => u.username === username && u.password === pass);
+
+  if (!user) {
+    const err = document.getElementById("uLoginError");
+    err.textContent = "❌ بيانات غلط";
+    setTimeout(() => err.textContent = "", 2000);
+    return;
+  }
+
+  // Check campaign access
+  if (!CAMPAIGN_ID || !user.campaigns || !user.campaigns.includes(CAMPAIGN_ID)) {
+    document.getElementById("uLoginError").textContent = "❌ مش عندك اكسيز على الكامبين دي";
+    return;
+  }
+
+  currentUser = user;
+  userPermissions = user.permissions || allPermissions();
+  document.getElementById("userLoginScreen").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  document.getElementById("userBadge").textContent = `${user.role === "editor" ? "✏️" : "👁"} ${user.name}`;
+  setupNav();
+  loadCampaignData();
+}
+
+function allPermissions() {
+  const all = {};
+  ["scripts","posts","stories","ads","calendar","phases","kpis","budget","branding","hero"].forEach(p => all[p] = true);
+  return all;
+}
+
+// ==========================================
+// NAV + PERMISSIONS
+// ==========================================
+function setupNav() {
+  document.querySelectorAll(".nav button[data-section]").forEach(btn => {
+    const perm = btn.dataset.perm;
+    if (perm && userPermissions[perm] === false) {
+      btn.classList.add("locked");
+      btn.title = "🔒 مش عندك صلاحية لهذا القسم";
+    } else {
+      btn.addEventListener("click", () => showSection(btn.dataset.section));
+    }
+  });
+  // Also add click for buttons without perm (always accessible)
+  document.querySelectorAll(".nav button[data-section]:not([data-perm])").forEach(btn => {
+    btn.addEventListener("click", () => showSection(btn.dataset.section));
+  });
+}
+
+function showSection(id) {
+  // Check if section is locked
+  const navBtn = document.querySelector(`.nav button[data-section="${id}"]`);
+  if (navBtn && navBtn.classList.contains("locked")) return;
+
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  const perm = navBtn ? navBtn.dataset.perm : null;
+  const isLocked = perm && userPermissions[perm] === false;
+
+  const section = document.getElementById(id);
+  if (section) {
+    section.classList.add("active");
+    if (isLocked) {
+      section.innerHTML = `<div class="locked-section card"><div class="locked-icon">🔒</div><div class="locked-title">القسم ده مش متاح ليك</div><div class="locked-sub">تواصل مع الأدمين عشان يديك صلاحية الوصول</div></div>`;
+    }
+  }
+  document.querySelectorAll(".nav button").forEach(b =>
+    b.classList.toggle("active", b.dataset.section === id && !b.classList.contains("locked"))
+  );
+}
+
+// ==========================================
+// DATA
+// ==========================================
+function getConfig() {
+  const stored = localStorage.getItem("campaign_os_config");
+  if (stored) return JSON.parse(stored);
+  return { supabaseUrl: "https://nnhxnswtzcqjnsmvytzr.supabase.co", supabaseKey: "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09" };
+}
+
+function setStatus(msg, type = "info") {
+  const el = document.getElementById("statusBar");
+  const icons = { ok:"✅", bad:"❌", warn:"⚠️", info:"⏳" };
+  el.textContent = (icons[type]||"") + " " + msg;
+  el.className = "status-bar " + type;
+}
+
+async function loadCampaignData() {
+  setStatus("جاري تحميل الكامبين...", "info");
+
+  let campaignMeta = null;
+  let campaignData = DEFAULT_DATA;
+
+  // Try Supabase first
+  if (supabase && CAMPAIGN_ID) {
+    try {
+      const { data, error } = await dbClient.from("campaigns").select("*").eq("id", CAMPAIGN_ID).maybeSingle();
+      if (!error && data) {
+        campaignMeta = data;
+        campaignData = data.data || DEFAULT_DATA;
+      }
+    } catch(e) { console.error(e); }
+  }
+
+  // Fallback to localStorage
+  if (!campaignMeta) {
+    const stored = JSON.parse(localStorage.getItem("cos_campaigns") || "[]");
+    campaignMeta = stored.find(c => c.id === CAMPAIGN_ID);
+    if (campaignMeta) campaignData = campaignMeta.data || DEFAULT_DATA;
+  }
+
+  D = normalize(campaignData);
+  if (campaignMeta) {
+    document.getElementById("campaignTitleSide").textContent = campaignMeta.name || "Campaign";
+    document.getElementById("topbarTitle").textContent = campaignMeta.client || "Campaign";
+    document.getElementById("topbarSub").textContent = campaignMeta.name || "";
+  }
+  fillInputs();
+  renderAll();
+  setStatus("تم التحميل بنجاح", "ok");
+}
+
+function normalize(data) {
+  const d = data && typeof data === "object" ? data : {};
+  return {
+    client: {...DEFAULT_DATA.client,...(d.client||{})},
+    hero: {...DEFAULT_DATA.hero, tov: Array.isArray(d.hero?.tov)?d.hero.tov:[], ...(d.hero||{})},
+    theme: {...DEFAULT_DATA.theme,...(d.theme||{})},
+    objectives: {...DEFAULT_DATA.objectives, platforms: Array.isArray(d.objectives?.platforms)?d.objectives.platforms:[], ...(d.objectives||{})},
+    scripts: Array.isArray(d.scripts)?d.scripts:[],
+    stories: Array.isArray(d.stories)?d.stories:[],
+    posts: Array.isArray(d.posts)?d.posts:[],
+    ads: Array.isArray(d.ads)?d.ads:[],
+    calendar: Array.isArray(d.calendar)?d.calendar:[],
+    phases: Array.isArray(d.phases)?d.phases:[],
+    kpis: {...DEFAULT_DATA.kpis,...(d.kpis||{})},
+    budget: {...DEFAULT_DATA.budget,...(d.budget||{})}
+  };
+}
+
+function fillInputs() {
+  document.getElementById("clientName").value = D.client.name;
+  document.getElementById("campaignName").value = D.client.campaignName;
+  document.getElementById("industry").value = D.client.industry;
+  document.getElementById("campaignStart").value = D.client.start;
+  document.getElementById("campaignEnd").value = D.client.end;
+  document.getElementById("brief").value = D.client.brief;
+  document.getElementById("campaignProgress").value = D.client.progress;
+  document.getElementById("progressFill").style.width = D.client.progress + "%";
+  document.getElementById("heroTitle").value = D.hero.title;
+  document.getElementById("heroSubtitle").value = D.hero.subtitle;
+  document.getElementById("slogan").value = D.hero.slogan;
+  document.getElementById("bigIdea").value = D.hero.bigIdea;
+  document.getElementById("keyMessage").value = D.hero.keyMessage;
+  document.querySelectorAll("[data-tov]").forEach(el => el.classList.toggle("sel", D.hero.tov.includes(el.dataset.tov)));
+  document.getElementById("primaryColor").value = D.theme.primary;
+  document.getElementById("darkColor").value = D.theme.dark;
+  document.getElementById("bgColor").value = D.theme.background;
+  document.getElementById("accentColor").value = D.theme.accent;
+  document.getElementById("logoUrl").value = D.theme.logo;
+  if (D.theme.logo) { document.getElementById("logoPreviewImg").src = D.theme.logo; document.getElementById("logoPreviewWrap").style.display = "block"; }
+  document.getElementById("fontFamily").value = D.theme.font;
+  document.getElementById("visualStyle").value = D.theme.style;
+  document.getElementById("brandNotes").value = D.theme.brandNotes;
+  document.getElementById("primaryPicker").value = D.theme.primary;
+  document.getElementById("darkPicker").value = D.theme.dark;
+  document.getElementById("bgPicker").value = D.theme.background;
+  document.getElementById("accentPicker").value = D.theme.accent;
+  document.querySelectorAll("[data-obj]").forEach(el => el.classList.toggle("sel", el.dataset.obj === D.objectives.type));
+  document.getElementById("objectiveNotes").value = D.objectives.notes;
+  document.getElementById("ageRange").value = D.objectives.ageRange;
+  document.getElementById("gender").value = D.objectives.gender;
+  document.getElementById("location").value = D.objectives.location;
+  document.getElementById("interests").value = D.objectives.interests;
+  document.getElementById("painPoints").value = D.objectives.painPoints;
+  document.querySelectorAll("[data-platform]").forEach(el => el.classList.toggle("sel", D.objectives.platforms.includes(el.dataset.platform)));
+  document.getElementById("kpiReach").value = D.kpis.reach;
+  document.getElementById("kpiEngagement").value = D.kpis.engagement;
+  document.getElementById("kpiLeads").value = D.kpis.leads;
+  document.getElementById("kpiVisits").value = D.kpis.visits;
+  document.getElementById("kpiConversions").value = D.kpis.conversions;
+  document.getElementById("kpiRoas").value = D.kpis.roas;
+  document.getElementById("kpiViews").value = D.kpis.views;
+  document.getElementById("kpiCtr").value = D.kpis.ctr;
+  document.getElementById("successDef").value = D.kpis.successDef;
+  document.getElementById("budgetTotal").value = D.budget.total;
+  document.getElementById("budgetProduction").value = D.budget.production;
+  document.getElementById("budgetAds").value = D.budget.ads;
+  document.getElementById("budgetInfluencer").value = D.budget.influencer;
+  document.getElementById("currency").value = D.budget.currency;
+  document.getElementById("budgetNotes").value = D.budget.notes;
+  updatePreview();
+  updateJsonOutput();
+}
+
+function collectInputs() {
+  D.client.name = document.getElementById("clientName").value;
+  D.client.campaignName = document.getElementById("campaignName").value;
+  D.client.industry = document.getElementById("industry").value;
+  D.client.start = document.getElementById("campaignStart").value;
+  D.client.end = document.getElementById("campaignEnd").value;
+  D.client.brief = document.getElementById("brief").value;
+  D.client.progress = Number(document.getElementById("campaignProgress").value)||0;
+  D.hero.title = document.getElementById("heroTitle").value;
+  D.hero.subtitle = document.getElementById("heroSubtitle").value;
+  D.hero.slogan = document.getElementById("slogan").value;
+  D.hero.bigIdea = document.getElementById("bigIdea").value;
+  D.hero.keyMessage = document.getElementById("keyMessage").value;
+  D.theme.primary = document.getElementById("primaryColor").value||"#2563EB";
+  D.theme.dark = document.getElementById("darkColor").value||"#0F172A";
+  D.theme.background = document.getElementById("bgColor").value||"#F1F5F9";
+  D.theme.accent = document.getElementById("accentColor").value||"#F59E0B";
+  D.theme.logo = document.getElementById("logoUrl").value;
+  D.theme.font = document.getElementById("fontFamily").value;
+  D.theme.style = document.getElementById("visualStyle").value;
+  D.theme.brandNotes = document.getElementById("brandNotes").value;
+  D.objectives.notes = document.getElementById("objectiveNotes").value;
+  D.objectives.ageRange = document.getElementById("ageRange").value;
+  D.objectives.gender = document.getElementById("gender").value;
+  D.objectives.location = document.getElementById("location").value;
+  D.objectives.interests = document.getElementById("interests").value;
+  D.objectives.painPoints = document.getElementById("painPoints").value;
+  D.kpis.reach = document.getElementById("kpiReach").value;
+  D.kpis.engagement = document.getElementById("kpiEngagement").value;
+  D.kpis.leads = document.getElementById("kpiLeads").value;
+  D.kpis.visits = document.getElementById("kpiVisits").value;
+  D.kpis.conversions = document.getElementById("kpiConversions").value;
+  D.kpis.roas = document.getElementById("kpiRoas").value;
+  D.kpis.views = document.getElementById("kpiViews").value;
+  D.kpis.ctr = document.getElementById("kpiCtr").value;
+  D.kpis.successDef = document.getElementById("successDef").value;
+  D.budget.total = document.getElementById("budgetTotal").value;
+  D.budget.production = document.getElementById("budgetProduction").value;
+  D.budget.ads = document.getElementById("budgetAds").value;
+  D.budget.influencer = document.getElementById("budgetInfluencer").value;
+  D.budget.currency = document.getElementById("currency").value;
+  D.budget.notes = document.getElementById("budgetNotes").value;
+  document.getElementById("progressFill").style.width = D.client.progress + "%";
+  updatePreview();
+  updateJsonOutput();
+}
+
+function updatePreview() {
+  document.getElementById("pvTitle").textContent = D.hero.title || D.client.campaignName || "Campaign Title";
+  document.getElementById("pvSub").textContent = D.hero.subtitle || D.hero.slogan || "Campaign subtitle";
+  document.getElementById("livePreview").style.background = `linear-gradient(135deg, ${D.theme.dark||"#0F172A"}, ${D.theme.primary||"#2563EB"})`;
+}
+
+function updateJsonOutput() {
+  document.getElementById("jsonOutput").value = JSON.stringify(D, null, 2);
+}
+
+// ==========================================
+// SAVE
+// ==========================================
+async function saveData() {
+  // Check if viewer — can't save
+  if (currentUser && currentUser.role === "viewer") {
+    setStatus("⚠️ Viewer مش بيقدر يحفظ", "warn");
+    return;
+  }
+  collectInputs();
+  
+  // Update campaign in localStorage
+  const stored = JSON.parse(localStorage.getItem("cos_campaigns") || "[]");
+  const idx = stored.findIndex(c => c.id === CAMPAIGN_ID);
+  if (idx >= 0) {
+    stored[idx].data = D;
+    stored[idx].progress = D.client.progress;
+    stored[idx].updated_at = new Date().toISOString();
+  }
+  localStorage.setItem("cos_campaigns", JSON.stringify(stored));
+
+  if (supabase && CAMPAIGN_ID) {
+    try {
+      setStatus("Saving...", "info");
+      const { error } = await dbClient.from("campaigns").update({
+        data: D,
+        progress: D.client.progress,
+        updated_at: new Date().toISOString()
+      }).eq("id", CAMPAIGN_ID);
+      if (error) throw error;
+    } catch(e) { console.error(e); setStatus("Saved locally — Supabase error", "warn"); return; }
+  }
+
+  document.getElementById("lastSaved").textContent = "Last saved: " + new Date().toLocaleTimeString("ar");
+  setStatus("✅ تم الحفظ بنجاح", "ok");
+}
+
+// ==========================================
+// RENDER FUNCTIONS
+// ==========================================
+function ea(v){return String(v||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
+function et(v){return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+
+const isReadOnly = currentUser && currentUser.role === "viewer";
+
+function renderAll(){renderScripts();renderPosts();renderStories();renderAds();renderCalendar();renderPhases();}
+
+function renderScripts(){
+  const el=document.getElementById("scriptsList"),empty=document.getElementById("scriptsEmpty");
+  if(!D.scripts.length){el.innerHTML="";empty.style.display="";return;}
+  empty.style.display="none";
+  el.innerHTML=D.scripts.map((s,i)=>`
+    <div class="list-item">
+      <div class="list-item-head">
+        <span class="item-num">${i+1}</span>
+        <span class="item-title">Script ${i+1}: ${ea(s.title||"New Script")}</span>
+        <button class="btn btn-danger btn-sm" data-del-script="${i}">🗑</button>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label class="field-label">العنوان</label><input type="text" value="${ea(s.title)}" data-sf="title" data-i="${i}">
+          <label class="field-label">اللوكيشن</label><input type="text" value="${ea(s.location)}" data-sf="location" data-i="${i}">
+          <label class="field-label">المدة</label><input type="text" value="${ea(s.duration)}" data-sf="duration" data-i="${i}" placeholder="30 ثانية">
+        </div>
+        <div>
+          <label class="field-label">نوع الفيديو</label>
+          <select data-sf="type" data-i="${i}">
+            <option ${s.type==="ad"?"selected":""} value="ad">إعلان</option>
+            <option ${s.type==="reel"?"selected":""} value="reel">Reel</option>
+            <option ${s.type==="story"?"selected":""} value="story">Story</option>
+            <option ${s.type==="testimonial"?"selected":""} value="testimonial">Testimonial</option>
+          </select>
+          <label class="field-label" style="margin-top:8px">الـ Hook</label>
+          <textarea data-sf="hook" data-i="${i}" style="min-height:70px">${et(s.hook)}</textarea>
+        </div>
+      </div>
+      <label class="field-label" style="margin-top:8px">السكريبت كامل</label>
+      <textarea data-sf="body" data-i="${i}" style="min-height:130px">${et(s.body)}</textarea>
+      <label class="field-label" style="margin-top:8px">الـ CTA</label>
+      <input type="text" value="${ea(s.cta)}" data-sf="cta" data-i="${i}" placeholder="اتصل الآن">
+    </div>
+  `).join("");
+}
+
+function renderPosts(){
+  const el=document.getElementById("postsList"),empty=document.getElementById("postsEmpty");
+  if(!D.posts.length){el.innerHTML="";empty.style.display="";return;}
+  empty.style.display="none";
+  el.innerHTML=D.posts.map((p,i)=>`
+    <div class="list-item">
+      <div class="list-item-head">
+        <span class="item-num">${i+1}</span>
+        <span class="item-title">Post ${i+1}: ${ea(p.title||"New Post")}</span>
+        <button class="btn btn-danger btn-sm" data-del-post="${i}">🗑</button>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label class="field-label">عنوان</label><input type="text" value="${ea(p.title)}" data-pf="title" data-i="${i}">
+          <label class="field-label" style="margin-top:8px">المنصة</label>
+          <select data-pf="platform" data-i="${i}">
+            <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
+            <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
+            <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
+            <option ${p.platform==="all"?"selected":""} value="all">الكل</option>
+          </select>
+          <label class="field-label" style="margin-top:8px">Hook</label>
+          <input type="text" value="${ea(p.hook)}" data-pf="hook" data-i="${i}">
+        </div>
+        <div>
+          <label class="field-label">TOV</label><textarea data-pf="tov" data-i="${i}" style="min-height:80px">${et(p.tov)}</textarea>
+          <label class="field-label" style="margin-top:8px">Hashtags</label>
+          <input type="text" value="${ea(p.hashtags)}" data-pf="hashtags" data-i="${i}" placeholder="#مثال">
+        </div>
+      </div>
+      <label class="field-label" style="margin-top:8px">Caption</label>
+      <textarea data-pf="caption" data-i="${i}" style="min-height:110px">${et(p.caption)}</textarea>
+    </div>
+  `).join("");
+}
+
+function renderStories(){
+  const el=document.getElementById("storiesList"),empty=document.getElementById("storiesEmpty");
+  if(!D.stories.length){el.innerHTML="";empty.style.display="";return;}
+  empty.style.display="none";
+  el.innerHTML=D.stories.map((s,i)=>`
+    <div class="list-item">
+      <div class="list-item-head">
+        <span class="item-num">${i+1}</span><span class="item-title">Story ${i+1}</span>
+        <button class="btn btn-danger btn-sm" data-del-story="${i}">🗑</button>
+      </div>
+      <div class="grid-2">
+        <div><label class="field-label">النص</label><textarea data-story-text="${i}" style="min-height:100px">${et(typeof s==="string"?s:(s.text||""))}</textarea></div>
+        <div>
+          <label class="field-label">CTA</label><input type="text" value="${ea(s.cta||"")}" data-story-cta="${i}" placeholder="Link">
+          <label class="field-label" style="margin-top:8px">المنصة</label>
+          <select data-story-platform="${i}">
+            <option ${(s.platform||"instagram")==="instagram"?"selected":""} value="instagram">Instagram</option>
+            <option ${(s.platform||"")==="facebook"?"selected":""} value="facebook">Facebook</option>
+            <option ${(s.platform||"")==="snapchat"?"selected":""} value="snapchat">Snapchat</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderAds(){
+  const el=document.getElementById("adsList"),empty=document.getElementById("adsEmpty");
+  if(!D.ads.length){el.innerHTML="";empty.style.display="";return;}
+  empty.style.display="none";
+  el.innerHTML=D.ads.map((a,i)=>`
+    <div class="list-item">
+      <div class="list-item-head">
+        <span class="item-num">${i+1}</span>
+        <span class="item-title">Ad ${i+1}: ${ea(a.name||"New Ad")}</span>
+        <button class="btn btn-danger btn-sm" data-del-ad="${i}">🗑</button>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label class="field-label">اسم (داخلي)</label><input type="text" value="${ea(a.name)}" data-af="name" data-i="${i}">
+          <label class="field-label" style="margin-top:8px">نوع</label>
+          <select data-af="adType" data-i="${i}">
+            <option ${a.adType==="awareness"?"selected":""} value="awareness">Awareness</option>
+            <option ${a.adType==="traffic"?"selected":""} value="traffic">Traffic</option>
+            <option ${a.adType==="conversion"?"selected":""} value="conversion">Conversion</option>
+            <option ${a.adType==="retargeting"?"selected":""} value="retargeting">Retargeting</option>
+          </select>
+          <label class="field-label" style="margin-top:8px">Headline</label>
+          <input type="text" value="${ea(a.headline)}" data-af="headline" data-i="${i}">
+        </div>
+        <div>
+          <label class="field-label">Primary Text</label><textarea data-af="primary" data-i="${i}" style="min-height:80px">${et(a.primary)}</textarea>
+          <label class="field-label" style="margin-top:8px">Description</label>
+          <input type="text" value="${ea(a.description)}" data-af="description" data-i="${i}">
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderCalendar(){
+  const el=document.getElementById("calendarList"),empty=document.getElementById("calendarEmpty");
+  if(!D.calendar.length){el.innerHTML="";empty.style.display="";return;}
+  empty.style.display="none";
+  el.innerHTML=D.calendar.map((c,i)=>`
+    <div class="list-item">
+      <div class="list-item-head">
+        <span class="item-num">${i+1}</span>
+        <span class="item-title">Day ${ea(c.day||i+1)}: ${ea(c.title||"")}</span>
+        <button class="btn btn-danger btn-sm" data-del-cal="${i}">🗑</button>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label class="field-label">اليوم</label><input type="text" value="${ea(c.day)}" data-cf="day" data-i="${i}" placeholder="Day 1">
+          <label class="field-label" style="margin-top:8px">النوع</label>
+          <select data-cf="type" data-i="${i}">
+            <option ${c.type==="post"?"selected":""} value="post">Post</option>
+            <option ${c.type==="story"?"selected":""} value="story">Story</option>
+            <option ${c.type==="reel"?"selected":""} value="reel">Reel</option>
+            <option ${c.type==="ad"?"selected":""} value="ad">Ad</option>
+            <option ${c.type==="event"?"selected":""} value="event">Event</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">العنوان</label><input type="text" value="${ea(c.title)}" data-cf="title" data-i="${i}">
+          <label class="field-label" style="margin-top:8px">الحالة</label>
+          <select data-cf="status" data-i="${i}">
+            <option ${c.status==="planned"?"selected":""} value="planned">Planned</option>
+            <option ${c.status==="inprogress"?"selected":""} value="inprogress">In Progress</option>
+            <option ${c.status==="done"?"selected":""} value="done">Done ✅</option>
+          </select>
+          <label class="field-label" style="margin-top:8px">ملاحظات</label>
+          <textarea data-cf="notes" data-i="${i}" style="min-height:65px">${et(c.notes)}</textarea>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderPhases(){
+  const el=document.getElementById("phasesList"),empty=document.getElementById("phasesEmpty");
+  if(!D.phases.length){el.innerHTML="";empty.style.display="";return;}
+  empty.style.display="none";
+  el.innerHTML=D.phases.map((p,i)=>`
+    <div class="list-item">
+      <div class="list-item-head">
+        <span class="item-num">${i+1}</span>
+        <span class="item-title">Phase ${i+1}: ${ea(p.name||"")}</span>
+        <button class="btn btn-danger btn-sm" data-del-phase="${i}">🗑</button>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label class="field-label">اسم المرحلة</label><input type="text" value="${ea(p.name)}" data-phf="name" data-i="${i}">
+          <label class="field-label" style="margin-top:8px">المدة</label><input type="text" value="${ea(p.duration)}" data-phf="duration" data-i="${i}">
+        </div>
+        <div>
+          <label class="field-label">الهدف</label><textarea data-phf="goal" data-i="${i}" style="min-height:80px">${et(p.goal)}</textarea>
+        </div>
+      </div>
+      <label class="field-label" style="margin-top:8px">الأنشطة</label>
+      <textarea data-phf="activities" data-i="${i}" style="min-height:70px">${et(p.activities)}</textarea>
+    </div>
+  `).join("");
+}
+</script>
+</body>
+</html>
