@@ -266,6 +266,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
   .stat-grid,.grid-2,.campaigns-grid{grid-template-columns:1fr}
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+const supabase = window.supabase.createClient(
+  "https://nmhnswztzcqjnsmvytzr.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." 
+);
+</script>
+  
 </head>
 <body>
 
