@@ -827,8 +827,13 @@ function logoutUser() {
 }
 
 function previewCampaign() {
-  if (!CAMPAIGN_ID) { alert("افتح كامبين الأول"); return; }
-  window.open(`${location.origin}${location.pathname}?id=${CAMPAIGN_ID}`, "_blank");
+  if (!CAMPAIGN_ID) {
+    alert("احفظ أو افتح كامبين الأول");
+    return;
+  }
+
+  const previewUrl = `${location.origin}/englishzone/English-zone-may-campaign.html?id=${CAMPAIGN_ID}`;
+  window.open(previewUrl, "_blank");
 }
 
 function allPermissions() {
