@@ -637,8 +637,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("userLogoutBtn").addEventListener("click", logoutUser);
   document.getElementById("dashLogoutBtn").addEventListener("click", logoutUser);
   document.getElementById("backBtn").addEventListener("click", () => { if (IS_SUPER_ADMIN) window.location.href = "admin.html"; else showUserDashboard(); });
-  document.getElementById("previewBtn").addEventListener("click", previewCampaign);
-  document.getElementById("copyJsonBtn").addEventListener("click", () => { navigator.clipboard.writeText(document.getElementById("jsonOutput").value); setStatus("JSON copied!", "ok"); });
+const previewBtn = document.getElementById("previewBtn");
+if (previewBtn) {
+  previewBtn.addEventListener("click", previewCampaign);
+}  document.getElementById("copyJsonBtn").addEventListener("click", () => { navigator.clipboard.writeText(document.getElementById("jsonOutput").value); setStatus("JSON copied!", "ok"); });
   document.getElementById("downloadJsonBtn").addEventListener("click", () => {
     const blob = new Blob([document.getElementById("jsonOutput").value], {type:"application/json"});
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "campaign.json"; a.click();
