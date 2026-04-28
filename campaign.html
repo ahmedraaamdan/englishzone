@@ -731,6 +731,8 @@ async function doUserLogin() {
       user = data;
     } catch (e) {
       console.error("USER LOGIN SUPABASE ERROR", e);
+      document.getElementById("uLoginError").textContent = "❌ Supabase error: " + (e.message || e);
+      return;
     }
   }
 
@@ -879,9 +881,11 @@ function showSection(id) {
 // DATA
 // ==========================================
 function getConfig() {
-  const stored = localStorage.getItem("campaign_os_config");
-  if (stored) return JSON.parse(stored);
-  return { supabaseUrl: "https://nmhxnswtzcqjnsmvytzr.supabase.co", supabaseKey: "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09" };
+  // Forced config: do not read localStorage because old/wrong settings can break login/save.
+  return {
+    supabaseUrl: "https://nmhxnswtzcqjnsmvytzr.supabase.co",
+    supabaseKey: "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09"
+  };
 }
 
 function setStatus(msg, type = "info") {
@@ -1087,7 +1091,12 @@ async function saveData() {
         updated_at: new Date().toISOString()
       }).eq("id", CAMPAIGN_ID);
       if (error) throw error;
-    } catch(e) { console.error(e); setStatus("Saved locally — Supabase error", "warn"); return; }
+    } catch(e) {
+      console.error("SAVE SUPABASE ERROR", e);
+      alert("Supabase Save Error: " + (e.message || JSON.stringify(e)));
+      setStatus("Saved locally — Supabase error", "warn");
+      return;
+    }
   }
 
   document.getElementById("lastSaved").textContent = "Last saved: " + new Date().toLocaleTimeString("ar");
