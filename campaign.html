@@ -598,7 +598,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("saveBtn").addEventListener("click", saveData);
   document.getElementById("saveBtn2").addEventListener("click", saveData);
-  document.getElementById("userLogoutBtn").addEventListener("click", () => window.location.href = "index.html");
+  document.getElementById("userLogoutBtn").addEventListener("click", () => window.location.href = "admin.html");
   document.getElementById("copyJsonBtn").addEventListener("click", () => { navigator.clipboard.writeText(document.getElementById("jsonOutput").value); setStatus("JSON copied!", "ok"); });
   document.getElementById("downloadJsonBtn").addEventListener("click", () => {
     const blob = new Blob([document.getElementById("jsonOutput").value], {type:"application/json"});
