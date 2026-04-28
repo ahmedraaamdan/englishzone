@@ -178,6 +178,27 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
   border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--primary);
 }
 
+
+/* USER CAMPAIGNS PICKER */
+#userCampaignsScreen{
+  min-height:100vh;background:var(--bg);display:none;padding:32px;
+}
+.user-campaigns-shell{max-width:1100px;margin:0 auto}
+.user-campaigns-top{
+  background:white;border-radius:20px;padding:24px;box-shadow:var(--shadow);
+  display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px
+}
+.user-campaigns-top h1{font-size:26px;font-weight:900}
+.user-campaigns-top p{font-size:13px;color:var(--muted);margin-top:4px}
+.user-campaigns-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.user-campaign-card{background:white;border-radius:18px;padding:0;overflow:hidden;box-shadow:var(--shadow);border:2px solid transparent;cursor:pointer;transition:.2s}
+.user-campaign-card:hover{transform:translateY(-3px);border-color:var(--primary)}
+.user-campaign-hero{height:90px;background:linear-gradient(135deg,#0F172A,#2563EB);display:flex;align-items:flex-end;padding:14px;color:white;font-weight:900}
+.user-campaign-body{padding:16px}
+.user-campaign-name{font-size:16px;font-weight:900;margin-bottom:4px}
+.user-campaign-client{font-size:12px;color:var(--muted);font-weight:700}
+.user-campaign-empty{background:white;border-radius:20px;padding:50px;text-align:center;color:var(--muted);box-shadow:var(--shadow)}
+
 @media(max-width:900px){
   .app{grid-template-columns:1fr}
   .sidebar{height:auto;position:relative}
@@ -200,6 +221,22 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
     <span class="back-link" onclick="window.location.href='admin.html'">← رجوع للرئيسية</span>
   </div>
 </div>
+
+<!-- USER CAMPAIGNS LIST -->
+<div id="userCampaignsScreen">
+  <div class="user-campaigns-shell">
+    <div class="user-campaigns-top">
+      <div>
+        <h1>الكامبينز المتاحة ليك</h1>
+        <p id="userCampaignsSub">اختار الكامبين اللي عايز تعدل عليه</p>
+      </div>
+      <button class="btn btn-danger" id="userListLogoutBtn">خروج</button>
+    </div>
+    <div id="userCampaignsStatus" class="status-bar info">⏳ جاري التحميل...</div>
+    <div class="user-campaigns-grid" id="userCampaignsGrid" style="margin-top:16px"></div>
+  </div>
+</div>
+
 
 <!-- APP -->
 <div id="app" style="display:none">
@@ -242,7 +279,7 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
       <div class="sidebar-footer">
         <p id="lastSaved">Last saved: Never</p>
         <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-          <button class="btn btn-ghost btn-sm" onclick="window.location.href='admin.html'" style="font-size:11px">← رجوع</button>
+          <button class="btn btn-ghost btn-sm" onclick="handleEditorBack()" style="font-size:11px">← رجوع</button>
           <button class="btn btn-danger btn-sm" id="userLogoutBtn" style="font-size:11px">خروج</button>
         </div>
       </div>
@@ -554,7 +591,7 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
 // URL PARAMS
 // ==========================================
 const params = new URLSearchParams(window.location.search);
-const CAMPAIGN_ID = params.get("id");
+let CAMPAIGN_ID = params.get("id");
 const IS_SUPER_ADMIN = params.get("auth") === "1";
 
 let dbClient = null;
@@ -598,7 +635,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("saveBtn").addEventListener("click", saveData);
   document.getElementById("saveBtn2").addEventListener("click", saveData);
-  document.getElementById("userLogoutBtn").addEventListener("click", () => window.location.href = "admin.html");
+  document.getElementById("userLogoutBtn").addEventListener("click", handleEditorBack);
+  document.getElementById("userListLogoutBtn").addEventListener("click", logoutUserToLogin);
   document.getElementById("copyJsonBtn").addEventListener("click", () => { navigator.clipboard.writeText(document.getElementById("jsonOutput").value); setStatus("JSON copied!", "ok"); });
   document.getElementById("downloadJsonBtn").addEventListener("click", () => {
     const blob = new Blob([document.getElementById("jsonOutput").value], {type:"application/json"});
@@ -665,33 +703,147 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================
 // USER LOGIN
 // ==========================================
-function doUserLogin() {
+async function doUserLogin() {
   const username = document.getElementById("uLoginName").value.trim();
   const pass = document.getElementById("uLoginPass").value;
-  
-  const users = JSON.parse(localStorage.getItem("cos_users") || "[]");
-  const user = users.find(u => u.username === username && u.password === pass);
+  const err = document.getElementById("uLoginError");
+  err.textContent = "";
 
-  if (!user) {
-    const err = document.getElementById("uLoginError");
-    err.textContent = "❌ بيانات غلط";
-    setTimeout(() => err.textContent = "", 2000);
+  if (!username || !pass) {
+    err.textContent = "❌ اكتب اسم المستخدم والباسورد";
     return;
   }
 
-  // Check campaign access
-  if (!CAMPAIGN_ID || !user.campaigns || !user.campaigns.includes(CAMPAIGN_ID)) {
-    document.getElementById("uLoginError").textContent = "❌ مش عندك اكسيز على الكامبين دي";
+  if (!dbClient) {
+    err.textContent = "❌ Supabase مش متوصل";
     return;
   }
 
-  currentUser = user;
-  userPermissions = user.permissions || allPermissions();
+  try {
+    const { data: user, error } = await dbClient
+      .from("cos_users")
+      .select("*")
+      .eq("username", username)
+      .eq("password", pass)
+      .maybeSingle();
+
+    if (error) throw error;
+    if (!user) {
+      err.textContent = "❌ بيانات غلط";
+      setTimeout(() => err.textContent = "", 2500);
+      return;
+    }
+
+    currentUser = user;
+    userPermissions = user.permissions || allPermissions();
+
+    // لو داخل على campaign.html من غير id، اعرضله الكامبينز بتاعته
+    if (!CAMPAIGN_ID) {
+      document.getElementById("userLoginScreen").style.display = "none";
+      document.getElementById("app").style.display = "none";
+      document.getElementById("userCampaignsScreen").style.display = "block";
+      document.getElementById("userCampaignsSub").textContent = `مرحبًا ${user.name || user.username} — اختار كامبين للبدء`;
+      await loadUserCampaignsList();
+      return;
+    }
+
+    // لو داخل على لينك كامبين محددة، اتأكد إن معاه access عليها
+    if (!user.campaigns || !user.campaigns.includes(CAMPAIGN_ID)) {
+      err.textContent = "❌ مش عندك اكسيز على الكامبين دي";
+      return;
+    }
+
+    openEditorForLoggedUser(CAMPAIGN_ID);
+  } catch (e) {
+    console.error("USER LOGIN ERROR:", e);
+    err.textContent = "❌ حصل خطأ في تسجيل الدخول";
+  }
+}
+
+async function loadUserCampaignsList() {
+  const status = document.getElementById("userCampaignsStatus");
+  const grid = document.getElementById("userCampaignsGrid");
+  const ids = currentUser?.campaigns || [];
+
+  if (!ids.length) {
+    status.textContent = "⚠️ مفيش كامبينز متاحة للحساب ده";
+    status.className = "status-bar warn";
+    grid.innerHTML = '<div class="user-campaign-empty">مفيش كامبينز مضافة للحساب ده — كلم السوبر أدمن يضيفلك Access</div>';
+    return;
+  }
+
+  status.textContent = "⏳ جاري تحميل الكامبينز...";
+  status.className = "status-bar info";
+
+  try {
+    const { data, error } = await dbClient
+      .from("campaigns")
+      .select("id, client, name, status, start, progress, primaryColor, darkColor")
+      .in("id", ids);
+
+    if (error) throw error;
+    const rows = data || [];
+
+    status.textContent = "✅ تم التحميل بنجاح";
+    status.className = "status-bar ok";
+
+    if (!rows.length) {
+      grid.innerHTML = '<div class="user-campaign-empty">الكامبينز متسجلة في حسابك بس مش موجودة في جدول campaigns</div>';
+      return;
+    }
+
+    grid.innerHTML = rows.map(c => `
+      <div class="user-campaign-card" onclick="openEditorForLoggedUser('${c.id}')">
+        <div class="user-campaign-hero" style="background:linear-gradient(135deg,${c.darkColor || '#0F172A'},${c.primaryColor || '#2563EB'})">🎯 ${escHtml(c.status || 'draft')}</div>
+        <div class="user-campaign-body">
+          <div class="user-campaign-name">${escHtml(c.name || 'بدون اسم')}</div>
+          <div class="user-campaign-client">${escHtml(c.client || '')}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:8px">${c.start ? '📅 ' + escHtml(c.start) : ''}</div>
+        </div>
+      </div>
+    `).join("");
+  } catch (e) {
+    console.error("LOAD USER CAMPAIGNS ERROR:", e);
+    status.textContent = "❌ حصل خطأ في تحميل الكامبينز";
+    status.className = "status-bar bad";
+  }
+}
+
+function openEditorForLoggedUser(id) {
+  CAMPAIGN_ID = id;
+  history.pushState(null, "", `campaign.html?id=${encodeURIComponent(id)}`);
   document.getElementById("userLoginScreen").style.display = "none";
+  document.getElementById("userCampaignsScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
-  document.getElementById("userBadge").textContent = `${user.role === "editor" ? "✏️" : "👁"} ${user.name}`;
+  document.getElementById("userBadge").textContent = `${currentUser.role === "editor" ? "✏️" : "👁"} ${currentUser.name}`;
   setupNav();
   loadCampaignData();
+}
+
+function handleEditorBack() {
+  if (IS_SUPER_ADMIN) {
+    window.location.href = "admin.html";
+    return;
+  }
+  CAMPAIGN_ID = null;
+  history.pushState(null, "", "campaign.html");
+  document.getElementById("app").style.display = "none";
+  document.getElementById("userCampaignsScreen").style.display = "block";
+}
+
+function logoutUserToLogin() {
+  currentUser = null;
+  userPermissions = {};
+  CAMPAIGN_ID = null;
+  history.pushState(null, "", "campaign.html");
+  document.getElementById("app").style.display = "none";
+  document.getElementById("userCampaignsScreen").style.display = "none";
+  document.getElementById("userLoginScreen").style.display = "flex";
+  document.getElementById("uLoginPass").value = "";
+}
+
+function escHtml(str) {
+  return String(str || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
 function allPermissions() {
@@ -705,17 +857,19 @@ function allPermissions() {
 // ==========================================
 function setupNav() {
   document.querySelectorAll(".nav button[data-section]").forEach(btn => {
+    const fresh = btn.cloneNode(true);
+    btn.parentNode.replaceChild(fresh, btn);
+  });
+
+  document.querySelectorAll(".nav button[data-section]").forEach(btn => {
     const perm = btn.dataset.perm;
+    btn.classList.remove("locked");
     if (perm && userPermissions[perm] === false) {
       btn.classList.add("locked");
       btn.title = "🔒 مش عندك صلاحية لهذا القسم";
     } else {
       btn.addEventListener("click", () => showSection(btn.dataset.section));
     }
-  });
-  // Also add click for buttons without perm (always accessible)
-  document.querySelectorAll(".nav button[data-section]:not([data-perm])").forEach(btn => {
-    btn.addEventListener("click", () => showSection(btn.dataset.section));
   });
 }
 
@@ -746,7 +900,7 @@ function showSection(id) {
 function getConfig() {
   const stored = localStorage.getItem("campaign_os_config");
   if (stored) return JSON.parse(stored);
-  return { supabaseUrl: "https://nnhxnswtzcqjnsmvytzr.supabase.co", supabaseKey: "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09" };
+  return { supabaseUrl: "https://nmhxnswtzcqjnsmvytzr.supabase.co", supabaseKey: "sb_publishable_TEVg9kp64afnKNYl-rNqBQ_c8dNHb09" };
 }
 
 function setStatus(msg, type = "info") {
@@ -757,13 +911,14 @@ function setStatus(msg, type = "info") {
 }
 
 async function loadCampaignData() {
+  if (!CAMPAIGN_ID) { setStatus("اختار كامبين الأول", "warn"); return; }
   setStatus("جاري تحميل الكامبين...", "info");
 
   let campaignMeta = null;
   let campaignData = DEFAULT_DATA;
 
   // Try Supabase first
-  if (supabase && CAMPAIGN_ID) {
+  if (dbClient && CAMPAIGN_ID) {
     try {
       const { data, error } = await dbClient.from("campaigns").select("*").eq("id", CAMPAIGN_ID).maybeSingle();
       if (!error && data) {
@@ -942,7 +1097,7 @@ async function saveData() {
   }
   localStorage.setItem("cos_campaigns", JSON.stringify(stored));
 
-  if (supabase && CAMPAIGN_ID) {
+  if (dbClient && CAMPAIGN_ID) {
     try {
       setStatus("Saving...", "info");
       const { error } = await dbClient.from("campaigns").update({
