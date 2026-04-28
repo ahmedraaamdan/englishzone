@@ -691,6 +691,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Input handlers
   document.addEventListener("input", e => {
     const t = e.target;
+    if (t.closest("#userLoginScreen")) return;
+if (!D || !D.client) D = normalize(DEFAULT_DATA);
     if (t.dataset.sf !== undefined) { D.scripts[+t.dataset.i][t.dataset.sf] = t.value; updateJsonOutput(); return; }
     if (t.dataset.pf !== undefined) { D.posts[+t.dataset.i][t.dataset.pf] = t.value; updateJsonOutput(); return; }
     if (t.dataset.storyText !== undefined) { D.stories[+t.dataset.storyText].text = t.value; updateJsonOutput(); return; }
