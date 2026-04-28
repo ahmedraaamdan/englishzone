@@ -810,15 +810,18 @@ async function createCampaign() {
     data: {}
   };
 
-  if (dbClient) {
-    try {
-      const { error } = await dbClient.from("campaigns").insert(newCampaign);
-      if (error) throw error;
-    } catch (e) {
-      console.error(e);
-      setStatus("حفظ locally — Supabase error", "warn");
-    }
+if (dbClient) {
+  const { error } = await dbClient.from("campaigns").insert(newCampaign);
+
+  if (error) {
+    console.error("SUPABASE ERROR:", error);
+    alert("Supabase Error: " + error.message);
+    return;
   }
+} else {
+  alert("Supabase مش متوصل أصلاً");
+  return;
+}
 
   campaigns.unshift(newCampaign);
   saveLocal();
