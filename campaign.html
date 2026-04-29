@@ -1295,10 +1295,20 @@ document.getElementById("addPostBtn").addEventListener("click", () => {
   document.getElementById("addPhaseBtn").addEventListener("click", () => { D.phases.push({name:"",duration:"",goal:"",activities:""}); renderPhases(); updateJsonOutput(); });
 
   // Colors
-  document.getElementById("primaryPicker").addEventListener("input", e => { document.getElementById("primaryColor").value = e.target.value; collectInputs(); });
-  document.getElementById("darkPicker").addEventListener("input", e => { document.getElementById("darkColor").value = e.target.value; collectInputs(); });
-  document.getElementById("bgPicker").addEventListener("input", e => { document.getElementById("bgColor").value = e.target.value; collectInputs(); });
-  document.getElementById("accentPicker").addEventListener("input", e => { document.getElementById("accentColor").value = e.target.value; collectInputs(); });
+  // Colors
+  bindColor("primaryColor", "primaryPicker");
+  bindColor("darkColor", "darkPicker");
+  bindColor("bgColor", "bgPicker");
+  bindColor("accentColor", "accentPicker");
+
+  bindColor("textMain", "textMainPicker");
+  bindColor("textSub", "textSubPicker");
+  bindColor("surfaceColor", "surfacePicker");
+
+  bindColor("heroBg1", "heroBg1Picker");
+  bindColor("heroBg2", "heroBg2Picker");
+  bindColor("bigIdeaBg1", "bigIdeaBg1Picker");
+  bindColor("bigIdeaBg2", "bigIdeaBg2Picker");
   document.getElementById("logoUrl").addEventListener("input", function() {
     if (this.value) { document.getElementById("logoPreviewImg").src = this.value; document.getElementById("logoPreviewWrap").style.display = "block"; }
   });
@@ -1825,6 +1835,26 @@ function fillInputs() {
   document.getElementById("darkPicker").value = D.theme.dark;
   document.getElementById("bgPicker").value = D.theme.background;
   document.getElementById("accentPicker").value = D.theme.accent;
+    document.getElementById("textMain").value = D.theme.textMain;
+  document.getElementById("textMainPicker").value = D.theme.textMain;
+
+  document.getElementById("textSub").value = D.theme.textSub;
+  document.getElementById("textSubPicker").value = D.theme.textSub;
+
+  document.getElementById("surfaceColor").value = D.theme.surface;
+  document.getElementById("surfacePicker").value = D.theme.surface;
+
+  document.getElementById("heroBg1").value = D.theme.heroBg1;
+  document.getElementById("heroBg1Picker").value = D.theme.heroBg1;
+
+  document.getElementById("heroBg2").value = D.theme.heroBg2;
+  document.getElementById("heroBg2Picker").value = D.theme.heroBg2;
+
+  document.getElementById("bigIdeaBg1").value = D.theme.bigIdeaBg1;
+  document.getElementById("bigIdeaBg1Picker").value = D.theme.bigIdeaBg1;
+
+  document.getElementById("bigIdeaBg2").value = D.theme.bigIdeaBg2;
+  document.getElementById("bigIdeaBg2Picker").value = D.theme.bigIdeaBg2;
   document.querySelectorAll("[data-obj]").forEach(el => el.classList.toggle("sel", el.dataset.obj === D.objectives.type));
   document.getElementById("objectiveNotes").value = D.objectives.notes;
   document.getElementById("ageRange").value = D.objectives.ageRange;
@@ -1851,7 +1881,25 @@ function fillInputs() {
   updatePreview();
   updateJsonOutput();
 }
+function bindColor(textId, pickerId){
+  const text = document.getElementById(textId);
+  const picker = document.getElementById(pickerId);
 
+  if(!text || !picker) return;
+
+  picker.addEventListener("input", e => {
+    text.value = e.target.value;
+    collectInputs();
+  });
+
+  text.addEventListener("input", e => {
+    if(/^#[0-9A-Fa-f]{6}$/.test(e.target.value)){
+      picker.value = e.target.value;
+      collectInputs();
+    }
+  });
+}
+  
 function collectInputs() {
   if (!D || !D.client) D = normalize(DEFAULT_DATA);
   D.client.name = document.getElementById("clientName").value;
@@ -1866,25 +1914,25 @@ function collectInputs() {
   D.hero.slogan = document.getElementById("slogan").value;
   D.hero.bigIdea = document.getElementById("bigIdea").value;
   D.hero.keyMessage = document.getElementById("keyMessage").value;
-D.theme.primary = document.getElementById("primaryColor").value||"#2563EB";
-D.theme.dark = document.getElementById("darkColor").value||"#0F172A";
-D.theme.background = document.getElementById("bgColor").value||"#F1F5F9";
-D.theme.accent = document.getElementById("accentColor").value||"#F59E0B";
+  D.theme.primary = document.getElementById("primaryColor").value || "#2563EB";
+  D.theme.dark = document.getElementById("darkColor").value || "#0F172A";
+  D.theme.background = document.getElementById("bgColor").value || "#F1F5F9";
+  D.theme.accent = document.getElementById("accentColor").value || "#F59E0B";
 
-D.theme.textMain = document.getElementById("textMain").value || "#111111";
-D.theme.textSub = document.getElementById("textSub").value || "#666666";
-D.theme.surface = document.getElementById("surfaceColor").value || "#FFFFFF";
+  D.theme.textMain = document.getElementById("textMain").value || "#111111";
+  D.theme.textSub = document.getElementById("textSub").value || "#666666";
+  D.theme.surface = document.getElementById("surfaceColor").value || "#FFFFFF";
 
-D.theme.heroBg1 = document.getElementById("heroBg1").value || "#000000";
-D.theme.heroBg2 = document.getElementById("heroBg2").value || "#B5FC02";
+  D.theme.heroBg1 = document.getElementById("heroBg1").value || "#000000";
+  D.theme.heroBg2 = document.getElementById("heroBg2").value || D.theme.primary;
 
-D.theme.bigIdeaBg1 = document.getElementById("bigIdeaBg1").value || "#000000";
-D.theme.bigIdeaBg2 = document.getElementById("bigIdeaBg2").value || "#B5FC02";
+  D.theme.bigIdeaBg1 = document.getElementById("bigIdeaBg1").value || "#000000";
+  D.theme.bigIdeaBg2 = document.getElementById("bigIdeaBg2").value || D.theme.primary;
 
-D.theme.logo = document.getElementById("logoUrl").value;
-  D.theme.font = document.getElementById("fontFamily").value;
-  D.theme.style = document.getElementById("visualStyle").value;
-  D.theme.brandNotes = document.getElementById("brandNotes").value;
+  D.theme.logo = document.getElementById("logoUrl").value || "";
+  D.theme.font = document.getElementById("fontFamily").value || "Cairo";
+  D.theme.style = document.getElementById("visualStyle").value || "modern";
+  D.theme.brandNotes = document.getElementById("brandNotes").value || "";
   D.objectives.notes = document.getElementById("objectiveNotes").value;
   D.objectives.ageRange = document.getElementById("ageRange").value;
   D.objectives.gender = document.getElementById("gender").value;
