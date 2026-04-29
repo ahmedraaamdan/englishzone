@@ -222,15 +222,24 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-h
 }
 .campaign-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
 .campaign-card-hero{
-  height:90px;
-  background:var(--card2);
+  height:96px;
   position:relative;
   overflow:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
   padding:14px;
-  border-bottom:1px solid var(--border);
+}
+
+.campaign-card-hero::before{
+  content:"";
+  position:absolute;
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  top:-35px;
+  right:-35px;
 }
 .campaign-card-hero::before{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.06)}
 .campaign-card-body{padding:16px}
@@ -899,31 +908,49 @@ function renderDashboard() {
 // ==========================================
 function renderCampaigns() {
   const grid = document.getElementById("campaignsGrid");
-  const cards = campaigns.map(c => `
-    <div class="campaign-card" onclick="openCampaign('${c.id}')">
-    <div class="campaign-card-hero">
-  <img src="https://github.com/ahmedraaamdan/englishzone/blob/main/PNG.png?raw=true" alt="Buzz Agency Logo" style="width:58px;height:58px;object-fit:contain">
-</div>
-      <div class="campaign-card-body">
-        <div class="campaign-card-name">${esc(c.name || "بدون اسم")}</div>
-        <div class="campaign-card-client">${esc(c.client || "")}</div>
-        <div class="campaign-meta">
-          <span class="meta-pill status-${c.status||'draft'}">${statusLabel(c.status)}</span>
-          ${c.start ? `<span class="meta-pill">📅 ${esc(c.start)}</span>` : ""}
+
+  const cards = campaigns.map(c => {
+    const d = c.data || {};
+    const theme = d.theme || {};
+    const clientData = d.client || {};
+
+    const logo = theme.logo || "https://github.com/ahmedraaamdan/englishzone/blob/main/PNG.png?raw=true";
+    const primary = theme.primary || c.primaryColor || "#FF5500";
+    const dark = theme.dark || c.darkColor || "#1A0A00";
+
+    const campaignName = clientData.campaignName || c.name || "بدون اسم";
+    const clientName = clientData.name || c.client || "";
+    const startDate = clientData.start || c.start || "";
+    const progress = clientData.progress || c.progress || 0;
+
+    return `
+      <div class="campaign-card" onclick="openCampaign('${c.id}')">
+        <div class="campaign-card-hero" style="background:linear-gradient(135deg, ${dark}, ${primary})">
+          <img src="${esc(logo)}" alt="Logo" style="width:64px;height:64px;object-fit:contain;position:relative;z-index:2">
         </div>
-        <div class="progress-bar" style="margin-top:10px">
-          <div class="progress-fill" style="width:${c.progress||0}%"></div>
+
+        <div class="campaign-card-body">
+          <div class="campaign-card-name">${esc(campaignName)}</div>
+          <div class="campaign-card-client">${esc(clientName)}</div>
+
+          <div class="campaign-meta">
+            <span class="meta-pill status-${c.status || 'draft'}">${statusLabel(c.status)}</span>
+            ${startDate ? `<span class="meta-pill">📅 ${esc(startDate)}</span>` : ""}
+          </div>
+
+          <div class="progress-bar" style="margin-top:10px">
+            <div class="progress-fill" style="width:${progress}%;background:${primary}"></div>
+          </div>
+        </div>
+
+        <div class="campaign-card-actions" onclick="event.stopPropagation()">
+          <button class="btn btn-primary btn-sm" onclick="openCampaign('${c.id}')">✏️ فتح</button>
+          <button class="btn btn-ghost btn-sm" onclick="previewCampaign('${c.id}')">👁 عرض</button>
+          <button class="btn btn-ghost btn-sm" onclick="deleteCampaign('${c.id}')">🗑</button>
         </div>
       </div>
-<div class="campaign-card-actions" onclick="event.stopPropagation()">
-  <button class="btn btn-primary btn-sm" onclick="openCampaign('${c.id}')">✏️ فتح</button>
-
-  <button class="btn btn-ghost btn-sm" onclick="previewCampaign('${c.id}')">👁 عرض</button>
-
-  <button class="btn btn-ghost btn-sm" onclick="deleteCampaign('${c.id}')">🗑</button>
-</div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 
   grid.innerHTML = cards + `
     <div class="new-campaign-card" onclick="openNewCampaignModal()">
