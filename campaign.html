@@ -1124,7 +1124,7 @@ function applySuperAdminVisibility(){
   const saveBtn = document.getElementById("superSaveNav");
 
   if(saveBtn){
-    saveBtn.style.display = IS_SUPER_ADMIN ? "" : "none";
+    saveBtn.style.display = (IS_SUPER_ADMIN || userPermissions.save === true) ? "" : "none";
   }
 }
 
@@ -1600,7 +1600,7 @@ function previewCampaign() {
 
 function allPermissions() {
   const all = {};
-  ["overview","objectives","scripts","posts","stories","ads","calendar","phases","kpis","budget","branding","hero"].forEach(p => all[p] = true);
+ ["overview","objectives","scripts","posts","stories","ads","calendar","phases","kpis","budget","branding","hero"].forEach(p => all[p] = true);
   return all;
 }
 
