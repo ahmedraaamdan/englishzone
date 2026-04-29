@@ -222,10 +222,15 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-h
 }
 .campaign-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
 .campaign-card-hero{
-  height:88px;
-  background:linear-gradient(135deg,#1C0C00,#FF5500);
-  position:relative;overflow:hidden;
-  display:flex;align-items:flex-end;padding:14px;
+  height:90px;
+  background:var(--card2);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px;
+  border-bottom:1px solid var(--border);
 }
 .campaign-card-hero::before{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.06)}
 .campaign-card-body{padding:16px}
@@ -896,9 +901,9 @@ function renderCampaigns() {
   const grid = document.getElementById("campaignsGrid");
   const cards = campaigns.map(c => `
     <div class="campaign-card" onclick="openCampaign('${c.id}')">
-      <div class="campaign-card-hero" style="background:linear-gradient(135deg,${c.darkColor||'#0F172A'},${c.primaryColor||'#2563EB'})">
-        <span style="color:white;font-size:22px;position:relative">🎯</span>
-      </div>
+    <div class="campaign-card-hero">
+  <img src="https://github.com/ahmedraaamdan/englishzone/blob/main/PNG.png?raw=true" alt="Buzz Agency Logo" style="width:58px;height:58px;object-fit:contain">
+</div>
       <div class="campaign-card-body">
         <div class="campaign-card-name">${esc(c.name || "بدون اسم")}</div>
         <div class="campaign-card-client">${esc(c.client || "")}</div>
