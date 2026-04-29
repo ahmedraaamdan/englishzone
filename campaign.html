@@ -1396,12 +1396,6 @@ function renderPosts(){
   if(!D.posts.length){el.innerHTML="";empty.style.display="";return;}
   empty.style.display="none";
 
-  const statusLabel = {
-    approved:"Approved ✅",
-    rejected:"Rejected ❌",
-    need_edit:"Need Edit ✏️"
-  };
-
   el.innerHTML=D.posts.map((p,i)=>`
     <div class="list-item" style="background:white;border-radius:18px;padding:18px">
       
@@ -1409,7 +1403,14 @@ function renderPosts(){
         <span class="item-num">${i+1}</span>
         <span class="item-title">Post ${i+1}: ${ea(p.tov || "New Post")}</span>
 
-        <select data-pf="contentType" data-i="${i}" style="width:220px;min-width:220px;height:38px">
+        <select data-pf="platform" data-i="${i}" style="width:150px;height:38px">
+          <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
+          <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
+          <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
+          <option ${p.platform==="all"?"selected":""} value="all">الكل</option>
+        </select>
+
+        <select data-pf="contentType" data-i="${i}" style="width:190px;min-width:190px;height:38px">
           <option ${p.contentType==="post"?"selected":""} value="post">Single Image</option>
           <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
           <option ${p.contentType==="reel"?"selected":""} value="reel">Reel</option>
@@ -1419,7 +1420,7 @@ function renderPosts(){
           <option ${p.contentType==="banner"?"selected":""} value="banner">Banner</option>
         </select>
 
-        <select data-post-review-status="${i}" style="max-width:150px;height:38px">
+        <select data-post-review-status="${i}" style="width:150px;height:38px">
           <option ${p.reviewStatus==="approved"?"selected":""} value="approved">Approved ✅</option>
           <option ${p.reviewStatus==="rejected"?"selected":""} value="rejected">Rejected ❌</option>
           <option ${p.reviewStatus==="need_edit" || !p.reviewStatus ? "selected" : ""} value="need_edit">Need Edit ✏️</option>
@@ -1433,87 +1434,81 @@ function renderPosts(){
           <label class="field-label">TOV / الكلمة الرئيسية على التصميم</label>
           <input type="text" value="${ea(p.tov)}" data-pf="tov" data-i="${i}" placeholder="العنوان الرئيسي للتصميم">
 
-          <label class="field-label" style="margin-top:10px">المنصة</label>
-          <select data-pf="platform" data-i="${i}">
-            <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
-            <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
-            <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
-            <option ${p.platform==="all"?"selected":""} value="all">الكل</option>
-          </select>
-
-          <label class="field-label" style="margin-top:10px">Design Image</label>
-          <div style="border:1.5px dashed #BFDBFE;border-radius:16px;padding:16px;background:#F8FAFC;text-align:center">
-  ${p.designImage ? `
-    <div style="margin-bottom:12px">
-      <img src="${ea(p.designImage)}" style="width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:white;border:1px solid var(--border)">
-    </div>
-    <button type="button" class="btn btn-danger btn-sm" data-del-post-image="${i}">حذف الصورة</button>
-  ` : `
-    <div style="font-size:28px;margin-bottom:6px">🖼️</div>
-    <div style="font-size:12px;color:#64748B;font-weight:700;margin-bottom:10px">ارفع تصميم البوست هنا</div>
-  `}
-
-  <input type="file" id="postImage-${i}" accept="image/*" style="display:none">
-  
-  <label for="postImage-${i}" class="btn btn-ghost btn-sm" style="margin-top:8px;cursor:pointer">
-    اختيار صورة
-  </label>
-
-  <button type="button" class="btn btn-primary btn-sm" data-upload-post-image="${i}" style="margin-top:8px">
-    رفع الصورة
-  </button>
-</div>
-        <div>
-          <label class="field-label">باقي الكلام اللي هيتكتب على التصميم</label>
+          <label class="field-label" style="margin-top:10px">باقي الكلام اللي هيتكتب على التصميم</label>
           <textarea data-pf="hook" data-i="${i}" style="min-height:90px" placeholder="اكتب باقي النص الظاهر على التصميم...">${et(p.hook)}</textarea>
 
           <label class="field-label" style="margin-top:10px">Caption</label>
-          <textarea data-pf="caption" data-i="${i}" style="min-height:130px" placeholder="اكتب الكابشن هنا...">${et(p.caption)}</textarea>
-        </div>
-      </div>
-
-      <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-          <strong style="font-size:13px">Comments</strong>
-          <span style="font-size:11px;color:var(--muted)">
-            ${(Array.isArray(p.comments)?p.comments.length:0)} comments
-          </span>
+          <textarea data-pf="caption" data-i="${i}" style="min-height:120px" placeholder="اكتب الكابشن هنا...">${et(p.caption)}</textarea>
         </div>
 
-        <div style="display:flex;gap:8px;align-items:flex-start">
-          <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">
-            ${(currentUser?.name || "U").charAt(0).toUpperCase()}
-          </div>
-
-          <textarea
-            id="postComment-${i}"
-            data-post-review-comment="${i}"
-            style="min-height:42px;border-radius:999px;padding:10px 16px;resize:none"
-            placeholder="Write a comment...">${et(p.reviewComment || "")}</textarea>
-
-          <button type="button" class="btn btn-primary btn-sm" data-add-post-comment="${i}" style="height:42px;border-radius:999px;white-space:nowrap">
-            Send
-          </button>
-        </div>
-
-        ${(Array.isArray(p.comments) && p.comments.length) ? `
-          <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px">
-            ${p.comments.map(c => `
-              <div style="display:flex;gap:8px;align-items:flex-start">
-                <div style="width:30px;height:30px;border-radius:50%;background:#E2E8F0;color:#334155;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0">
-                  ${et(c.by || "U").charAt(0).toUpperCase()}
-                </div>
-                <div style="background:#F1F5F9;border-radius:14px;padding:8px 12px;max-width:85%">
-                  <div style="font-size:12px;font-weight:900;color:#0F172A">
-                    ${et(c.by || "User")}
-                    <span style="color:#94A3B8;font-weight:700">· ${et(c.date || "")}</span>
-                  </div>
-                  <div style="font-size:13px;color:#334155;margin-top:3px;white-space:pre-wrap">${et(c.text || "")}</div>
-                </div>
+        <div>
+          <label class="field-label">Design Image</label>
+          <div style="border:1.5px dashed #BFDBFE;border-radius:16px;padding:16px;background:#F8FAFC;text-align:center;min-height:170px">
+            ${p.designImage ? `
+              <div style="margin-bottom:12px">
+                <img src="${ea(p.designImage)}" style="width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:white;border:1px solid var(--border)">
               </div>
-            `).join("")}
+              <button type="button" class="btn btn-danger btn-sm" data-del-post-image="${i}">حذف الصورة</button>
+            ` : `
+              <div style="font-size:28px;margin-bottom:6px">🖼️</div>
+              <div style="font-size:12px;color:#64748B;font-weight:700;margin-bottom:10px">ارفع تصميم البوست هنا</div>
+            `}
+
+            <input type="file" id="postImage-${i}" accept="image/*" style="display:none">
+            
+            <label for="postImage-${i}" class="btn btn-ghost btn-sm" style="margin-top:8px;cursor:pointer">
+              اختيار صورة
+            </label>
+
+            <button type="button" class="btn btn-primary btn-sm" data-upload-post-image="${i}" style="margin-top:8px">
+              رفع الصورة
+            </button>
           </div>
-        ` : ""}
+
+          <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <strong style="font-size:13px">Comments</strong>
+              <span style="font-size:11px;color:var(--muted)">
+                ${(Array.isArray(p.comments)?p.comments.length:0)} comments
+              </span>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:flex-start">
+              <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0">
+                ${(currentUser?.name || "U").charAt(0).toUpperCase()}
+              </div>
+
+              <textarea
+                id="postComment-${i}"
+                data-post-review-comment="${i}"
+                style="min-height:42px;border-radius:999px;padding:10px 16px;resize:none"
+                placeholder="Write a comment...">${et(p.reviewComment || "")}</textarea>
+
+              <button type="button" class="btn btn-primary btn-sm" data-add-post-comment="${i}" style="height:42px;border-radius:999px;white-space:nowrap">
+                Send
+              </button>
+            </div>
+
+            ${(Array.isArray(p.comments) && p.comments.length) ? `
+              <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px">
+                ${p.comments.map(c => `
+                  <div style="display:flex;gap:8px;align-items:flex-start">
+                    <div style="width:30px;height:30px;border-radius:50%;background:#E2E8F0;color:#334155;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0">
+                      ${et(c.by || "U").charAt(0).toUpperCase()}
+                    </div>
+                    <div style="background:#F1F5F9;border-radius:14px;padding:8px 12px;max-width:85%">
+                      <div style="font-size:12px;font-weight:900;color:#0F172A">
+                        ${et(c.by || "User")}
+                        <span style="color:#94A3B8;font-weight:700">· ${et(c.date || "")}</span>
+                      </div>
+                      <div style="font-size:13px;color:#334155;margin-top:3px;white-space:pre-wrap">${et(c.text || "")}</div>
+                    </div>
+                  </div>
+                `).join("")}
+              </div>
+            ` : ""}
+          </div>
+        </div>
       </div>
     </div>
   `).join("");
