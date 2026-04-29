@@ -11,20 +11,23 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --primary:#2563EB;
-  --primary-light:#EFF6FF;
-  --primary-mid:#BFDBFE;
-  --dark:#0F172A;
-  --dark2:#1E293B;
-  --bg:#F1F5F9;
+  --primary:#FF5500;
+  --primary-hover:#E84D00;
+  --primary-light:#FFF0E8;
+  --primary-mid:#FFCFB3;
+  --accent:#F5C400;
+  --accent2:#C0007A;
+  --dark:#1A0A00;
+  --dark2:#2D1500;
+  --bg:#FFF7F3;
   --card:#FFFFFF;
-  --muted:#64748B;
-  --border:#E2E8F0;
+  --muted:#7A5C4E;
+  --border:#F0DDD5;
   --danger:#EF4444;
   --success:#22C55E;
   --warn:#F59E0B;
   --radius:16px;
-  --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);
+  --shadow:0 1px 3px rgba(255,85,0,.05),0 8px 24px rgba(255,85,0,.08);
 }
 body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
 
@@ -35,18 +38,18 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
   display:flex;align-items:center;justify-content:center;
 }
 .login-box{
-  background:#1E293B;border:1px solid rgba(255,255,255,.08);
+  background:#2D1500;border:1px solid rgba(255,85,0,.15);
   border-radius:24px;padding:48px 40px;width:100%;max-width:420px;text-align:center;
-  box-shadow:0 32px 80px rgba(0,0,0,.5);
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
 }
 .login-logo{width:64px;height:64px;background:var(--primary);border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:white;margin-bottom:20px}
 .login-box h1{color:white;font-size:24px;font-weight:900;margin-bottom:6px}
 .login-box p{color:#64748B;font-size:13px;margin-bottom:28px}
-.login-input{width:100%;background:#0F172A;border:1.5px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 16px;color:white;font-family:'Cairo',inherit;font-size:14px;font-weight:600;outline:none;text-align:right;transition:border .2s;margin-bottom:10px}
+.login-input{width:100%;background:#1A0A00;border:1.5px solid rgba(255,85,0,.15);border-radius:12px;padding:12px 16px;color:white;font-family:'Cairo',inherit;font-size:14px;font-weight:600;outline:none;text-align:right;transition:border .2s;margin-bottom:10px}
 .login-input:focus{border-color:var(--primary)}
-.login-input::placeholder{color:#475569}
+.login-input::placeholder{color:#7A5C4E}
 .login-btn{width:100%;background:var(--primary);border:0;border-radius:12px;padding:14px;color:white;font-family:'Cairo',inherit;font-size:15px;font-weight:900;cursor:pointer;transition:all .2s}
-.login-btn:hover{background:#1D4ED8}
+.login-btn:hover{background:var(--primary-hover)}
 .login-error{color:#EF4444;font-size:12px;margin-top:10px;min-height:18px}
 .back-link{color:#64748B;font-size:12px;margin-top:14px;cursor:pointer;display:block}
 .back-link:hover{color:white}
@@ -69,7 +72,7 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
 .nav button.active,.nav button:hover{background:rgba(255,255,255,.1);color:white}
 .nav button.active{background:var(--primary);color:white}
 .nav button.locked{opacity:.35;cursor:not-allowed;pointer-events:none}
-.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07)}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,85,0,.12)}
 .sidebar-footer p{font-size:11px;color:#475569}
 
 /* MAIN */
@@ -84,7 +87,7 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
 .status-bar.ok{background:#DCFCE7;color:#166534}
 .status-bar.bad{background:#FEF2F2;color:#991B1B}
 .status-bar.warn{background:#FFFBEB;color:#92400E}
-.status-bar.info{background:#EFF6FF;color:#1E40AF}
+.status-bar.info{background:#FFF0E8;color:#C04000}
 
 /* SECTIONS */
 .section{display:none}
@@ -114,7 +117,7 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
 /* BTN */
 .btn{border:0;border-radius:12px;padding:10px 18px;font-family:'Cairo',inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
 .btn-primary{background:var(--primary);color:white}
-.btn-primary:hover{background:#1D4ED8}
+.btn-primary:hover{background:var(--primary-hover)}
 .btn-ghost{background:var(--bg);color:var(--dark)}
 .btn-ghost:hover{background:var(--border)}
 .btn-sm{padding:8px 14px;font-size:12px;border-radius:10px}
@@ -126,12 +129,38 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
 .kpi-card input{text-align:center;font-size:22px;font-weight:900;border:none;background:transparent;color:var(--primary);padding:4px}
 .kpi-card input:focus{box-shadow:none}
 
-/* LIST ITEMS */
-.list-item{border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;background:#FAFAFA;transition:border .2s}
+.list-item{border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;background:#FAFCFF;transition:border .2s}
 .list-item:hover{border-color:var(--primary-mid)}
 .list-item-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
 .item-num{background:var(--primary);color:white;width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0}
 .item-title{font-size:14px;font-weight:800;flex:1}
+
+/* FILE UPLOAD BUTTON */
+.file-upload-wrap{position:relative;display:inline-block}
+.file-upload-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.file-upload-btn{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:800;color:var(--dark);cursor:pointer;transition:.2s;white-space:nowrap}
+.file-upload-btn:hover{border-color:var(--primary);color:var(--primary)}
+.file-upload-name{font-size:11px;color:var(--muted);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px}
+
+/* CALENDAR GRID VIEW */
+.cal-grid-view{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px}
+.cal-grid-view .cal-header-cell{text-align:center;font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;padding:4px;letter-spacing:.5px}
+.cal-entry-row{
+  display:grid;
+  grid-template-columns: 60px 1fr 1fr 1fr 1fr auto;
+  gap:10px;align-items:start;
+  background:white;border:1.5px solid var(--border);border-radius:12px;
+  padding:12px 14px;margin-bottom:8px;
+  border-right:4px solid var(--primary);
+  transition:.2s;
+}
+.cal-entry-row:hover{border-color:var(--primary);box-shadow:0 4px 12px rgba(255,85,0,.1)}
+.cal-entry-row select,.cal-entry-row input,.cal-entry-row textarea{font-size:12px;padding:6px 10px;border-radius:8px}
+.cal-entry-row textarea{min-height:38px!important;resize:none}
+.cal-day-badge{width:44px;height:44px;background:var(--primary-light);border:1.5px solid var(--primary-mid);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--primary)}
+
+/* SECTION HEADER ACCENT */
+.sidebar-header{padding:24px 20px 16px}
 
 /* PREVIEW */
 .preview-hero{background:linear-gradient(135deg,#0F172A,#2563EB);color:white;border-radius:16px;padding:28px;position:relative;overflow:hidden;min-height:160px}
@@ -177,7 +206,7 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
 /* User badge */
 .user-badge-top{
   display:inline-flex;align-items:center;gap:6px;
-  background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);
+  background:rgba(255,85,0,.1);border:1px solid rgba(255,85,0,.2);
   border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--primary);
 }
 
@@ -436,9 +465,9 @@ textarea::placeholder {
 <!-- USER LOGIN -->
 <div id="userLoginScreen">
   <div class="login-box">
-    <div class="login-logo">C</div>
-    <h1 id="loginCampaignTitle">Campaign OS</h1>
-    <p>ادخل بيانات حسابك</p>
+    <div class="login-logo" style="background:var(--primary);border-radius:18px;width:64px;height:64px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:white;margin-bottom:20px">B</div>
+    <h1 id="loginCampaignTitle" style="color:#FF5500">Buzz Agency</h1>
+    <p style="color:#7A5C4E;margin-bottom:28px">Campaign OS — ادخل بيانات حسابك</p>
     <input type="text" class="login-input" id="uLoginName" placeholder="اسم المستخدم">
     <input type="password" class="login-input" id="uLoginPass" placeholder="الباسورد">
     <button class="login-btn" id="uLoginBtn">دخول ←</button>
@@ -465,10 +494,13 @@ textarea::placeholder {
 <div id="app" style="display:none">
   <div class="app">
     <aside class="sidebar">
-      <div class="sidebar-header">
+      <div class="sidebar-header" style="border-bottom:3px solid var(--primary);background:linear-gradient(160deg,#2D1500,#1A0A00)">
         <div class="logo-mark">
-          <div class="logo-icon">C</div>
-          <div class="logo-text">Campaign OS</div>
+          <div class="logo-icon" style="background:var(--primary);overflow:hidden;padding:0;display:flex;align-items:center;justify-content:center">
+            <img id="buzzLogoSidebar" src="" alt="B" style="width:36px;height:36px;object-fit:contain;display:none">
+            <span id="buzzLogoFallback" style="font-size:18px;font-weight:900;color:white">B</span>
+          </div>
+          <div class="logo-text">Buzz Agency</div>
         </div>
         <div class="logo-sub" id="campaignTitleSide">Loading...</div>
       </div>
@@ -811,6 +843,20 @@ textarea::placeholder {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ==========================================
+// BUZZ AGENCY CONFIG
+// ==========================================
+// ضع رابط اللوجو على GitHub هنا بعد ما ترفعه
+const BUZZ_LOGO_URL = ""; // مثال: "https://raw.githubusercontent.com/yourusername/yourrepo/main/buzz-logo.png"
+
+function loadBuzzLogo() {
+  if (!BUZZ_LOGO_URL) return;
+  const img = document.getElementById("buzzLogoSidebar");
+  const fallback = document.getElementById("buzzLogoFallback");
+  if (img) { img.src = BUZZ_LOGO_URL; img.style.display = "block"; }
+  if (fallback) fallback.style.display = "none";
+}
+
+// ==========================================
 // URL PARAMS
 // ==========================================
 const params = new URLSearchParams(window.location.search);
@@ -836,6 +882,7 @@ const DEFAULT_DATA = {
 // INIT
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
+  loadBuzzLogo();
   const cfg = getConfig();
   if (cfg.supabaseUrl && cfg.supabaseKey && window.supabase) {
     dbClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
@@ -1580,7 +1627,11 @@ function renderScripts(){
 <div style="display:grid;grid-template-columns:1fr 90px 1fr auto;gap:8px;align-items:center">
   <input type="text" placeholder="اسم الممثل" id="actorName-${i}">
   <input type="number" placeholder="السن" id="actorAge-${i}">
-  <input type="file" accept="image/png,image/jpeg,image/webp" id="actorImage-${i}">
+  <label class="file-upload-wrap" style="width:100%">
+    <input type="file" accept="image/png,image/jpeg,image/webp" id="actorImage-${i}" onchange="this.parentElement.querySelector('.file-upload-name').textContent=this.files[0]?.name||'لا يوجد'">
+    <div class="file-upload-btn">📷 اختار صورة</div>
+    <div class="file-upload-name">لا يوجد</div>
+  </label>
   <button type="button" class="btn btn-primary btn-sm" data-add-actor="${i}">+ ممثل</button>
 </div>
           <label class="field-label">المدة</label><input type="text" value="${ea(s.duration)}" data-sf="duration" data-i="${i}" placeholder="30 ثانية">
@@ -1785,39 +1836,74 @@ function renderCalendar(){
   const el=document.getElementById("calendarList"),empty=document.getElementById("calendarEmpty");
   if(!D.calendar.length){el.innerHTML="";empty.style.display="";return;}
   empty.style.display="none";
-  el.innerHTML=D.calendar.map((c,i)=>`
-    <div class="list-item">
-      <div class="list-item-head">
-        <span class="item-num">${i+1}</span>
-        <span class="item-title">Day ${ea(c.day||i+1)}: ${ea(c.title||"")}</span>
-        <button class="btn btn-danger btn-sm" data-del-cal="${i}">🗑</button>
-      </div>
-      <div class="grid-2">
-        <div>
-          <label class="field-label">اليوم</label><input type="text" value="${ea(c.day)}" data-cf="day" data-i="${i}" placeholder="Day 1">
-          <label class="field-label" style="margin-top:8px">النوع</label>
-          <select data-cf="type" data-i="${i}">
-            <option ${c.type==="post"?"selected":""} value="post">Post</option>
-            <option ${c.type==="story"?"selected":""} value="story">Story</option>
-            <option ${c.type==="reel"?"selected":""} value="reel">Reel</option>
-            <option ${c.type==="ad"?"selected":""} value="ad">Ad</option>
-            <option ${c.type==="event"?"selected":""} value="event">Event</option>
-          </select>
+  
+  const typeColors = {
+    post:"#2563EB",story:"#7C3AED",reel:"#C2410C",ad:"#B91C1C",event:"#166534"
+  };
+  const statusBg = {
+    planned:"#F1F5F9",inprogress:"#FFFBEB",done:"#DCFCE7"
+  };
+  const statusColor = {
+    planned:"#475569",inprogress:"#92400E",done:"#166534"
+  };
+  const statusLabel = {
+    planned:"Planned",inprogress:"In Progress",done:"Done ✅"
+  };
+  
+  // Table header
+  let html = `
+    <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead>
+        <tr style="background:var(--bg);border-bottom:2px solid var(--border)">
+          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;width:60px">اليوم</th>
+          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">العنوان</th>
+          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;width:100px">النوع</th>
+          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;width:120px">الحالة</th>
+          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">ملاحظات</th>
+          <th style="padding:10px 12px;width:40px"></th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  
+  html += D.calendar.map((c,i)=>`
+    <tr style="border-bottom:1px solid var(--border);transition:.15s" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=''">
+      <td style="padding:10px 12px;vertical-align:middle">
+        <div style="width:40px;height:40px;background:var(--primary-light);border:1.5px solid var(--primary-mid);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:var(--primary)">
+          <input type="text" value="${ea(c.day)}" data-cf="day" data-i="${i}" style="width:36px;background:transparent;border:none;text-align:center;font-weight:900;font-size:12px;color:var(--primary);padding:0;outline:none" placeholder="${i+1}">
         </div>
-        <div>
-          <label class="field-label">العنوان</label><input type="text" value="${ea(c.title)}" data-cf="title" data-i="${i}">
-          <label class="field-label" style="margin-top:8px">الحالة</label>
-          <select data-cf="status" data-i="${i}">
-            <option ${c.status==="planned"?"selected":""} value="planned">Planned</option>
-            <option ${c.status==="inprogress"?"selected":""} value="inprogress">In Progress</option>
-            <option ${c.status==="done"?"selected":""} value="done">Done ✅</option>
-          </select>
-          <label class="field-label" style="margin-top:8px">ملاحظات</label>
-          <textarea data-cf="notes" data-i="${i}" style="min-height:65px">${et(c.notes)}</textarea>
-        </div>
-      </div>
-    </div>
+      </td>
+      <td style="padding:10px 12px;vertical-align:middle">
+        <input type="text" value="${ea(c.title)}" data-cf="title" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-weight:600" placeholder="عنوان المحتوى">
+      </td>
+      <td style="padding:10px 12px;vertical-align:middle">
+        <select data-cf="type" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700;color:${typeColors[c.type]||'var(--dark)'}">
+          <option ${c.type==="post"?"selected":""} value="post">📝 Post</option>
+          <option ${c.type==="story"?"selected":""} value="story">🔮 Story</option>
+          <option ${c.type==="reel"?"selected":""} value="reel">🎬 Reel</option>
+          <option ${c.type==="ad"?"selected":""} value="ad">📣 Ad</option>
+          <option ${c.type==="event"?"selected":""} value="event">📅 Event</option>
+        </select>
+      </td>
+      <td style="padding:10px 12px;vertical-align:middle">
+        <select data-cf="status" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700;background:${statusBg[c.status]||statusBg.planned};color:${statusColor[c.status]||statusColor.planned}">
+          <option ${c.status==="planned"?"selected":""} value="planned">📋 Planned</option>
+          <option ${c.status==="inprogress"?"selected":""} value="inprogress">⏳ In Progress</option>
+          <option ${c.status==="done"?"selected":""} value="done">✅ Done</option>
+        </select>
+      </td>
+      <td style="padding:10px 12px;vertical-align:middle">
+        <textarea data-cf="notes" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;min-height:38px;resize:vertical">${et(c.notes)}</textarea>
+      </td>
+      <td style="padding:10px 12px;vertical-align:middle;text-align:center">
+        <button class="btn btn-danger btn-sm" data-del-cal="${i}" style="padding:6px 10px;font-size:11px">🗑</button>
+      </td>
+    </tr>
   `).join("");
+  
+  html += `</tbody></table></div>`;
+  el.innerHTML = html;
 }
 
 function renderPhases(){
