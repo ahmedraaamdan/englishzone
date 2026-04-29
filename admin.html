@@ -3,23 +3,26 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Campaign OS — Super Admin</title>
+<title>Buzz Agency — Campaign OS</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --primary:#2563EB;
-  --primary-light:#EFF6FF;
-  --dark:#0F172A;
-  --dark2:#1E293B;
-  --bg:#F1F5F9;
+  --primary:#FF5500;
+  --primary-hover:#E84D00;
+  --primary-light:#FFF0E8;
+  --accent:#F5C400;
+  --accent2:#C0007A;
+  --dark:#1A0A00;
+  --dark2:#2D1500;
+  --bg:#FFF7F3;
   --card:#FFFFFF;
-  --muted:#64748B;
-  --border:#E2E8F0;
+  --muted:#7A5C4E;
+  --border:#F0DDD5;
   --danger:#EF4444;
   --success:#22C55E;
   --radius:16px;
-  --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);
+  --shadow:0 1px 3px rgba(255,85,0,.06),0 8px 24px rgba(255,85,0,.08);
 }
 body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
 
@@ -30,13 +33,13 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
   display:flex;align-items:center;justify-content:center;
 }
 .login-box{
-  background:#1E293B;
-  border:1px solid rgba(255,255,255,.08);
+  background:#2D1500;
+  border:1px solid rgba(255,85,0,.15);
   border-radius:24px;
   padding:48px 40px;
   width:100%;max-width:420px;
   text-align:center;
-  box-shadow:0 32px 80px rgba(0,0,0,.5);
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
 }
 .login-logo{
   width:64px;height:64px;background:var(--primary);
@@ -46,19 +49,19 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
 .login-box h1{color:white;font-size:26px;font-weight:900;margin-bottom:6px}
 .login-box p{color:#64748B;font-size:14px;margin-bottom:32px}
 .login-input{
-  width:100%;background:#0F172A;border:1.5px solid rgba(255,255,255,.08);
+  width:100%;background:#1A0A00;border:1.5px solid rgba(255,85,0,.15);
   border-radius:12px;padding:14px 16px;color:white;font-family:'Cairo',inherit;
   font-size:15px;font-weight:600;outline:none;text-align:center;letter-spacing:4px;
   transition:border .2s;
 }
 .login-input:focus{border-color:var(--primary);letter-spacing:6px}
-.login-input::placeholder{letter-spacing:0;color:#475569}
+.login-input::placeholder{letter-spacing:0;color:#7A5C4E}
 .login-btn{
   width:100%;margin-top:16px;background:var(--primary);border:0;border-radius:12px;
   padding:15px;color:white;font-family:'Cairo',inherit;font-size:16px;font-weight:900;
   cursor:pointer;transition:all .2s;
 }
-.login-btn:hover{background:#1D4ED8;transform:translateY(-1px)}
+.login-btn:hover{background:var(--primary-hover);transform:translateY(-1px)}
 .login-error{color:#EF4444;font-size:13px;margin-top:12px;min-height:20px}
 
 /* ====== APP LAYOUT ====== */
@@ -70,12 +73,16 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
   background:var(--dark);display:flex;flex-direction:column;
   position:sticky;top:0;height:100vh;overflow:auto;
 }
-.sidebar-header{padding:24px 20px 16px}
+.sidebar-header{
+  padding:24px 20px 16px;
+  border-bottom:3px solid var(--primary);
+  background:linear-gradient(160deg,#2D1500,#1A0A00);
+}
 .logo-mark{display:flex;align-items:center;gap:10px;margin-bottom:4px}
 .logo-icon{width:36px;height:36px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:white}
 .logo-text{font-size:20px;font-weight:900;color:white}
 .logo-sub{font-size:11px;color:#94A3B8;font-weight:500}
-.admin-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.3);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:#60A5FA;margin-top:10px}
+.admin-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,85,0,.2);border:1px solid rgba(255,85,0,.35);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:#FF8C5A;margin-top:10px}
 .nav{padding:8px 12px;flex:1}
 .nav-group{margin-bottom:20px}
 .nav-label{font-size:10px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:1.5px;padding:0 8px;margin-bottom:8px}
@@ -83,7 +90,7 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
 .nav button .icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
 .nav button.active,.nav button:hover{background:rgba(255,255,255,.1);color:white}
 .nav button.active{background:var(--primary);color:white}
-.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07)}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,85,0,.12)}
 .sidebar-footer p{font-size:11px;color:#475569}
 .logout-btn{width:100%;border:0;background:rgba(239,68,68,.1);color:#EF4444;border-radius:10px;padding:10px;font-family:'Cairo',inherit;font-size:13px;font-weight:800;cursor:pointer;margin-top:10px;transition:.2s}
 .logout-btn:hover{background:rgba(239,68,68,.2)}
@@ -107,7 +114,7 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
 /* BUTTONS */
 .btn{border:0;border-radius:12px;padding:10px 18px;font-family:'Cairo',inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
 .btn-primary{background:var(--primary);color:white}
-.btn-primary:hover{background:#1D4ED8}
+.btn-primary:hover{background:var(--primary-hover)}
 .btn-ghost{background:var(--bg);color:var(--dark)}
 .btn-ghost:hover{background:var(--border)}
 .btn-sm{padding:8px 14px;font-size:12px;border-radius:10px}
@@ -127,10 +134,10 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
   transition:all .25s;cursor:pointer;
   position:relative;
 }
-.campaign-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,.12)}
+.campaign-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:0 20px 40px rgba(255,85,0,.15)}
 .campaign-card-hero{
   height:100px;
-  background:linear-gradient(135deg,#0F172A,#2563EB);
+  background:linear-gradient(135deg,#1A0A00,#FF5500);
   position:relative;overflow:hidden;
   display:flex;align-items:flex-end;
   padding:16px;
@@ -182,9 +189,9 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
 .user-name{font-size:14px;font-weight:800}
 .user-email{font-size:12px;color:var(--muted)}
 .user-badge{display:inline-flex;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:800}
-.user-badge.admin{background:#EFF6FF;color:#1E40AF}
+.user-badge.admin{background:#FFF0E8;color:#C04000}
 .user-badge.editor{background:#F0FDF4;color:#166534}
-.user-badge.viewer{background:#FEF9C3;color:#854D0E}
+.user-badge.viewer{background:#FFFBEB;color:#854D0E}
 .user-actions{display:flex;gap:8px}
 
 /* FORM FIELDS */
@@ -247,7 +254,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
 .status-bar.ok{background:#DCFCE7;color:#166534}
 .status-bar.bad{background:#FEF2F2;color:#991B1B}
 .status-bar.warn{background:#FFFBEB;color:#92400E}
-.status-bar.info{background:#EFF6FF;color:#1E40AF}
+.status-bar.info{background:#FFF0E8;color:#C04000}
 
 /* EMPTY STATE */
 .empty{text-align:center;padding:40px 20px;color:var(--muted)}
@@ -256,7 +263,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
 
 /* STAT CARDS */
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.stat-card{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow);text-align:center}
+.stat-card{background:var(--card);border-radius:16px;padding:20px;box-shadow:var(--shadow);text-align:center;border-top:3px solid var(--primary)}
 .stat-num{font-size:32px;font-weight:900;color:var(--primary)}
 .stat-label{font-size:12px;color:var(--muted);font-weight:600;margin-top:4px}
 
@@ -272,9 +279,30 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
 <!-- ====== LOGIN ====== -->
 <div id="loginScreen">
   <div class="login-box">
-    <div class="login-logo">C</div>
-    <h1>Campaign OS</h1>
-    <p>ادخل الباسورد بتاعك عشان تكمل</p>
+    <div class="login-logo" style="background:transparent;width:80px;height:80px;margin-bottom:20px;display:inline-flex;align-items:center;justify-content:center">
+      <svg viewBox="0 0 100 100" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+        <!-- Letter B shape -->
+        <path d="M20,10 L20,90 L60,90 Q85,90 85,67 Q85,52 70,48 Q85,44 85,27 Q85,10 60,10 Z
+                 M38,28 L55,28 Q65,28 65,37 Q65,46 55,46 L38,46 Z
+                 M38,54 L58,54 Q70,54 70,65 Q70,75 58,75 L38,75 Z" 
+              fill="#FF5500"/>
+        <path d="M22,12 L22,92 L62,92 Q87,92 87,69 Q87,54 72,50 Q87,46 87,29 Q87,12 62,12 Z
+                 M40,30 L57,30 Q67,30 67,39 Q67,48 57,48 L40,48 Z
+                 M40,56 L60,56 Q72,56 72,67 Q72,77 60,77 L40,77 Z" 
+              fill="#F5C400" opacity="0.6" transform="translate(3,3)"/>
+        <path d="M22,12 L22,92 L62,92 Q87,92 87,69 Q87,54 72,50 Q87,46 87,29 Q87,12 62,12 Z
+                 M40,30 L57,30 Q67,30 67,39 Q67,48 57,48 L40,48 Z
+                 M40,56 L60,56 Q72,56 72,67 Q72,77 60,77 L40,77 Z" 
+              fill="#C0007A" opacity="0.4" transform="translate(6,6)"/>
+        <!-- Chat bubble cutouts -->
+        <circle cx="52" cy="33" r="11" fill="white"/>
+        <polygon points="42,44 42,50 50,44" fill="white"/>
+        <circle cx="54" cy="65" r="13" fill="white"/>
+        <polygon points="44,78 44,84 54,78" fill="white"/>
+      </svg>
+    </div>
+    <h1 style="color:#FF5500;font-size:28px">Buzz Agency</h1>
+    <p style="color:#7A5C4E;margin-bottom:32px">Campaign OS — لوحة تحكم السوبر أدمين</p>
     <input type="password" class="login-input" id="passInput" placeholder="••••••••" autocomplete="off">
     <button class="login-btn" id="loginBtn">دخول ←</button>
     <div class="login-error" id="loginError"></div>
@@ -288,10 +316,18 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="logo-mark">
-          <div class="logo-icon">C</div>
-          <div class="logo-text">Campaign OS</div>
+          <div class="logo-icon" style="background:var(--primary);width:40px;height:40px;border-radius:12px;overflow:hidden;padding:4px">
+            <svg viewBox="0 0 100 100" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15,10 L15,90 L55,90 Q80,90 80,67 Q80,52 65,48 Q80,44 80,27 Q80,10 55,10 Z M33,28 L50,28 Q60,28 60,37 Q60,46 50,46 L33,46 Z M33,54 L53,54 Q65,54 65,65 Q65,75 53,75 L33,75 Z" fill="white"/>
+              <circle cx="47" cy="33" r="10" fill="#FF5500"/>
+              <polygon points="37,43 37,49 46,43" fill="#FF5500"/>
+              <circle cx="49" cy="64" r="12" fill="#FF5500"/>
+              <polygon points="39,76 39,82 50,76" fill="#FF5500"/>
+            </svg>
+          </div>
+          <div class="logo-text">Buzz Agency</div>
         </div>
-        <div class="logo-sub">لوحة تحكم السوبر أدمين</div>
+        <div class="logo-sub">Campaign OS — Super Admin</div>
         <div class="admin-badge">👑 Super Admin</div>
       </div>
       <nav class="nav">
@@ -307,7 +343,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
         </div>
       </nav>
       <div class="sidebar-footer">
-        <p id="lastSyncTime">Campaign OS v2.0</p>
+        <p id="lastSyncTime">Buzz Agency — Campaign OS v2.0</p>
         <button class="logout-btn" id="logoutBtn">🚪 تسجيل خروج</button>
       </div>
     </aside>
@@ -317,7 +353,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
       <div class="topbar">
         <div class="topbar-left">
           <h1 id="pageTitle">Dashboard</h1>
-          <p id="pageSubtitle">مرحباً بيك في Campaign OS</p>
+          <p id="pageSubtitle">مرحباً بيك في Buzz Agency Campaign OS</p>
         </div>
         <div style="display:flex;gap:10px">
           <button class="btn btn-ghost" id="refreshBtn">🔄 تحديث</button>
@@ -1077,7 +1113,7 @@ function showSection(id) {
     b.classList.toggle("active", b.dataset.section === id)
   );
   const titles = {
-    dashboard: ["Dashboard","مرحباً بيك في Campaign OS"],
+    dashboard: ["Dashboard","مرحباً بيك في Buzz Agency Campaign OS"],
     campaigns: ["الكامبينز","كل الكامبينز بتاعتك"],
     users: ["إدارة المستخدمين","أضف وعدّل صلاحيات الفريق"],
     settings: ["الإعدادات","إعدادات النظام والحساب"]
