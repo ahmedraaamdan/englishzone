@@ -372,13 +372,21 @@ function cleanPreviewSections(c){
 
 function applyTheme(t={}){
   const p=t.primary||'#2563EB',d=t.dark||'#0F172A',b=t.background||'#F1F5F9',a=t.accent||'#F59E0B';
+
   document.documentElement.style.setProperty('--primary',p);
   document.documentElement.style.setProperty('--dark',d);
   document.documentElement.style.setProperty('--bg',b);
   document.documentElement.style.setProperty('--accent',a);
-  document.body.style.background=b;
-  if(t.logo){$('heroLogo').src=t.logo;$('heroLogo').style.display='block';}
-  if(t.font){document.body.style.fontFamily=`'${t.font}',sans-serif`;}
+
+  document.documentElement.style.setProperty('--text-main', t.textMain || '#111111');
+  document.documentElement.style.setProperty('--text-sub', t.textSub || '#666666');
+  document.documentElement.style.setProperty('--content-card-bg', t.surface || '#FFFFFF');
+
+  document.documentElement.style.setProperty('--hero-bg-1', t.heroBg1 || '#000000');
+  document.documentElement.style.setProperty('--hero-bg-2', t.heroBg2 || p);
+
+  document.documentElement.style.setProperty('--bigidea-bg-1', t.bigIdeaBg1 || '#000000');
+  document.documentElement.style.setProperty('--bigidea-bg-2', t.bigIdeaBg2 || p);
 }
 
 const objLabels={awareness:'📢 Brand Awareness',engagement:'❤️ Engagement',leads:'🎯 Lead Generation',sales:'💰 Sales & Conversion',retention:'🔄 Retention',launch:'🚀 Product Launch'};
