@@ -227,11 +227,11 @@ textarea::placeholder {
 
 .post-card-head{
   display:flex;
-  align-items:center;
+  align-items:flex-end;
   justify-content:space-between;
   gap:12px;
   border-bottom:1px solid var(--border);
-  padding-bottom:12px;
+  padding-bottom:14px;
 }
 
 .post-title-wrap{
@@ -243,8 +243,8 @@ textarea::placeholder {
 
 .post-controls{
   display:flex;
-  align-items:center;
-  gap:8px;
+  align-items:flex-end;
+  gap:10px;
   flex-wrap:wrap;
 }
 
@@ -1080,8 +1080,10 @@ if (t.dataset.actorAge !== undefined) {
     if (!D || !D.client) D = normalize(DEFAULT_DATA);
     if (t.dataset.sf !== undefined) { D.scripts[+t.dataset.i][t.dataset.sf] = t.value; updateJsonOutput(); return; }
     if (t.dataset.pf !== undefined) { D.posts[+t.dataset.i][t.dataset.pf] = t.value; updateJsonOutput(); return; }
-    if (t.dataset.postReviewStatus !== undefined) {
-  D.posts[+t.dataset.postReviewStatus].reviewStatus = t.value;
+if (t.dataset.postReviewStatus !== undefined) {
+  const i = +t.dataset.postReviewStatus;
+  D.posts[i].reviewStatus = t.value;
+  renderPosts();
   updateJsonOutput();
   return;
 }
