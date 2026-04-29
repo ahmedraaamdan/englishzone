@@ -686,6 +686,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
         <div class="perm-item">
           <span class="perm-label">✨ Hero/Idea</span>
           <label class="toggle"><input type="checkbox" id="p_hero" checked><span class="toggle-slider"></span></label>
+         <div class="perm-item">
+  <span class="perm-label">💾 Save</span>
+  <label class="toggle"><input type="checkbox" id="p_save"><span class="toggle-slider"></span></label>
+</div>
         </div>
       </div>
     </div>
@@ -1104,7 +1108,7 @@ function openUserModal(userId = null) {
       document.getElementById("u_role").value = u.role || "editor";
       // Permissions
       const perms = u.permissions || {};
-      ["overview","branding","hero","objectives","scripts","posts","stories","ads","adsCopy","calendar","phases","kpis","budget"].forEach(p => {
+      ["overview","branding","hero","objectives","scripts","posts","stories","ads","adsCopy","calendar","phases","kpis","budget","save"].forEach(p => {
         const el = document.getElementById("p_" + p);
         if (el) el.checked = perms[p] !== false;
       });
@@ -1121,7 +1125,7 @@ function openUserModal(userId = null) {
     document.getElementById("u_username").value = "";
     document.getElementById("u_pass").value = "";
     document.getElementById("u_role").value = "editor";
-    ["overview","branding","hero","objectives","scripts","posts","stories","ads","adsCopy","calendar","phases","kpis","budget"].forEach(p => {
+    ["overview","branding","hero","objectives","scripts","posts","stories","ads","adsCopy","calendar","phases","kpis","budget","save"].forEach(p => {
       const el = document.getElementById("p_" + p);
       if (el) el.checked = !["budget","adsCopy"].includes(p);
     });
@@ -1150,7 +1154,7 @@ async function saveUser() {
   ).map(el => el.dataset.campaignId);
 
   const permissions = {};
-  ["overview","branding","hero","objectives","scripts","posts","stories","ads","adsCopy","calendar","phases","kpis","budget"].forEach(p => {
+  ["overview","branding","hero","objectives","scripts","posts","stories","ads","adsCopy","calendar","phases","kpis","budget","save"].forEach(p => {
     const el = document.getElementById("p_" + p);
  if (el) permissions[p] = el.checked;
 if (p === "ads" && el) permissions.adsCopy = el.checked;
