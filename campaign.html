@@ -38,7 +38,7 @@
   --radius:16px;
   --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
 }
-body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);min-height:100vh}
 
 /* USER LOGIN */
 #userLoginScreen{
@@ -86,7 +86,7 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-h
 
 /* MAIN */
 .main{min-width:0;padding:24px;display:flex;flex-direction:column;gap:20px}
-.topbar{background:var(--card);border-radius:var(--radius);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:var(--shadow)}
+.topbar{background:var(--surface);border-radius:var(--radius);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:var(--shadow)}
 .topbar-left h1{font-size:22px;font-weight:900}
 .topbar-left p{font-size:12px;color:var(--muted);margin-top:2px}
 .actions{display:flex;gap:10px}
@@ -199,7 +199,7 @@ input[type=color]{
 .file-upload-wrap input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .file-upload-btn{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:800;color:var(--dark);cursor:pointer;transition:.2s;white-space:nowrap}
 .file-upload-btn:hover{border-color:var(--primary);color:var(--primary)}
-.file-upload-name{font-size:11px;color:var(--muted);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px}
+.file-upload-name{font-size:11px;color:var(--text-sub);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px}
 
 /* CALENDAR GRID VIEW */
 .cal-grid-view{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px}
@@ -897,10 +897,12 @@ body{
       </div>
     </div>
 
-    <div id="logoPreviewWrap" style="display:none;margin-top:8px;text-align:center;background:var(--bg);border-radius:10px;padding:12px">
-      <img id="logoPreviewImg" style="max-height:60px;max-width:180px;object-fit:contain" alt="Logo"/>
-    </div>
-  </div>
+   <div id="logoPreviewWrap"
+     style="display:none;margin-top:8px;text-align:center;border-radius:12px;padding:20px;background:var(--logo-preview-bg)">
+  <img id="logoPreviewImg"
+       style="max-height:60px;max-width:180px;object-fit:contain"
+       alt="Logo"/>
+</div>
 
   <div class="field"><label class="field-label">Typography</label>
     <select id="fontFamily">
