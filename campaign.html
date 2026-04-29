@@ -264,6 +264,24 @@ textarea::placeholder {
 .platform-select{min-width:145px!important}
 .status-select{min-width:140px!important}
 
+.status-select.approved{
+  background:#DCFCE7!important;
+  color:#166534!important;
+  border-color:#22C55E!important;
+}
+
+.status-select.rejected{
+  background:#FEF2F2!important;
+  color:#991B1B!important;
+  border-color:#EF4444!important;
+}
+
+.status-select.need_edit{
+  background:#FEF9C3!important;
+  color:#854D0E!important;
+  border-color:#EAB308!important;
+}
+  
 .post-delete-btn{
   border:0;
   background:#FEF2F2;
@@ -1577,40 +1595,48 @@ function renderPosts(){
   el.innerHTML=D.posts.map((p,i)=>`
     <div class="list-item post-card-clean">
       
-      <div class="post-card-head">
-        <div class="post-title-wrap">
-          <span class="item-num">${i+1}</span>
-          <strong>Post ${i+1}: ${ea(p.tov || "New Post")}</strong>
-        </div>
+    <div class="post-card-head">
 
-        <div class="post-controls">
-          <select class="mini-select platform-select" data-pf="platform" data-i="${i}">
-            <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
-            <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
-            <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
-            <option ${p.platform==="all"?"selected":""} value="all">All Platforms</option>
-          </select>
+  <div class="post-title-wrap">
+    <span class="item-num">${i+1}</span>
+    <strong>Post ${i+1}</strong>
+  </div>
 
-          <select class="mini-select type-select" data-pf="contentType" data-i="${i}">
-            <option ${p.contentType==="post"?"selected":""} value="post">Single Image</option>
-            <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
-            <option ${p.contentType==="reel"?"selected":""} value="reel">Reel</option>
-            <option ${p.contentType==="video"?"selected":""} value="video">Video</option>
-            <option ${p.contentType==="story"?"selected":""} value="story">Story</option>
-            <option ${p.contentType==="cover"?"selected":""} value="cover">Cover</option>
-            <option ${p.contentType==="banner"?"selected":""} value="banner">Banner</option>
-          </select>
+  <div class="post-controls">
 
-          <select class="mini-select status-select ${p.reviewStatus || "need_edit"}" data-post-review-status="${i}">
-            <option ${p.reviewStatus==="approved"?"selected":""} value="approved">Approved</option>
-            <option ${p.reviewStatus==="rejected"?"selected":""} value="rejected">Rejected</option>
-            <option ${p.reviewStatus==="need_edit" || !p.reviewStatus ? "selected" : ""} value="need_edit">Need Edit</option>
-          </select>
+    <div class="badge-group">
+      <span class="badge-label">Platform</span>
+      <select class="mini-select platform-select" data-pf="platform" data-i="${i}">
+        <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
+        <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
+        <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
+        <option ${p.platform==="all"?"selected":""} value="all">All</option>
+      </select>
+    </div>
 
-          <button class="post-delete-btn" data-del-post="${i}">🗑</button>
-        </div>
-      </div>
+    <div class="badge-group">
+      <span class="badge-label">Type</span>
+      <select class="mini-select type-select" data-pf="contentType" data-i="${i}">
+        <option ${p.contentType==="post"?"selected":""} value="post">Single</option>
+        <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
+        <option ${p.contentType==="reel"?"selected":""} value="reel">Reel</option>
+        <option ${p.contentType==="video"?"selected":""} value="video">Video</option>
+      </select>
+    </div>
 
+    <div class="badge-group">
+      <span class="badge-label">Status</span>
+      <select class="mini-select status-select ${p.reviewStatus || "need_edit"}" data-post-review-status="${i}">
+        <option ${p.reviewStatus==="approved"?"selected":""} value="approved">Approved</option>
+        <option ${p.reviewStatus==="rejected"?"selected":""} value="rejected">Rejected</option>
+        <option ${p.reviewStatus==="need_edit" || !p.reviewStatus ? "selected" : ""} value="need_edit">Need Edit</option>
+      </select>
+    </div>
+
+    <button class="post-delete-btn" data-del-post="${i}">Delete</button>
+
+  </div>
+</div>
       <div class="grid-2" style="margin-top:16px">
         <div>
           <label class="field-label">TOV / الكلمة الرئيسية على التصميم</label>
