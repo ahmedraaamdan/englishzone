@@ -656,6 +656,37 @@ body{
 .topbar-left h1{
   color:#1A1A1A!important;
 }
+
+.user-campaign-hero{
+  height:104px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:16px!important;
+  position:relative!important;
+  overflow:hidden!important;
+}
+
+.user-campaign-hero:before{
+  content:"";
+  position:absolute;
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  top:-35px;
+  right:-35px;
+}
+
+.user-campaign-card{
+  border-radius:14px!important;
+  border:1px solid #E5E5E5!important;
+  box-shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06)!important;
+}
+
+.user-campaign-body{
+  background:#FFFFFF!important;
+}
   
 </style>
 </head>
@@ -1493,17 +1524,33 @@ async function showUserDashboard() {
     rows = stored.filter(c => ids.includes(c.id));
   }
 
-  grid.innerHTML = rows.map(c => `
+ grid.innerHTML = rows.map(c => {
+  const d = c.data || {};
+  const theme = d.theme || {};
+  const clientData = d.client || {};
+
+  const logo = theme.logo || "https://github.com/ahmedraaamdan/englishzone/blob/main/PNG.png?raw=true";
+  const primary = theme.primary || c.primaryColor || "#FF5500";
+  const dark = theme.dark || c.darkColor || "#1A1A1A";
+
+  const campaignName = clientData.campaignName || c.name || "Campaign";
+  const clientName = clientData.name || c.client || "";
+  const status = c.status || "draft";
+
+  return `
     <div class="user-campaign-card" onclick="window.location.href='campaign.html?id=${c.id}'">
-      <div class="user-campaign-hero" style="background:linear-gradient(135deg,${c.darkColor||'#0F172A'},${c.primaryColor||'#2563EB'})">🎯</div>
+      <div class="user-campaign-hero" style="background:linear-gradient(135deg,${dark},${primary})">
+        <img src="${et(logo)}" alt="Logo" style="width:66px;height:66px;object-fit:contain;position:relative;z-index:2">
+      </div>
       <div class="user-campaign-body">
-        <div class="user-campaign-name">${et(c.name || 'Campaign')}</div>
-        <div class="user-campaign-client">${et(c.client || '')}</div>
-        <div class="user-campaign-meta">${et(c.status || 'draft')}</div>
+        <div class="user-campaign-name">${et(campaignName)}</div>
+        <div class="user-campaign-client">${et(clientName)}</div>
+        <div class="user-campaign-meta">${et(status)}</div>
       </div>
     </div>
-  `).join("") || `<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">⚠️</div><p>الكامبينز متسجلة في حسابك بس مش لاقي بياناتها في Supabase</p></div>`;
-}
+  `;
+}).join("") || `<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">⚠️</div><p>الكامبينز متسجلة في حسابك بس مش لاقي بياناتها في Supabase</p></div>`;
+  
 
 function logoutUser() {
   sessionStorage.removeItem("cos_current_user");
