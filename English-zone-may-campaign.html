@@ -289,6 +289,82 @@ const safe = v => String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','
 
 function showStatus(msg,show=true){const el=$('loadStatus');el.textContent=msg;el.style.display=show?'block':'none';}
 
+  function isEmptyValue(v){
+  if(v === null || v === undefined) return true;
+  if(typeof v === 'string') return !v.trim();
+  if(Array.isArray(v)) return v.length === 0;
+  if(typeof v === 'object') return Object.keys(v).length === 0 || Object.values(v).every(isEmptyValue);
+  return false;
+}
+
+function hideSection(sectionId){
+  const section = document.getElementById(sectionId);
+  if(section) section.style.display = 'none';
+
+  document.querySelectorAll(`.sticky-nav a[href="#${sectionId}"]`).forEach(a => {
+    a.style.display = 'none';
+  });
+}
+
+function cleanPreviewSections(c){
+  const hero = c.hero || {};
+  const obj = c.objectives || {};
+  const kpis = c.kpis || {};
+  const budget = c.budget || {};
+
+  const hasBigIdea =
+    !isEmptyValue(hero.slogan) ||
+    !isEmptyValue(hero.bigIdea) ||
+    !isEmptyValue(hero.keyMessage);
+
+  const hasObjectives =
+    !isEmptyValue(obj.type) ||
+    !isEmptyValue(obj.notes) ||
+    !isEmptyValue(obj.platforms);
+
+  const hasAudience =
+    !isEmptyValue(obj.ageRange) ||
+    !isEmptyValue(obj.gender) ||
+    !isEmptyValue(obj.location) ||
+    !isEmptyValue(obj.interests) ||
+    !isEmptyValue(obj.painPoints) ||
+    !isEmptyValue((c.client || {}).industry);
+
+  const hasScripts = Array.isArray(c.scripts) && c.scripts.length > 0;
+  const hasPosts = Array.isArray(c.posts) && c.posts.length > 0;
+  const hasStories = Array.isArray(c.stories) && c.stories.length > 0;
+  const hasCalendar = Array.isArray(c.calendar) && c.calendar.length > 0;
+
+  const hasBudget =
+    !isEmptyValue(budget.total) ||
+    !isEmptyValue(budget.production) ||
+    !isEmptyValue(budget.ads) ||
+    !isEmptyValue(budget.influencer) ||
+    !isEmptyValue(budget.currency) ||
+    !isEmptyValue(budget.notes);
+
+  const hasKPIs =
+    !isEmptyValue(kpis.reach) ||
+    !isEmptyValue(kpis.engagement) ||
+    !isEmptyValue(kpis.leads) ||
+    !isEmptyValue(kpis.visits) ||
+    !isEmptyValue(kpis.conversions) ||
+    !isEmptyValue(kpis.roas) ||
+    !isEmptyValue(kpis.views) ||
+    !isEmptyValue(kpis.ctr) ||
+    !isEmptyValue(kpis.successDef);
+
+  if(!hasBigIdea) hideSection('bigidea');
+  if(!hasObjectives) hideSection('objectives');
+  if(!hasAudience) hideSection('audience');
+  if(!hasScripts) hideSection('scripts');
+  if(!hasPosts) hideSection('posts');
+  if(!hasStories) hideSection('stories');
+  if(!hasCalendar) hideSection('calendar');
+  if(!hasBudget) hideSection('budget');
+  if(!hasKPIs) hideSection('kpis');
+}
+
 function applyTheme(t={}){
   const p=t.primary||'#2563EB',d=t.dark||'#0F172A',b=t.background||'#F1F5F9',a=t.accent||'#F59E0B';
   document.documentElement.style.setProperty('--primary',p);
@@ -520,7 +596,12 @@ $('budgetGrid').innerHTML = budgetItems.length ? budgetItems.map(i=>`
     </div>
   `).join('');
   $('kpisGrid').innerHTML=kpiCards||'<div class="empty-state"><div class="empty-icon">📈</div><p>No KPIs defined yet</p></div>';
-  if(kpis.successDef){$('successDefBlock').style.display='block';$('successDefText').textContent=kpis.successDef;}
+if(kpis.successDef){
+  $('successDefBlock').style.display='block';
+  $('successDefText').textContent=kpis.successDef;
+}
+
+cleanPreviewSections(c);
 }
 
 async function load(){
