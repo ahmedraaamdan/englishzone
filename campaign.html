@@ -1128,11 +1128,6 @@ function applySuperAdminVisibility(){
   }
 }
 
-  document.querySelectorAll("#superSaveNav").forEach(el => {
-    el.style.display = IS_SUPER_ADMIN ? "" : "none";
-  });
-}
-
 let dbClient = null;
 let currentUser = null;
 let userPermissions = {};
