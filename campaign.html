@@ -256,9 +256,10 @@ textarea::placeholder {
 
 .post-card-head{
   display:flex;
-  flex-direction:column;
+  flex-direction:row;
   align-items:center;
-  gap:10px;
+  justify-content:space-between;
+  gap:14px;
   border-bottom:1px solid var(--border);
   padding-bottom:14px;
 }
@@ -268,6 +269,28 @@ textarea::placeholder {
   align-items:center;
   gap:10px;
   font-size:14px;
+  margin-left:auto;
+}
+
+.post-controls{
+  display:flex;
+  justify-content:flex-start;
+  align-items:flex-end;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-right:auto;
+}
+
+  .post-card-clean{
+  text-align:right!important;
+}
+
+.post-controls .badge-group{
+  align-items:flex-start;
+}
+
+.post-delete-btn{
+  order:99;
 }
 
 .post-controls{
