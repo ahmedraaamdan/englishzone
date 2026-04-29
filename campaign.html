@@ -1409,7 +1409,7 @@ function renderPosts(){
         <span class="item-num">${i+1}</span>
         <span class="item-title">Post ${i+1}: ${ea(p.tov || "New Post")}</span>
 
-        <select data-pf="contentType" data-i="${i}" style="max-width:190px;height:38px">
+        <select data-pf="contentType" data-i="${i}" style="width:220px;min-width:220px;height:38px">
           <option ${p.contentType==="post"?"selected":""} value="post">Single Image</option>
           <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
           <option ${p.contentType==="reel"?"selected":""} value="reel">Reel</option>
@@ -1431,7 +1431,7 @@ function renderPosts(){
       <div class="grid-2" style="margin-top:14px">
         <div>
           <label class="field-label">TOV / الكلمة الرئيسية على التصميم</label>
-          <input type="text" value="${ea(p.tov)}" data-pf="tov" data-i="${i}" placeholder="مثال: مش كل كورس إنجليزي يعلمك تتكلم">
+          <input type="text" value="${ea(p.tov)}" data-pf="tov" data-i="${i}" placeholder="العنوان الرئيسي للتصميم">
 
           <label class="field-label" style="margin-top:10px">المنصة</label>
           <select data-pf="platform" data-i="${i}">
@@ -1442,18 +1442,27 @@ function renderPosts(){
           </select>
 
           <label class="field-label" style="margin-top:10px">Design Image</label>
-          <div style="border:1px dashed var(--border);border-radius:14px;padding:12px;background:#F8FAFC">
-            ${p.designImage ? `
-              <div style="margin-bottom:10px">
-                <img src="${ea(p.designImage)}" style="width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:white">
-              </div>
-              <button type="button" class="btn btn-danger btn-sm" data-del-post-image="${i}">حذف الصورة</button>
-            ` : ""}
-            <input type="file" id="postImage-${i}" accept="image/*" style="margin-top:8px;width:100%">
-            <button type="button" class="btn btn-ghost btn-sm" data-upload-post-image="${i}" style="margin-top:8px">رفع صورة</button>
-          </div>
-        </div>
+          <div style="border:1.5px dashed #BFDBFE;border-radius:16px;padding:16px;background:#F8FAFC;text-align:center">
+  ${p.designImage ? `
+    <div style="margin-bottom:12px">
+      <img src="${ea(p.designImage)}" style="width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:white;border:1px solid var(--border)">
+    </div>
+    <button type="button" class="btn btn-danger btn-sm" data-del-post-image="${i}">حذف الصورة</button>
+  ` : `
+    <div style="font-size:28px;margin-bottom:6px">🖼️</div>
+    <div style="font-size:12px;color:#64748B;font-weight:700;margin-bottom:10px">ارفع تصميم البوست هنا</div>
+  `}
 
+  <input type="file" id="postImage-${i}" accept="image/*" style="display:none">
+  
+  <label for="postImage-${i}" class="btn btn-ghost btn-sm" style="margin-top:8px;cursor:pointer">
+    اختيار صورة
+  </label>
+
+  <button type="button" class="btn btn-primary btn-sm" data-upload-post-image="${i}" style="margin-top:8px">
+    رفع الصورة
+  </button>
+</div>
         <div>
           <label class="field-label">باقي الكلام اللي هيتكتب على التصميم</label>
           <textarea data-pf="hook" data-i="${i}" style="min-height:90px" placeholder="اكتب باقي النص الظاهر على التصميم...">${et(p.hook)}</textarea>
