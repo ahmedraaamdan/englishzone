@@ -529,6 +529,46 @@ textarea::placeholder {
   height:34px!important;
   align-self:flex-end!important;
 }
+
+.login-logo{
+  width:86px!important;
+  height:86px!important;
+  background:transparent!important;
+  border-radius:0!important;
+  padding:0!important;
+  margin-bottom:20px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+
+.login-logo img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  display:block!important;
+}
+
+.logo-icon{
+  width:42px!important;
+  height:42px!important;
+  background:transparent!important;
+  border-radius:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+
+.logo-icon img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  display:block!important;
+}
+
+.sidebar-header{
+  background:transparent!important;
+  border-bottom:1px solid rgba(255,85,0,.25)!important;
+}
   
 </style>
 </head>
@@ -537,8 +577,9 @@ textarea::placeholder {
 <!-- USER LOGIN -->
 <div id="userLoginScreen">
   <div class="login-box">
-    <div class="login-logo" style="background:var(--primary);border-radius:18px;width:64px;height:64px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:white;margin-bottom:20px">B</div>
-    <h1 id="loginCampaignTitle" style="color:#FF5500">Buzz Agency</h1>
+<div class="login-logo">
+  <img src="https://github.com/ahmedraaamdan/englishzone/blob/main/PNG.png?raw=true" alt="Buzz Agency Logo">
+</div>    <h1 id="loginCampaignTitle" style="color:#FF5500">Buzz Agency</h1>
     <p style="color:#7A5C4E;margin-bottom:28px">Campaign OS — ادخل بيانات حسابك</p>
     <input type="text" class="login-input" id="uLoginName" placeholder="اسم المستخدم">
     <input type="password" class="login-input" id="uLoginPass" placeholder="الباسورد">
@@ -566,8 +607,8 @@ textarea::placeholder {
 <div id="app" style="display:none">
   <div class="app">
     <aside class="sidebar">
-      <div class="sidebar-header" style="border-bottom:3px solid var(--primary);background:linear-gradient(160deg,#2D1500,#1A0A00)">
-        <div class="logo-mark">
+<div class="sidebar-header">
+  <div class="logo-mark">
           <div class="logo-icon" style="background:var(--primary);overflow:hidden;padding:0;display:flex;align-items:center;justify-content:center">
             <img id="buzzLogoSidebar" src="" alt="B" style="width:36px;height:36px;object-fit:contain;display:none">
             <span id="buzzLogoFallback" style="font-size:18px;font-weight:900;color:white">B</span>
