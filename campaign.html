@@ -1524,8 +1524,9 @@ function openEditorForUser(user) {
   document.getElementById("userCampaignsScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
   document.getElementById("userBadge").textContent = `${user.role === "editor" ? "✏️" : "👁"} ${user.name}`;
-  setupNav();
-  loadCampaignData();
+applySuperAdminVisibility();
+setupNav();
+loadCampaignData();
 }
 
 async function showUserDashboard() {
