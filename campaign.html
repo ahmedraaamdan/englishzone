@@ -11,22 +11,16 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --primary:#2563EB;
-  --primary-light:#EFF6FF;
-  --primary-mid:#BFDBFE;
-  --dark:#0F172A;
-  --dark2:#1E293B;
-  --bg:#F1F5F9;
-  --card:#FFFFFF;
+  --primary:#FF5A00;
+  --primary-dark:#E04E00;
+  --accent:#FFC300;
+  --bg:#FFF7F0;
+  --card:#ffffff;
+  --text:#0B132B;
   --muted:#64748B;
-  --border:#E2E8F0;
-  --danger:#EF4444;
-  --success:#22C55E;
-  --warn:#F59E0B;
-  --radius:16px;
-  --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);
+  --border:#F1F5F9;
 }
-body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+body{font-family:'Cairo',sans-serif;background: linear-gradient(135deg,#FF5A00,#C2185B);
 
 /* USER LOGIN */
 #userLoginScreen{
@@ -113,9 +107,12 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
 
 /* BTN */
 .btn{border:0;border-radius:12px;padding:10px 18px;font-family:'Cairo',inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
-.btn-primary{background:var(--primary);color:white}
-.btn-primary:hover{background:#1D4ED8}
-.btn-ghost{background:var(--bg);color:var(--dark)}
+.btn-primary{
+  background:#FF5A00;
+  color:#fff;
+.btn-primary:hover{
+  background:#E04E00;
+}.btn-ghost{background:var(--bg);color:var(--dark)}
 .btn-ghost:hover{background:var(--border)}
 .btn-sm{padding:8px 14px;font-size:12px;border-radius:10px}
 .btn-danger{background:#FEF2F2;color:var(--danger)}
@@ -437,7 +434,7 @@ textarea::placeholder {
 <div id="userLoginScreen">
   <div class="login-box">
     <div class="login-logo">C</div>
-    <h1 id="loginCampaignTitle">Campaign OS</h1>
+    <h1 id="loginCampaignTitle">Buzz Agency OS</h1>
     <p>ادخل بيانات حسابك</p>
     <input type="text" class="login-input" id="uLoginName" placeholder="اسم المستخدم">
     <input type="password" class="login-input" id="uLoginPass" placeholder="الباسورد">
