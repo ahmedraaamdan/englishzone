@@ -761,7 +761,7 @@ body{
         <div class="nav-group">
           <div class="nav-label">الإعدادات</div>
           <button data-section="budget" data-perm="budget"><span class="icon">💰</span> Budget</button>
-<button data-section="save" id="superSaveNav"><span class="icon">💾</span> Save</button>
+<button data-section="save" data-perm="save" id="superSaveNav"><span class="icon">💾</span> Save</button>
         </div>
       </nav>
       <div class="sidebar-footer">
@@ -781,7 +781,7 @@ body{
         </div>
         <div class="actions">
           <div class="user-badge-top" id="userBadge">👤 Loading</div>
-<button data-section="save" id="superSaveNav"><span class="icon">💾</span> Save</button>
+<button class="btn btn-primary super-only" id="topSaveBtn">💾 Save</button>
         </div>
       </div>
 
@@ -1116,15 +1116,14 @@ const params = new URLSearchParams(window.location.search);
 const CAMPAIGN_ID = params.get("id");
 const IS_SUPER_ADMIN = params.get("auth") === "1";
 
-  function applySuperAdminVisibility(){
+function applySuperAdminVisibility(){
   document.querySelectorAll(".super-only").forEach(el => {
     el.style.display = IS_SUPER_ADMIN ? "" : "none";
   });
 
-  const superSaveNav = document.getElementById("superSaveNav");
-  if(superSaveNav){
-    superSaveNav.style.display = IS_SUPER_ADMIN ? "" : "none";
-  }
+  document.querySelectorAll("#superSaveNav").forEach(el => {
+    el.style.display = IS_SUPER_ADMIN ? "" : "none";
+  });
 }
 
 let dbClient = null;
@@ -1175,8 +1174,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  document.getElementById("saveBtn").addEventListener("click", saveData);
   document.getElementById("saveBtn2").addEventListener("click", saveData);
+  const topSaveBtn = document.getElementById("topSaveBtn");
+if(topSaveBtn){
+  topSaveBtn.addEventListener("click", saveData);
+}
   document.getElementById("userLogoutBtn").addEventListener("click", logoutUser);
   document.getElementById("dashLogoutBtn").addEventListener("click", logoutUser);
   document.getElementById("backBtn").addEventListener("click", () => { if (IS_SUPER_ADMIN) window.location.href = "admin.html"; else showUserDashboard(); });
