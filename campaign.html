@@ -1403,15 +1403,15 @@ function renderPosts(){
         <span class="item-num">${i+1}</span>
         <span class="item-title">Post ${i+1}: ${ea(p.tov || "New Post")}</span>
 
-        <select data-pf="platform" data-i="${i}" style="width:150px;height:38px">
-          <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
+<select data-pf="platform" data-i="${i}" style="width:170px;min-width:170px;height:40px">
+<option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
           <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
           <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
           <option ${p.platform==="all"?"selected":""} value="all">الكل</option>
         </select>
 
-        <select data-pf="contentType" data-i="${i}" style="width:190px;min-width:190px;height:38px">
-          <option ${p.contentType==="post"?"selected":""} value="post">Single Image</option>
+<select data-pf="contentType" data-i="${i}" style="width:230px;min-width:230px;height:40px">
+<option ${p.contentType==="post"?"selected":""} value="post">Single Image</option>
           <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
           <option ${p.contentType==="reel"?"selected":""} value="reel">Reel</option>
           <option ${p.contentType==="video"?"selected":""} value="video">Video</option>
@@ -1420,8 +1420,8 @@ function renderPosts(){
           <option ${p.contentType==="banner"?"selected":""} value="banner">Banner</option>
         </select>
 
-        <select data-post-review-status="${i}" style="width:150px;height:38px">
-          <option ${p.reviewStatus==="approved"?"selected":""} value="approved">Approved ✅</option>
+<select data-post-review-status="${i}" style="width:180px;min-width:180px;height:40px">
+<option ${p.reviewStatus==="approved"?"selected":""} value="approved">Approved ✅</option>
           <option ${p.reviewStatus==="rejected"?"selected":""} value="rejected">Rejected ❌</option>
           <option ${p.reviewStatus==="need_edit" || !p.reviewStatus ? "selected" : ""} value="need_edit">Need Edit ✏️</option>
         </select>
