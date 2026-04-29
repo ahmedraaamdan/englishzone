@@ -1866,11 +1866,22 @@ function collectInputs() {
   D.hero.slogan = document.getElementById("slogan").value;
   D.hero.bigIdea = document.getElementById("bigIdea").value;
   D.hero.keyMessage = document.getElementById("keyMessage").value;
-  D.theme.primary = document.getElementById("primaryColor").value||"#2563EB";
-  D.theme.dark = document.getElementById("darkColor").value||"#0F172A";
-  D.theme.background = document.getElementById("bgColor").value||"#F1F5F9";
-  D.theme.accent = document.getElementById("accentColor").value||"#F59E0B";
-  D.theme.logo = document.getElementById("logoUrl").value;
+D.theme.primary = document.getElementById("primaryColor").value||"#2563EB";
+D.theme.dark = document.getElementById("darkColor").value||"#0F172A";
+D.theme.background = document.getElementById("bgColor").value||"#F1F5F9";
+D.theme.accent = document.getElementById("accentColor").value||"#F59E0B";
+
+D.theme.textMain = document.getElementById("textMain").value || "#111111";
+D.theme.textSub = document.getElementById("textSub").value || "#666666";
+D.theme.surface = document.getElementById("surfaceColor").value || "#FFFFFF";
+
+D.theme.heroBg1 = document.getElementById("heroBg1").value || "#000000";
+D.theme.heroBg2 = document.getElementById("heroBg2").value || "#B5FC02";
+
+D.theme.bigIdeaBg1 = document.getElementById("bigIdeaBg1").value || "#000000";
+D.theme.bigIdeaBg2 = document.getElementById("bigIdeaBg2").value || "#B5FC02";
+
+D.theme.logo = document.getElementById("logoUrl").value;
   D.theme.font = document.getElementById("fontFamily").value;
   D.theme.style = document.getElementById("visualStyle").value;
   D.theme.brandNotes = document.getElementById("brandNotes").value;
