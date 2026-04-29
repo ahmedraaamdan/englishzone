@@ -247,7 +247,7 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
           <button class="active" data-section="overview" data-perm="overview"><span class="icon">📊</span> Overview</button>
           <button data-section="branding" data-perm="branding"><span class="icon">🎨</span> Branding</button>
           <button data-section="hero" data-perm="hero"><span class="icon">✨</span> Hero & Big Idea</button>
-          <button data-section="objectives"><span class="icon">🎯</span> Objectives</button>
+          <button data-section="objectives" data-perm="objectives"><span class="icon">🎯</span> Objectives</button>
         </div>
         <div class="nav-group">
           <div class="nav-label">المحتوى</div>
@@ -643,8 +643,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "campaign.json"; a.click();
   });
   document.getElementById("addScriptBtn").addEventListener("click", () => { D.scripts.push({title:"",location:"",actors:[],duration:"",type:"ad",hook:"",body:"",cta:""}); renderScripts(); updateJsonOutput(); });
-  document.getElementById("addPostBtn").addEventListener("click", () => { D.posts.push({title:"",platform:"facebook",contentType:"image",tov:"",hook:"",caption:"",hashtags:""}); renderPosts(); updateJsonOutput(); });
-  document.getElementById("addStoryBtn").addEventListener("click", () => { D.stories.push({text:"",cta:"",platform:"instagram"}); renderStories(); updateJsonOutput(); });
+document.getElementById("addPostBtn").addEventListener("click", () => {
+  D.posts.push({
+    title:"",
+    platform:"facebook",
+    contentType:"image",
+    tov:"",
+    hook:"",
+    caption:"",
+    hashtags:"",
+    reviewStatus:"need_edit",
+    reviewComment:"",
+    comments:[]
+  });
+  renderPosts();
+  updateJsonOutput();
+});  document.getElementById("addStoryBtn").addEventListener("click", () => { D.stories.push({text:"",cta:"",platform:"instagram"}); renderStories(); updateJsonOutput(); });
   document.getElementById("addAdBtn").addEventListener("click", () => { D.ads.push({name:"",adType:"awareness",headline:"",primary:"",description:"",cta:"learn_more"}); renderAds(); updateJsonOutput(); });
   document.getElementById("addCalendarBtn").addEventListener("click", () => { D.calendar.push({day:"",type:"post",platform:"",title:"",status:"planned",notes:""}); renderCalendar(); updateJsonOutput(); });
   document.getElementById("addPhaseBtn").addEventListener("click", () => { D.phases.push({name:"",duration:"",goal:"",activities:""}); renderPhases(); updateJsonOutput(); });
@@ -758,6 +772,36 @@ if (delActorScript !== undefined) {
   updateJsonOutput();
   return;
 }
+
+    const addPostCommentIndex = e.target.dataset.addPostComment;
+if (addPostCommentIndex !== undefined) {
+  const i = +addPostCommentIndex;
+  const commentInput = document.getElementById(`postComment-${i}`);
+  const commentText = commentInput.value.trim();
+
+  if (!commentText) {
+    setStatus("اكتب الكومنت الأول", "warn");
+    return;
+  }
+
+  if (!Array.isArray(D.posts[i].comments)) D.posts[i].comments = [];
+
+  D.posts[i].comments.push({
+    text: commentText,
+    by: currentUser?.name || "User",
+    role: currentUser?.role || "editor",
+    date: new Date().toLocaleString("ar-EG")
+  });
+
+  D.posts[i].reviewComment = "";
+  commentInput.value = "";
+
+  renderPosts();
+  updateJsonOutput();
+  setStatus("تم إضافة الكومنت", "ok");
+  return;
+}
+    
     const ds = e.target.dataset.delScript; if (ds !== undefined) { D.scripts.splice(+ds,1); renderScripts(); updateJsonOutput(); return; }
     const dp = e.target.dataset.delPost; if (dp !== undefined) { D.posts.splice(+dp,1); renderPosts(); updateJsonOutput(); return; }
     const dSt = e.target.dataset.delStory; if (dSt !== undefined) { D.stories.splice(+dSt,1); renderStories(); updateJsonOutput(); return; }
@@ -789,6 +833,17 @@ if (t.dataset.actorAge !== undefined) {
     if (!D || !D.client) D = normalize(DEFAULT_DATA);
     if (t.dataset.sf !== undefined) { D.scripts[+t.dataset.i][t.dataset.sf] = t.value; updateJsonOutput(); return; }
     if (t.dataset.pf !== undefined) { D.posts[+t.dataset.i][t.dataset.pf] = t.value; updateJsonOutput(); return; }
+    if (t.dataset.postReviewStatus !== undefined) {
+  D.posts[+t.dataset.postReviewStatus].reviewStatus = t.value;
+  updateJsonOutput();
+  return;
+}
+
+if (t.dataset.postReviewComment !== undefined) {
+  D.posts[+t.dataset.postReviewComment].reviewComment = t.value;
+  updateJsonOutput();
+  return;
+}
     if (t.dataset.storyText !== undefined) { D.stories[+t.dataset.storyText].text = t.value; updateJsonOutput(); return; }
     if (t.dataset.storyCta !== undefined) { D.stories[+t.dataset.storyCta].cta = t.value; updateJsonOutput(); return; }
     if (t.dataset.storyPlatform !== undefined) { D.stories[+t.dataset.storyPlatform].platform = t.value; updateJsonOutput(); return; }
@@ -959,27 +1014,24 @@ function setupNav() {
 }
 
 function showSection(id) {
-  // Check if section is locked
- const navBtn = document.querySelector(`.nav button[data-section="${id}"]`);
-if (!navBtn || navBtn.style.display === "none") return;
+  const navBtn = document.querySelector(`.nav button[data-section="${id}"]`);
 
-const perm = navBtn.dataset.perm;
-if (perm && userPermissions[perm] === false) return;
+  if (!navBtn || navBtn.style.display === "none") return;
 
-  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-  const perm = navBtn ? navBtn.dataset.perm : null;
-  const isLocked = perm && userPermissions[perm] === false;
+  const perm = navBtn.dataset.perm;
+
+  if (perm && userPermissions[perm] === false) return;
+
+  document.querySelectorAll(".section").forEach(s => {
+    s.classList.remove("active");
+  });
 
   const section = document.getElementById(id);
-  if (section) {
-    section.classList.add("active");
-    if (isLocked) {
-      section.innerHTML = `<div class="locked-section card"><div class="locked-icon">🔒</div><div class="locked-title">القسم ده مش متاح ليك</div><div class="locked-sub">تواصل مع الأدمين عشان يديك صلاحية الوصول</div></div>`;
-    }
-  }
-  document.querySelectorAll(".nav button").forEach(b =>
-    b.classList.toggle("active", b.dataset.section === id && !b.classList.contains("locked"))
-  );
+  if (section) section.classList.add("active");
+
+  document.querySelectorAll(".nav button").forEach(b => {
+    b.classList.toggle("active", b.dataset.section === id);
+  });
 }
 
 // ==========================================
@@ -1307,6 +1359,7 @@ function renderPosts(){
   const el=document.getElementById("postsList"),empty=document.getElementById("postsEmpty");
   if(!D.posts.length){el.innerHTML="";empty.style.display="";return;}
   empty.style.display="none";
+
   el.innerHTML=D.posts.map((p,i)=>`
     <div class="list-item">
       <div class="list-item-head">
@@ -1314,57 +1367,89 @@ function renderPosts(){
         <span class="item-title">Post ${i+1}: ${ea(p.title||"New Post")}</span>
         <button class="btn btn-danger btn-sm" data-del-post="${i}">🗑</button>
       </div>
+
       <div class="grid-2">
         <div>
-          <label class="field-label">عنوان</label><input type="text" value="${ea(p.title)}" data-pf="title" data-i="${i}">
+          <label class="field-label">عنوان</label>
+          <input type="text" value="${ea(p.title)}" data-pf="title" data-i="${i}">
+
           <label class="field-label" style="margin-top:8px">المنصة</label>
-<select data-pf="platform" data-i="${i}">
-  <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
-  <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
-  <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
-  <option ${p.platform==="all"?"selected":""} value="all">الكل</option>
-</select>
+          <select data-pf="platform" data-i="${i}">
+            <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
+            <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
+            <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
+            <option ${p.platform==="all"?"selected":""} value="all">الكل</option>
+          </select>
 
-<label class="field-label" style="margin-top:8px">نوع التصميم</label>
-<select data-pf="contentType" data-i="${i}">
-  <option ${p.contentType==="post"?"selected":""} value="post">Post / Single Image</option>
-  <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
-  <option ${p.contentType==="reel"?"selected":""} value="reel">Reel</option>
-  <option ${p.contentType==="video"?"selected":""} value="video">Video</option>
-  <option ${p.contentType==="story"?"selected":""} value="story">Story</option>
-  <option ${p.contentType==="cover"?"selected":""} value="cover">Cover</option>
-  <option ${p.contentType==="banner"?"selected":""} value="banner">Banner</option>
-</select>
-          <label class="field-label" style="margin-top:8px">Hook</label>
-          <input type="text" value="${ea(p.hook)}" data-pf="hook" data-i="${i}">
+          <label class="field-label" style="margin-top:8px">نوع التصميم</label>
+          <select data-pf="contentType" data-i="${i}">
+            <option ${p.contentType==="post"?"selected":""} value="post">Post / Single Image</option>
+            <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
+            <option ${p.contentType==="reel"?"selected":""} value="reel">Reel</option>
+            <option ${p.contentType==="video"?"selected":""} value="video">Video</option>
+            <option ${p.contentType==="story"?"selected":""} value="story">Story</option>
+            <option ${p.contentType==="cover"?"selected":""} value="cover">Cover</option>
+            <option ${p.contentType==="banner"?"selected":""} value="banner">Banner</option>
+          </select>
 
-<label class="field-label" style="margin-top:8px">Design Image</label>
-
-${p.designImage ? `
-  <div style="margin-bottom:8px;background:white;border:1px solid var(--border);border-radius:12px;padding:10px">
-    <img src="${ea(p.designImage)}" style="width:100%;max-height:220px;object-fit:contain;border-radius:10px;background:#f8fafc">
-    <button type="button" class="btn btn-danger btn-sm" data-del-post-image="${i}" style="margin-top:8px">حذف الصورة</button>
-  </div>
-` : ""}
-
-<div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center">
-  <input type="file" accept="image/png,image/jpeg,image/webp" id="postImage-${i}">
-  <button type="button" class="btn btn-primary btn-sm" data-upload-post-image="${i}">رفع صورة</button>
-</div>
-          
+          <label class="field-label" style="margin-top:8px">TOV</label>
+          <input type="text" value="${ea(p.tov)}" data-pf="tov" data-i="${i}">
         </div>
+
         <div>
-          <label class="field-label">TOV</label><textarea data-pf="tov" data-i="${i}" style="min-height:80px">${et(p.tov)}</textarea>
+          <label class="field-label">Hook</label>
+          <textarea data-pf="hook" data-i="${i}" style="min-height:70px">${et(p.hook)}</textarea>
+
+          <label class="field-label" style="margin-top:8px">Caption</label>
+          <textarea data-pf="caption" data-i="${i}" style="min-height:90px">${et(p.caption)}</textarea>
+
           <label class="field-label" style="margin-top:8px">Hashtags</label>
-          <input type="text" value="${ea(p.hashtags)}" data-pf="hashtags" data-i="${i}" placeholder="#مثال">
+          <textarea data-pf="hashtags" data-i="${i}" style="min-height:60px">${et(p.hashtags)}</textarea>
         </div>
       </div>
-      <label class="field-label" style="margin-top:8px">Caption</label>
-      <textarea data-pf="caption" data-i="${i}" style="min-height:110px">${et(p.caption)}</textarea>
+
+      <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px">
+        <label class="field-label">Design Image</label>
+        ${p.designImage ? `
+          <div style="margin-bottom:10px">
+            <img src="${ea(p.designImage)}" style="max-width:100%;max-height:240px;object-fit:contain;border-radius:12px;border:1px solid var(--border);background:white">
+          </div>
+          <button type="button" class="btn btn-danger btn-sm" data-del-post-image="${i}">حذف الصورة</button>
+        ` : ""}
+        <input type="file" id="postImage-${i}" accept="image/*" style="margin-top:8px">
+        <button type="button" class="btn btn-ghost btn-sm" data-upload-post-image="${i}" style="margin-top:8px">رفع صورة</button>
+      </div>
+
+      <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px">
+        <label class="field-label">Review Status</label>
+        <select data-post-review-status="${i}">
+          <option ${p.reviewStatus==="approved"?"selected":""} value="approved">Approved ✅</option>
+          <option ${p.reviewStatus==="rejected"?"selected":""} value="rejected">Rejected ❌</option>
+          <option ${p.reviewStatus==="need_edit" || !p.reviewStatus ? "selected" : ""} value="need_edit">Need Edit ✏️</option>
+        </select>
+
+        <label class="field-label" style="margin-top:10px">Comment</label>
+        <textarea id="postComment-${i}" data-post-review-comment="${i}" style="min-height:70px" placeholder="اكتب الكومنت هنا...">${et(p.reviewComment || "")}</textarea>
+
+        <button type="button" class="btn btn-primary btn-sm" data-add-post-comment="${i}" style="margin-top:8px">💬 Add Comment</button>
+
+        ${(Array.isArray(p.comments) && p.comments.length) ? `
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+            ${p.comments.map(c => `
+              <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:10px">
+                <div style="font-size:12px;font-weight:900;color:var(--primary)">
+                  ${et(c.by || "User")}
+                  <span style="color:#94A3B8;font-weight:700">· ${et(c.date || "")}</span>
+                </div>
+                <div style="font-size:13px;color:#334155;margin-top:4px;white-space:pre-wrap">${et(c.text || "")}</div>
+              </div>
+            `).join("")}
+          </div>
+        ` : ""}
+      </div>
     </div>
   `).join("");
 }
-
 function renderStories(){
   const el=document.getElementById("storiesList"),empty=document.getElementById("storiesEmpty");
   if(!D.stories.length){el.innerHTML="";empty.style.display="";return;}
