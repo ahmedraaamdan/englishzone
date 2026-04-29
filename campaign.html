@@ -244,7 +244,7 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
       <nav class="nav">
         <div class="nav-group">
           <div class="nav-label">الأساسيات</div>
-          <button class="active" data-section="overview"><span class="icon">📊</span> Overview</button>
+          <button class="active" data-section="overview" data-perm="overview"><span class="icon">📊</span> Overview</button>
           <button data-section="branding" data-perm="branding"><span class="icon">🎨</span> Branding</button>
           <button data-section="hero" data-perm="hero"><span class="icon">✨</span> Hero & Big Idea</button>
           <button data-section="objectives"><span class="icon">🎯</span> Objectives</button>
@@ -932,7 +932,7 @@ function previewCampaign() {
 
 function allPermissions() {
   const all = {};
-  ["scripts","posts","stories","ads","calendar","phases","kpis","budget","branding","hero"].forEach(p => all[p] = true);
+  ["overview","objectives","scripts","posts","stories","ads","calendar","phases","kpis","budget","branding","hero"].forEach(p => all[p] = true);
   return all;
 }
 
@@ -942,23 +942,29 @@ function allPermissions() {
 function setupNav() {
   document.querySelectorAll(".nav button[data-section]").forEach(btn => {
     const perm = btn.dataset.perm;
+
     if (perm && userPermissions[perm] === false) {
-      btn.classList.add("locked");
-      btn.title = "🔒 مش عندك صلاحية لهذا القسم";
-    } else {
-      btn.addEventListener("click", () => showSection(btn.dataset.section));
+      btn.style.display = "none";
+      return;
     }
-  });
-  // Also add click for buttons without perm (always accessible)
-  document.querySelectorAll(".nav button[data-section]:not([data-perm])").forEach(btn => {
+
+    btn.style.display = "";
     btn.addEventListener("click", () => showSection(btn.dataset.section));
   });
+
+  const firstAllowed = document.querySelector(".nav button[data-section]:not([style*='display: none'])");
+  if (firstAllowed) {
+    showSection(firstAllowed.dataset.section);
+  }
 }
 
 function showSection(id) {
   // Check if section is locked
-  const navBtn = document.querySelector(`.nav button[data-section="${id}"]`);
-  if (navBtn && navBtn.classList.contains("locked")) return;
+ const navBtn = document.querySelector(`.nav button[data-section="${id}"]`);
+if (!navBtn || navBtn.style.display === "none") return;
+
+const perm = navBtn.dataset.perm;
+if (perm && userPermissions[perm] === false) return;
 
   document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
   const perm = navBtn ? navBtn.dataset.perm : null;
