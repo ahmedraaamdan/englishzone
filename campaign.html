@@ -1121,6 +1121,13 @@ function applySuperAdminVisibility(){
     el.style.display = IS_SUPER_ADMIN ? "" : "none";
   });
 
+  const saveBtn = document.getElementById("superSaveNav");
+
+  if(saveBtn){
+    saveBtn.style.display = IS_SUPER_ADMIN ? "" : "none";
+  }
+}
+
   document.querySelectorAll("#superSaveNav").forEach(el => {
     el.style.display = IS_SUPER_ADMIN ? "" : "none";
   });
