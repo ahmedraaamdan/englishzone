@@ -198,6 +198,42 @@ input[type=color]{border:1.5px solid var(--border);border-radius:8px;padding:2px
   .sidebar{height:auto;position:relative}
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
 }
+
+  input,
+textarea,
+select,
+button {
+  font-family: 'Cairo', sans-serif !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-family: 'Cairo', sans-serif !important;
+  color: #94A3B8;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+  .list-item {
+  background: #FFFFFF !important;
+  border: 1px solid #DBEAFE !important;
+  box-shadow: 0 8px 24px rgba(15,23,42,.05);
+}
+
+.list-item textarea,
+.list-item input,
+.list-item select {
+  background: #FFFFFF;
+  border: 1.5px solid #CBD5E1;
+}
+
+.list-item textarea:focus,
+.list-item input:focus,
+.list-item select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.08);
+}
+  
 </style>
 </head>
 <body>
