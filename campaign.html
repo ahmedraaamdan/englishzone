@@ -2353,6 +2353,24 @@ function renderPhases(){
     </div>
   `).join("");
 }
+
+
+  function applyTheme(){
+  document.documentElement.style.setProperty('--primary', D.theme.primary);
+  document.documentElement.style.setProperty('--dark', D.theme.dark);
+  document.documentElement.style.setProperty('--bg', D.theme.background);
+  document.documentElement.style.setProperty('--accent', D.theme.accent);
+
+  document.documentElement.style.setProperty('--text-main', D.theme.textMain);
+  document.documentElement.style.setProperty('--text-sub', D.theme.textSub);
+  document.documentElement.style.setProperty('--surface', D.theme.surface);
+
+  document.documentElement.style.setProperty('--hero-bg-1', D.theme.heroBg1);
+  document.documentElement.style.setProperty('--hero-bg-2', D.theme.heroBg2);
+
+  document.documentElement.style.setProperty('--bigidea-bg-1', D.theme.bigIdeaBg1);
+  document.documentElement.style.setProperty('--bigidea-bg-2', D.theme.bigIdeaBg2);
+}
 </script>
 </body>
 </html>
