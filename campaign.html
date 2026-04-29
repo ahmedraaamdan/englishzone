@@ -761,7 +761,7 @@ body{
         <div class="nav-group">
           <div class="nav-label">الإعدادات</div>
           <button data-section="budget" data-perm="budget"><span class="icon">💰</span> Budget</button>
-          <button data-section="save"><span class="icon">💾</span> Save</button>
+<button data-section="save" id="superSaveNav"><span class="icon">💾</span> Save</button>
         </div>
       </nav>
       <div class="sidebar-footer">
@@ -781,7 +781,7 @@ body{
         </div>
         <div class="actions">
           <div class="user-badge-top" id="userBadge">👤 Loading</div>
-          <button class="btn btn-primary" id="saveBtn">💾 Save</button>
+<button data-section="save" id="superSaveNav"><span class="icon">💾</span> Save</button>
         </div>
       </div>
 
@@ -1075,9 +1075,15 @@ body{
         <div class="card">
           <div class="card-header"><div class="card-title">Save & Export</div></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
-            <button class="btn btn-primary" id="saveBtn2">💾 Save</button>
-            <button class="btn btn-ghost" id="copyJsonBtn">📋 Copy JSON</button>
-            <button class="btn btn-ghost" id="downloadJsonBtn">⬇️ Download JSON</button>
+          <button class="btn btn-primary super-only" id="saveBtn2">💾 Save</button>
+
+<label class="btn btn-ghost super-only" style="cursor:pointer">
+  📤 Upload JSON
+  <input type="file" id="uploadJsonInput" accept=".json,application/json" hidden>
+</label>
+
+<button class="btn btn-ghost" id="copyJsonBtn">📋 Copy JSON</button>
+<button class="btn btn-ghost" id="downloadJsonBtn">⬇️ Download JSON</button>
           </div>
           <label class="field-label">Raw JSON</label>
           <textarea id="jsonOutput" readonly></textarea>
@@ -1110,6 +1116,17 @@ const params = new URLSearchParams(window.location.search);
 const CAMPAIGN_ID = params.get("id");
 const IS_SUPER_ADMIN = params.get("auth") === "1";
 
+  function applySuperAdminVisibility(){
+  document.querySelectorAll(".super-only").forEach(el => {
+    el.style.display = IS_SUPER_ADMIN ? "" : "none";
+  });
+
+  const superSaveNav = document.getElementById("superSaveNav");
+  if(superSaveNav){
+    superSaveNav.style.display = IS_SUPER_ADMIN ? "" : "none";
+  }
+}
+
 let dbClient = null;
 let currentUser = null;
 let userPermissions = {};
@@ -1130,6 +1147,7 @@ const DEFAULT_DATA = {
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
   loadBuzzLogo();
+  applySuperAdminVisibility();
   const cfg = getConfig();
   if (cfg.supabaseUrl && cfg.supabaseKey && window.supabase) {
     dbClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
@@ -1163,6 +1181,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("dashLogoutBtn").addEventListener("click", logoutUser);
   document.getElementById("backBtn").addEventListener("click", () => { if (IS_SUPER_ADMIN) window.location.href = "admin.html"; else showUserDashboard(); });
   document.getElementById("copyJsonBtn").addEventListener("click", () => { navigator.clipboard.writeText(document.getElementById("jsonOutput").value); setStatus("JSON copied!", "ok"); });
+  document.getElementById("uploadJsonInput").addEventListener("change", uploadCampaignJson);
   document.getElementById("downloadJsonBtn").addEventListener("click", () => {
     const blob = new Blob([document.getElementById("jsonOutput").value], {type:"application/json"});
     const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "campaign.json"; a.click();
@@ -1830,6 +1849,39 @@ async function uploadImageToSupabase(file, folder = "actors") {
     .getPublicUrl(fileName);
 
   return data.publicUrl;
+}
+
+function uploadCampaignJson(e){
+  if(!IS_SUPER_ADMIN){
+    setStatus("⚠️ غير مسموح", "warn");
+    return;
+  }
+
+  const file = e.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(event){
+    try{
+      const json = JSON.parse(event.target.result);
+
+      D = normalize(json);
+
+      fillInputs();
+      renderAll();
+      updateJsonOutput();
+
+      setStatus("✅ تم تحميل ملف JSON بنجاح، اضغط Save للحفظ", "ok");
+
+      e.target.value = "";
+    }catch(err){
+      console.error(err);
+      alert("ملف JSON غير صحيح");
+    }
+  };
+
+  reader.readAsText(file);
 }
   
 // ==========================================
