@@ -241,6 +241,59 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
   .sidebar{height:auto;position:relative}
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
 }
+
+
+.calendar-grid{
+  display:grid;
+  grid-template-columns: repeat(7,1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.cal-day{
+  background:#fff;
+  border-radius:12px;
+  padding:10px;
+  min-height:90px;
+  cursor:pointer;
+  border:1px solid #E5E5E5;
+  transition:.2s;
+}
+
+.cal-day:hover{
+  border-color:#FF5500;
+}
+
+.cal-number{
+  font-weight:900;
+  font-size:13px;
+}
+
+.cal-content{
+  font-size:11px;
+  margin-top:6px;
+}
+
+/* popup */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.hidden{display:none;}
+
+.popup-box{
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  width:260px;
+}
+  
 </style>
 </head>
 <body>
@@ -563,12 +616,31 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
       <!-- CALENDAR -->
       <section id="calendar" class="section">
         <div class="card">
-          <div class="card-header"><div class="card-title">Content Calendar</div><button class="btn btn-primary btn-sm" id="addCalendarBtn">+ Add Day</button></div>
-          <div id="calendarList"></div>
-          <div class="empty" id="calendarEmpty"><div class="empty-icon">📅</div><p>لا يوجد جدول</p></div>
+<div class="field">
+  <label class="field-label">اختار الشهر</label>
+  <input type="month" id="monthPicker">
+</div>
+
+<div id="calendarGrid" class="calendar-grid"></div>
+          
         </div>
       </section>
+<div id="calendarPopup" class="popup hidden">
+  <div class="popup-box">
+    <h3>اختار الكونتنت</h3>
 
+    <select id="calType">
+      <option value="post">Post</option>
+      <option value="script">Script</option>
+      <option value="story">Story</option>
+    </select>
+
+    <select id="calIndex"></select>
+
+    <button class="btn btn-primary" onclick="saveCalendarItem()">حفظ</button>
+  </div>
+</div>
+      
       <!-- PHASES -->
       <section id="phases" class="section">
         <div class="card">
@@ -1852,6 +1924,101 @@ window.addEventListener("beforeunload", function(){
     }
   }catch(e){}
 });
+
+let calSelectedDay = null;
+let calData = {};
+
+// لما تختار الشهر
+document.getElementById("monthPicker")?.addEventListener("change", generateCalendar);
+
+function generateCalendar(){
+  const val = document.getElementById("monthPicker").value;
+  if(!val) return;
+
+  const [year,month] = val.split("-");
+  const days = new Date(year, month, 0).getDate();
+
+  const grid = document.getElementById("calendarGrid");
+  grid.innerHTML = "";
+
+  for(let d=1; d<=days; d++){
+    const div = document.createElement("div");
+    div.className = "cal-day";
+    div.onclick = ()=>openCalPopup(d);
+
+    div.innerHTML = `
+      <div class="cal-number">${d}</div>
+      <div class="cal-content">${renderCalContent(d)}</div>
+    `;
+
+    grid.appendChild(div);
+  }
+}
+
+// فتح البوب اب
+function openCalPopup(day){
+  calSelectedDay = day;
+
+  fillIndexOptions(document.getElementById("calType").value);
+
+  document.getElementById("calendarPopup").classList.remove("hidden");
+}
+
+// تغيير النوع
+document.getElementById("calType")?.addEventListener("change",(e)=>{
+  fillIndexOptions(e.target.value);
+});
+
+// يجيب البوستات من الداشبورد
+function fillIndexOptions(type){
+  const select = document.getElementById("calIndex");
+  select.innerHTML = "";
+
+  let arr = [];
+
+  if(type==="post") arr = D.posts || [];
+  if(type==="script") arr = D.scripts || [];
+  if(type==="story") arr = D.stories || [];
+
+  arr.forEach((item,i)=>{
+    const op = document.createElement("option");
+    op.value = i;
+    op.textContent = (i+1) + " - " + (item.title || "بدون عنوان");
+    select.appendChild(op);
+  });
+}
+
+// حفظ الاختيار
+function saveCalendarItem(){
+  const type = document.getElementById("calType").value;
+  const index = document.getElementById("calIndex").value;
+
+  let item = null;
+
+  if(type==="post") item = D.posts[index];
+  if(type==="script") item = D.scripts[index];
+  if(type==="story") item = D.stories[index];
+
+  calData[calSelectedDay] = {
+    type,
+    title: item?.title || "بدون عنوان"
+  };
+
+  document.getElementById("calendarPopup").classList.add("hidden");
+
+  generateCalendar();
+}
+
+// عرض الكونتنت في اليوم
+function renderCalContent(day){
+  if(!calData[day]) return "";
+
+  return `
+    <b>${calData[day].type}</b><br>
+    ${calData[day].title}
+  `;
+}
+  
 </script>
 </body>
 </html>
