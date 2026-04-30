@@ -1965,9 +1965,12 @@ function openCalPopup(day){
 }
 
 // تغيير النوع
-document.getElementById("calType")?.addEventListener("change",(e)=>{
-  fillIndexOptions(e.target.value);
-});
+const calTypeEl = document.getElementById("calType");
+if (calTypeEl) {
+  calTypeEl.addEventListener("change", function(e){
+    fillIndexOptions(e.target.value);
+  });
+}
 
 // يجيب البوستات من الداشبورد
 function fillIndexOptions(type){
