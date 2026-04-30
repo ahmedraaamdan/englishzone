@@ -424,16 +424,21 @@ function cleanPreviewSections(c){
   const hasScripts = Array.isArray(c.scripts) && c.scripts.length > 0;
   const hasPosts = Array.isArray(c.posts) && c.posts.length > 0;
   const hasStories = Array.isArray(c.stories) && c.stories.length > 0;
-const hasCalendar = c.calendar && Object.keys(c.calendar).length > 0;
 let calendarData = [];
 
 if (Array.isArray(c.calendar)) {
   calendarData = c.calendar;
-} else if (typeof c.calendar === 'object') {
+} else if (typeof c.calendar === 'object' && c.calendar !== null) {
   calendarData = Object.values(c.calendar).flat();
 }
 
+const hasCalendar = calendarData.length > 0;
+
 renderCalendar(calendarData, c);
+
+if (!hasCalendar) {
+  document.getElementById("calendarEmpty").style.display = "block";
+}
   const hasBudget =
     !isEmptyValue(budget.total) ||
     !isEmptyValue(budget.production) ||
