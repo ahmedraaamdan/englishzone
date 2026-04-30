@@ -82,7 +82,41 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
 .cta-badge{display:inline-flex;align-items:center;gap:5px;background:var(--primary);color:white;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:800;margin-top:10px}
 
 /* CALENDAR */
-.calendar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.calendar-grid{
+  direction:ltr;
+  display:grid;
+  grid-template-columns: repeat(7,1fr);
+  gap:10px;
+}
+
+.cal-day{
+  direction:rtl;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:8px;
+  min-height:90px;
+  position:relative;
+}
+
+.cal-number{
+  position:absolute;
+  top:6px;
+  left:8px;
+  font-size:11px;
+  font-weight:900;
+  color:#888;
+}
+
+.cal-item{
+  margin-top:18px;
+  font-size:11px;
+  padding:4px;
+  border-radius:6px;
+}
+.post{ background:#DBEAFE; }
+.story{ background:#FEF3C7; }
+.script{ background:#DCFCE7; }
 .cal-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
 .cal-card:before{content:"";position:absolute;top:0;right:0;width:3px;height:100%;background:var(--primary)}
 .cal-day-num{font-size:11px;font-weight:900;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
@@ -568,20 +602,43 @@ ${p.hook?`<div class="card-section-label">Hook 🪝</div><div class="body-text" 
   }
 
   // Calendar
-  const cal=c.calendar||[];
-  if(!cal.length){$('calendarGrid').innerHTML='';$('calendarEmpty').style.display='block';}
-  else{
-    $('calendarEmpty').style.display='none';
-    $('calendarGrid').innerHTML=cal.map((d,i)=>`
-      <div class="cal-card">
-        <div class="cal-day-num">Day ${safe(d.day||i+1)} ${d.platform?'• '+safe(d.platform):''}</div>
-        ${d.type?`<span class="cal-type-pill ${typeClass[d.type]||''}">${safe(d.type)}</span>`:''}
-        ${d.title?`<div class="cal-title">${safe(d.title)}</div>`:''}
-        ${d.notes?`<div class="cal-notes">${safe(d.notes)}</div>`:''}
-        ${d.status?`<div style="margin-top:8px"><span class="${statusClass[d.status]||''}">${safe(d.status)}</span></div>`:''}
+ const cal = c.calendar || [];
+
+// 👇 نحدد عدد الأيام (افتراضي 30)
+let daysInMonth = 30;
+
+// لو عندك تاريخ بداية
+if(c.client?.start){
+  const d = new Date(c.client.start);
+  daysInMonth = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+}
+
+let html = "";
+
+for(let d=1; d<=daysInMonth; d++){
+
+  const item = cal.find(e => e.day == d);
+
+  let content = "";
+
+  if(item){
+    content = `
+      <div class="cal-item ${item.type}">
+        <b>${item.type}</b><br>
+        ${item.title || ""}
       </div>
-    `).join('');
+    `;
   }
+
+  html += `
+    <div class="cal-day">
+      <div class="cal-number">${d}</div>
+      ${content}
+    </div>
+  `;
+}
+
+$('calendarGrid').innerHTML = html;
 
 // Budget
 const budget = c.budget || {};
