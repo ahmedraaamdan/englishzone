@@ -735,8 +735,7 @@ function renderCalendar(data){
   const year = now.getFullYear();
   const month = now.getMonth();
 
-let firstDay = new Date(year, month, 1).getDay();
-
+const firstDay = (new Date(year, month, 1).getDay() + 8) % 7;
 // تحويله لنفس ترتيب الهيدر
 firstDay = (firstDay + 7) % 7;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
