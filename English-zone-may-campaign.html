@@ -740,11 +740,11 @@ function renderCalendar(data){
   const prevMonthDays = new Date(year, month, 0).getDate();
 
   // أيام الشهر اللي فات
-  for(let i = firstDay - 1; i >= 0; i--){
+  for(let i = firstDay; i > 0; i--){
     const div = document.createElement("div");
     div.className = "cal-day muted";
 
-    div.innerHTML = `<div class="cal-number">${prevMonthDays - i}</div>`;
+    div.innerHTML = `<div class="cal-number">${prevMonthDays - i + 1}</div>`;
     grid.appendChild(div);
   }
 
