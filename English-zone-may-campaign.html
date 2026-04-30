@@ -433,7 +433,7 @@ if (Array.isArray(c.calendar)) {
   calendarData = Object.values(c.calendar).flat();
 }
 
-renderCalendar(calendarData);
+renderCalendar(calendarData, c);
   const hasBudget =
     !isEmptyValue(budget.total) ||
     !isEmptyValue(budget.production) ||
@@ -725,22 +725,20 @@ const { data, error } = await sb
 }
 load();
 
-function renderCalendar(data){
+function renderCalendar(data, campaign){
   const grid = document.getElementById("calendarGrid");
   grid.innerHTML = "";
 
   if(!data) data = [];
 
-  const start = c?.client?.start || new Date().toISOString().slice(0,10);
-const d = new Date(start);
+  const start = campaign?.client?.start || new Date().toISOString().slice(0,10);
+  const d = new Date(start);
 
-const year = d.getFullYear();
-const month = d.getMonth();
+  const year = d.getFullYear();
+  const month = d.getMonth();
 
-let firstDay = new Date(year, month, 1).getDay();
+  const firstDay = new Date(year, month, 1).getDay();
 
-// تحويله لنفس ترتيب الهيدر
-let firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const prevMonthDays = new Date(year, month, 0).getDate();
 
@@ -748,14 +746,12 @@ let firstDay = new Date(year, month, 1).getDay();
   for(let i = firstDay; i > 0; i--){
     const div = document.createElement("div");
     div.className = "cal-day muted";
-
     div.innerHTML = `<div class="cal-number">${prevMonthDays - i + 1}</div>`;
     grid.appendChild(div);
   }
 
   // أيام الشهر الحالي
   for(let day = 1; day <= daysInMonth; day++){
-
     const item = data.find(i => Number(i.day) === day);
 
     const div = document.createElement("div");
@@ -763,24 +759,22 @@ let firstDay = new Date(year, month, 1).getDay();
 
     div.innerHTML = `
       <div class="cal-number">${day}</div>
-${item ? `
-  <div class="cal-item">
-    <div class="cal-type">${item.type}</div>
-    <div class="cal-title">${item.title}</div>
-  </div>
-` : ""}
-`;
+      ${item ? `
+        <div class="cal-item">
+          <div class="cal-type">${item.type}</div>
+          <div class="cal-title">${item.title}</div>
+        </div>
+      ` : ""}
+    `;
 
     grid.appendChild(div);
   }
 
-  // نكمل لحد 42 خلية
+  // تكملة الخلايا
   const total = grid.children.length;
-
   for(let i = 1; i <= (42 - total); i++){
     const div = document.createElement("div");
     div.className = "cal-day muted";
-
     div.innerHTML = `<div class="cal-number">${i}</div>`;
     grid.appendChild(div);
   }
