@@ -2008,6 +2008,24 @@ function saveCalendarItem(){
     title: item?.title || "بدون عنوان"
   };
 
+  // 🔥 هنا المهم
+  if(!Array.isArray(D.calendar)){
+    D.calendar = [];
+  }
+
+  // يمسح أي حاجة بنفس اليوم (عشان ميبقاش فيه تكرار)
+  D.calendar = D.calendar.filter(i => i.day !== entry.day);
+
+  // يضيف الجديد
+  D.calendar.push(entry);
+
+  // يقفل البوباب
+  document.getElementById("calendarPopup").classList.add("hidden");
+
+  // يرندر الكاليندر تاني في الداشبورد
+  renderCalendarEditor();
+}
+
   // 👇 نحفظ في الداتا الأساسية
   D.calendar = D.calendar || [];
 
