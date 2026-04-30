@@ -757,30 +757,40 @@ function renderCalendar(cal){
   });
 }
 
-  function renderCalendar(data){
-  const grid = $("calendarGrid");
+function renderCalendar(data){
+  const grid = document.getElementById("calendarGrid");
   grid.innerHTML = "";
 
   if(!data || !data.length){
-    $("calendarEmpty").style.display = "block";
+    document.getElementById("calendarEmpty").style.display = "block";
     return;
   }
 
-  $("calendarEmpty").style.display = "none";
+  document.getElementById("calendarEmpty").style.display = "none";
 
-  data.forEach(item=>{
+  // عدد أيام الشهر (مؤقت 30)
+  const daysInMonth = 30;
+
+  for(let day = 1; day <= daysInMonth; day++){
+
+    const item = data.find(i => i.day == day);
+
     const div = document.createElement("div");
-    div.className = "cal-day " + (item.type || "");
+    div.className = "cal-day " + (item?.type || "");
 
     div.innerHTML = `
-      <div class="cal-number">${item.day}</div>
-      <div class="cal-item ${item.type}">
-        ${item.title || ""}
-      </div>
+      <div class="cal-number">${day}</div>
+      ${
+        item ? `
+          <div class="cal-item">
+            ${item.title}
+          </div>
+        ` : ``
+      }
     `;
 
     grid.appendChild(div);
-  });
+  }
 }
 
 function renderCalendar(data){
