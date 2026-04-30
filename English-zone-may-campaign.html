@@ -742,7 +742,7 @@ function renderCalendar(data, campaign){
   const year = d.getFullYear();
   const month = d.getMonth();
 
-  const firstDay = new Date(year, month, 1).getDay();
+  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
 
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const prevMonthDays = new Date(year, month, 0).getDate();
