@@ -358,7 +358,7 @@ function renderCalendar(calData, startDateStr) {
   const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   $('calendarMonthLabel').textContent = MONTH_NAMES[month] + ' ' + year;
 
-  const firstDow  = (new Date(year, month, 1).getDay() + 8) % 7;   // 0=Sun
+  const firstDow  = (new Date(year, month, 1).getDay() + 9) % 7;   // 0=Sun
   const daysInMon = new Date(year, month + 1, 0).getDate();
   const prevDays  = new Date(year, month, 0).getDate();
 
