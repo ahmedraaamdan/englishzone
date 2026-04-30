@@ -1993,6 +1993,7 @@ function fillIndexOptions(type){
 
 // حفظ الاختيار
 function saveCalendarItem(){
+
   const type = document.getElementById("calType").value;
   const index = document.getElementById("calIndex").value;
 
@@ -2008,29 +2009,12 @@ function saveCalendarItem(){
     title: item?.title || "بدون عنوان"
   };
 
-  // 🔥 هنا المهم
   if(!Array.isArray(D.calendar)){
     D.calendar = [];
   }
 
-  // يمسح أي حاجة بنفس اليوم (عشان ميبقاش فيه تكرار)
-  D.calendar = D.calendar.filter(i => i.day !== entry.day);
+  const existingIndex = D.calendar.findIndex(e => e.day === entry.day);
 
-  // يضيف الجديد
-  D.calendar.push(entry);
-
-  // يقفل البوباب
-  document.getElementById("calendarPopup").classList.add("hidden");
-
-  // يرندر الكاليندر تاني في الداشبورد
-  renderCalendarEditor();
-}
-
-  // 👇 نحفظ في الداتا الأساسية
-  D.calendar = D.calendar || [];
-
-  // لو اليوم موجود نعدله
-  const existingIndex = D.calendar.findIndex(e => e.day === calSelectedDay);
   if(existingIndex > -1){
     D.calendar[existingIndex] = entry;
   } else {
@@ -2040,9 +2024,9 @@ function saveCalendarItem(){
   document.getElementById("calendarPopup").classList.add("hidden");
 
   generateCalendar();
-updateJsonOutput();
-  }
-
+  updateJsonOutput();
+}
+  
 // عرض الكونتنت في اليوم
 function renderCalContent(day){
   if(!D.calendar) return "";
