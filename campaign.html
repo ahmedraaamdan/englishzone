@@ -7,9 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Campaign OS — Editor</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-
-  
-  
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -19,10 +16,8 @@
   --primary-mid:#FFCFB3;
   --accent:#F5C400;
   --accent2:#C0007A;
-
   --dark:#1A1A1A;
   --dark2:#444444;
-
   --bg:#F5F5F5;
   --card:#FFFFFF;
   --surface:#FFFFFF;
@@ -31,7 +26,6 @@
   --logo-preview-bg:#F1F5F9;
   --muted:#888888;
   --border:#E5E5E5;
-
   --danger:#EF4444;
   --success:#22C55E;
   --warn:#F59E0B;
@@ -51,7 +45,8 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
   border-radius:24px;padding:48px 40px;width:100%;max-width:420px;text-align:center;
   box-shadow:0 32px 80px rgba(0,0,0,.6);
 }
-.login-logo{width:64px;height:64px;background:var(--primary);border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:white;margin-bottom:20px}
+.login-logo{width:86px!important;height:86px!important;background:transparent!important;border-radius:0!important;padding:0!important;margin-bottom:20px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;}
+.login-logo img{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important;}
 .login-box h1{color:white;font-size:24px;font-weight:900;margin-bottom:6px}
 .login-box p{color:#64748B;font-size:13px;margin-bottom:28px}
 .login-input{width:100%;background:#1A0A00;border:1.5px solid rgba(255,85,0,.15);border-radius:12px;padding:12px 16px;color:white;font-family:'Cairo',inherit;font-size:14px;font-weight:600;outline:none;text-align:right;transition:border .2s;margin-bottom:10px}
@@ -68,9 +63,10 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
 
 /* SIDEBAR */
 .sidebar{background:var(--dark);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:auto}
-.sidebar-header{padding:24px 20px 16px}
+.sidebar-header{padding:24px 20px 16px;background:transparent!important;border-bottom:1px solid rgba(255,85,0,.25)!important;}
 .logo-mark{display:flex;align-items:center;gap:10px;margin-bottom:4px}
-.logo-icon{width:36px;height:36px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:white}
+.logo-icon{width:42px!important;height:42px!important;background:transparent!important;border-radius:0!important;padding:0!important;overflow:visible!important;display:flex;align-items:center;justify-content:center;}
+.logo-icon img{width:100%!important;height:100%!important;object-fit:contain!important;display:block!important;}
 .logo-text{font-size:20px;font-weight:900;color:white}
 .logo-sub{font-size:11px;color:#94A3B8;font-weight:500}
 .nav{padding:8px 12px;flex:1}
@@ -85,10 +81,10 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
 .sidebar-footer p{font-size:11px;color:#475569}
 
 /* MAIN */
-.main{min-width:0;padding:24px;display:flex;flex-direction:column;gap:20px}
-.topbar{background:var(--surface);border-radius:var(--radius);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:var(--shadow)}
-.topbar-left h1{font-size:22px;font-weight:900}
-.topbar-left p{font-size:12px;color:var(--muted);margin-top:2px}
+.main{min-width:0;padding:24px;display:flex;flex-direction:column;gap:20px;background:#F5F5F5!important;}
+.topbar{background:var(--surface);border-radius:var(--radius);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:var(--shadow);background:#FFFFFF!important;border:1px solid #E5E5E5!important;}
+.topbar-left h1{font-size:22px;font-weight:900;color:#1A1A1A!important;}
+.topbar-left p{font-size:12px;color:#888888!important;margin-top:2px}
 .actions{display:flex;gap:10px}
 
 /* STATUS */
@@ -103,75 +99,25 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
 .section.active{display:flex;flex-direction:column;gap:16px}
 
 /* CARDS */
-.card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.card{background:#FFFFFF!important;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border:1px solid #E5E5E5!important;}
 .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px}
-.card-title{font-size:17px;font-weight:900}
-.card-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.card-title{font-size:17px;font-weight:900;color:#1A1A1A!important;}
+.card-sub{font-size:12px;color:#888888!important;margin-top:2px}
 
 /* GRID */
 .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
 /* FORM */
 .field{margin-bottom:14px}
 .field:last-child{margin-bottom:0}
-
-label.field-label{
-  display:block;
-  font-size:12px;
-  font-weight:800;
-  color:#444444;
-  margin-bottom:6px;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-}
-
-input[type=text],
-input[type=url],
-input[type=number],
-textarea,
-select{
-  width:100%;
-  border:1.5px solid #E5E5E5;
-  border-radius:10px;
-  padding:10px 13px;
-  font-family:'Cairo',inherit;
-  font-size:13.5px;
-  font-weight:500;
-  outline:none;
-  background:#FFFFFF;
-  color:#1A1A1A;
-  transition:border .2s, box-shadow .2s;
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-  border-color:#FF5500;
-  box-shadow:0 0 0 3px rgba(255,85,0,.1);
-}
-
-textarea{
-  resize:vertical;
-  min-height:100px;
-}
-
-.color-row{
-  display:grid;
-  grid-template-columns:1fr 44px;
-  gap:8px;
-  align-items:center;
-}
-
-input[type=color]{
-  border:1.5px solid #E5E5E5;
-  border-radius:8px;
-  padding:2px;
-  height:42px;
-  width:44px;
-  cursor:pointer;
-  background:#FFFFFF;
-}
+label.field-label{display:block;font-size:12px;font-weight:800;color:#444444;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+input[type=text],input[type=url],input[type=number],textarea,select{width:100%;border:1.5px solid #E5E5E5;border-radius:10px;padding:10px 13px;font-family:'Cairo',inherit;font-size:13.5px;font-weight:500;outline:none;background:#FFFFFF;color:#1A1A1A;transition:border .2s, box-shadow .2s;}
+input:focus,textarea:focus,select:focus{border-color:#FF5500;box-shadow:0 0 0 3px rgba(255,85,0,.1);}
+textarea{resize:vertical;min-height:100px;}
+.color-row{display:grid;grid-template-columns:1fr 44px;gap:8px;align-items:center;}
+input[type=color]{border:1.5px solid #E5E5E5;border-radius:8px;padding:2px;height:42px;width:44px;cursor:pointer;background:#FFFFFF;}
 
 /* BTN */
 .btn{border:0;border-radius:12px;padding:10px 18px;font-family:'Cairo',inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
@@ -190,9 +136,9 @@ input[type=color]{
 
 .list-item{border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;background:#FAFCFF;transition:border .2s}
 .list-item:hover{border-color:var(--primary-mid)}
-.list-item-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
+.list-item-head{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin-bottom:14px;}
 .item-num{background:var(--primary);color:white;width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0}
-.item-title{font-size:14px;font-weight:800;flex:1}
+.item-title{font-size:14px;font-weight:800;flex:1;text-align:right!important;}
 
 /* FILE UPLOAD BUTTON */
 .file-upload-wrap{position:relative;display:inline-block}
@@ -201,37 +147,9 @@ input[type=color]{
 .file-upload-btn:hover{border-color:var(--primary);color:var(--primary)}
 .file-upload-name{font-size:11px;color:var(--text-sub);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px}
 
-/* CALENDAR GRID VIEW */
-.cal-grid-view{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px}
-.cal-grid-view .cal-header-cell{text-align:center;font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;padding:4px;letter-spacing:.5px}
-.cal-entry-row{
-  display:grid;
-  grid-template-columns: 60px 1fr 1fr 1fr 1fr auto;
-  gap:10px;align-items:start;
-  background:white;border:1.5px solid var(--border);border-radius:12px;
-  padding:12px 14px;margin-bottom:8px;
-  border-right:4px solid var(--primary);
-  transition:.2s;
-}
-.cal-entry-row:hover{border-color:var(--primary);box-shadow:0 4px 12px rgba(255,85,0,.1)}
-.cal-entry-row select,.cal-entry-row input,.cal-entry-row textarea{font-size:12px;padding:6px 10px;border-radius:8px}
-.cal-entry-row textarea{min-height:38px!important;resize:none}
-.cal-day-badge{width:44px;height:44px;background:var(--primary-light);border:1.5px solid var(--primary-mid);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--primary)}
-
-/* SECTION HEADER ACCENT */
-.sidebar-header{padding:24px 20px 16px}
-
 /* PREVIEW */
-.preview-hero{
-  background:linear-gradient(135deg,#1A1A1A,#444444);
-  color:white;
-  border-radius:16px;
-  padding:28px;
-  position:relative;
-  overflow:hidden;
-  min-height:160px;
-}
-  .preview-hero:before{content:"";position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05)}
+.preview-hero{background:linear-gradient(135deg,#1A1A1A,#444444);color:white;border-radius:16px;padding:28px;position:relative;overflow:hidden;min-height:160px;}
+.preview-hero:before{content:"";position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05)}
 .preview-hero:after{content:"";position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04)}
 .preview-hero h3{font-size:24px;font-weight:900;position:relative;margin-bottom:8px}
 .preview-hero p{font-size:13px;color:rgba(255,255,255,.8);position:relative}
@@ -261,21 +179,8 @@ input[type=color]{
 .progress-bar{height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-top:6px}
 .progress-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .5s}
 
-/* LOCKED SECTION */
-.locked-section{
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-  padding:60px;text-align:center;color:var(--muted);
-}
-.locked-icon{font-size:48px;margin-bottom:16px}
-.locked-title{font-size:18px;font-weight:900;color:var(--dark);margin-bottom:8px}
-.locked-sub{font-size:13px}
-
 /* User badge */
-.user-badge-top{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,85,0,.1);border:1px solid rgba(255,85,0,.2);
-  border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--primary);
-}
+.user-badge-top{display:inline-flex;align-items:center;gap:6px;background:rgba(255,85,0,.1);border:1px solid rgba(255,85,0,.2);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--primary);}
 
 /* USER CAMPAIGNS DASHBOARD */
 #userCampaignsScreen{position:fixed;inset:0;z-index:900;background:var(--bg);display:none;padding:28px;overflow:auto}
@@ -284,416 +189,58 @@ input[type=color]{
 .user-dash-head h1{font-size:24px;font-weight:900}
 .user-dash-head p{font-size:13px;color:var(--muted);margin-top:4px}
 .user-campaigns-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.user-campaign-card{background:white;border-radius:20px;box-shadow:var(--shadow);overflow:hidden;cursor:pointer;border:2px solid transparent;transition:.2s}
-.user-campaign-card:hover{border-color:var(--primary);transform:translateY(-2px)}
-.user-campaign-hero{height:96px;background:linear-gradient(135deg,#0F172A,#2563EB);display:flex;align-items:flex-end;padding:16px;color:white;font-size:22px}
-.user-campaign-body{padding:18px}
+.user-campaign-card{background:white;border-radius:14px!important;border:1px solid #E5E5E5!important;box-shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06)!important;overflow:hidden;cursor:pointer;transition:.2s}
+.user-campaign-card:hover{border-color:var(--primary)!important;transform:translateY(-2px)}
+.user-campaign-hero{height:104px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:16px!important;position:relative!important;overflow:hidden!important;}
+.user-campaign-hero:before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.08);top:-35px;right:-35px;}
+.user-campaign-body{padding:18px;background:#FFFFFF!important;}
 .user-campaign-name{font-size:16px;font-weight:900;margin-bottom:4px}
 .user-campaign-client{font-size:12px;color:var(--muted);font-weight:700}
 .user-campaign-meta{margin-top:12px;font-size:11px;color:var(--muted);background:var(--bg);display:inline-flex;border-radius:8px;padding:5px 10px}
+
+/* POST CARDS */
+.post-card-clean{background:#fff!important;border:1px solid #DBEAFE!important;border-radius:18px!important;padding:18px!important;box-shadow:0 8px 24px rgba(15,23,42,.05);text-align:right!important;}
+.post-card-head{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;border-bottom:1px solid var(--border);padding-bottom:14px;}
+.post-title-wrap{display:flex!important;align-items:center!important;gap:10px!important;text-align:right!important;}
+.post-controls{display:flex!important;flex-direction:row!important;align-items:flex-end!important;justify-content:flex-end!important;gap:10px!important;flex-wrap:wrap!important;}
+.badge-group{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:2px;}
+.badge-label{font-size:10px;font-weight:800;color:#64748B;padding-left:4px}
+.mini-select{width:auto!important;min-width:145px!important;height:36px!important;border-radius:999px!important;padding:0 14px!important;font-size:12px!important;font-weight:800!important;background:#F8FAFC!important;border:1px solid #CBD5E1!important;}
+.type-select{min-width:165px!important}
+.platform-select{min-width:145px!important}
+.status-select{min-width:140px!important}
+.status-select.approved{background:#DCFCE7!important;color:#166534!important;border-color:#22C55E!important;}
+.status-select.rejected{background:#FEF2F2!important;color:#991B1B!important;border-color:#EF4444!important;}
+.status-select.need_edit{background:#FEF9C3!important;color:#854D0E!important;border-color:#EAB308!important;}
+.post-delete-btn{border:0;background:#EF4444;color:white;border-radius:10px;height:34px!important;padding:0 12px;font-weight:900;cursor:pointer;align-self:flex-end!important;}
+.upload-box-clean{border:1.5px dashed #BFDBFE;border-radius:16px;padding:16px;background:#F8FAFC;text-align:center;min-height:170px;}
+.upload-icon{font-size:28px;margin-bottom:6px}
+.upload-text{font-size:12px;color:#64748B;font-weight:700;margin-bottom:10px}
+.comments-box{margin-top:16px;border-top:1px solid var(--border);padding-top:14px;}
+.comments-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.comments-head strong{font-size:13px}
+.comments-head span{font-size:11px;color:var(--muted)}
+.comment-input-row{display:flex;gap:8px;align-items:flex-start;}
+.comment-input-row textarea{min-height:42px!important;border-radius:999px!important;padding:10px 16px!important;resize:none!important;}
+.comment-input-row button{height:42px;border:0;border-radius:999px;background:var(--primary);color:white;padding:0 18px;font-weight:900;cursor:pointer;}
+.comment-avatar{width:32px;height:32px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
+.comment-avatar.small{width:30px;height:30px;background:#E2E8F0;color:#334155;}
+.comments-list{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
+.comment-item{display:flex;gap:8px;align-items:flex-start;}
+.comment-bubble{background:#F1F5F9;border-radius:14px;padding:8px 12px;max-width:85%;}
+.comment-meta{display:flex;gap:8px;align-items:center;font-size:12px;}
+.comment-meta span{color:#94A3B8;font-weight:700;}
+.comment-meta button{border:0;background:transparent;color:#EF4444;font-size:11px;font-weight:900;cursor:pointer;}
+.comment-text{font-size:13px;color:#334155;margin-top:3px;white-space:pre-wrap;}
+
+input,textarea,select,button{font-family:'Cairo',sans-serif!important;}
+input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!important;color:#94A3B8;font-weight:500;letter-spacing:0;}
 
 @media(max-width:900px){
   .app{grid-template-columns:1fr}
   .sidebar{height:auto;position:relative}
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
 }
-
-  input,
-textarea,
-select,
-button {
-  font-family: 'Cairo', sans-serif !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-  font-family: 'Cairo', sans-serif !important;
-  color: #94A3B8;
-  font-weight: 500;
-  letter-spacing: 0;
-}
-
-.post-card-clean{
-  background:#fff!important;
-  border:1px solid #DBEAFE!important;
-  border-radius:18px!important;
-  padding:18px!important;
-  box-shadow:0 8px 24px rgba(15,23,42,.05);
-}
-
-.post-card-head{
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  border-bottom:1px solid var(--border);
-  padding-bottom:14px;
-}
-
-.post-title-wrap{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:14px;
-  margin-left:auto;
-}
-
-.post-controls{
-  display:flex;
-  justify-content:flex-start;
-  align-items:flex-end;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-right:auto;
-}
-
-  .post-card-clean{
-  text-align:right!important;
-}
-
-.post-controls .badge-group{
-  align-items:flex-start;
-}
-
-.post-delete-btn{
-  order:99;
-}
-
-.post-controls{
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.mini-select{
-  width:auto!important;
-  min-width:145px!important;
-  height:36px!important;
-  border-radius:999px!important;
-  padding:0 14px!important;
-  font-size:12px!important;
-  font-weight:800!important;
-  background:#F8FAFC!important;
-  border:1px solid #CBD5E1!important;
-}
-
-.type-select{min-width:165px!important}
-.platform-select{min-width:145px!important}
-.status-select{min-width:140px!important}
-
-.status-select.approved{
-  background:#DCFCE7!important;
-  color:#166534!important;
-  border-color:#22C55E!important;
-}
-
-.status-select.rejected{
-  background:#FEF2F2!important;
-  color:#991B1B!important;
-  border-color:#EF4444!important;
-}
-
-.status-select.need_edit{
-  background:#FEF9C3!important;
-  color:#854D0E!important;
-  border-color:#EAB308!important;
-}
-  
-.post-delete-btn{
-  border:0;
-  background:#EF4444;
-  color:white;
-  border-radius:10px;
-  height:34px;
-  padding:0 12px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.upload-box-clean{
-  border:1.5px dashed #BFDBFE;
-  border-radius:16px;
-  padding:16px;
-  background:#F8FAFC;
-  text-align:center;
-  min-height:170px;
-}
-
-.upload-icon{font-size:28px;margin-bottom:6px}
-.upload-text{font-size:12px;color:#64748B;font-weight:700;margin-bottom:10px}
-
-.comments-box{
-  margin-top:16px;
-  border-top:1px solid var(--border);
-  padding-top:14px;
-}
-
-.comments-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-}
-
-.comments-head strong{font-size:13px}
-.comments-head span{font-size:11px;color:var(--muted)}
-
-.comment-input-row{
-  display:flex;
-  gap:8px;
-  align-items:flex-start;
-}
-
-.comment-input-row textarea{
-  min-height:42px!important;
-  border-radius:999px!important;
-  padding:10px 16px!important;
-  resize:none!important;
-}
-
-.comment-input-row button{
-  height:42px;
-  border:0;
-  border-radius:999px;
-  background:var(--primary);
-  color:white;
-  padding:0 18px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.comment-avatar{
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  background:var(--primary);
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  font-weight:900;
-  flex-shrink:0;
-}
-
-.comment-avatar.small{
-  width:30px;
-  height:30px;
-  background:#E2E8F0;
-  color:#334155;
-}
-
-.comments-list{
-  margin-top:12px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.comment-item{
-  display:flex;
-  gap:8px;
-  align-items:flex-start;
-}
-
-.comment-bubble{
-  background:#F1F5F9;
-  border-radius:14px;
-  padding:8px 12px;
-  max-width:85%;
-}
-
-.comment-meta{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  font-size:12px;
-}
-
-.comment-meta span{
-  color:#94A3B8;
-  font-weight:700;
-}
-
-.comment-meta button{
-  border:0;
-  background:transparent;
-  color:#EF4444;
-  font-size:11px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.comment-text{
-  font-size:13px;
-  color:#334155;
-  margin-top:3px;
-  white-space:pre-wrap;
-}
-
-
-.badge-group{
-  display:flex;
-  flex-direction:column;
-  gap:2px;
-}
-
-.badge-label{
-  font-size:10px;
-  font-weight:800;
-  color:#64748B;
-  padding-left:4px;
-}
-
-
-.list-item-head{
-  display:flex!important;
-  flex-direction:row!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:12px!important;
-}
-
-.list-item-head .item-title{
-  flex:1!important;
-  text-align:right!important;
-}
-
-.post-card-head{
-  display:flex!important;
-  flex-direction:row!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:14px!important;
-}
-
-.post-title-wrap{
-  display:flex!important;
-  align-items:center!important;
-  gap:10px!important;
-  text-align:right!important;
-}
-
-.post-controls{
-  display:flex!important;
-  flex-direction:row!important;
-  align-items:flex-end!important;
-  justify-content:flex-end!important;
-  gap:10px!important;
-  flex-wrap:wrap!important;
-}
-
-.badge-group{
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:flex-start!important;
-}
-
-.post-delete-btn{
-  height:34px!important;
-  align-self:flex-end!important;
-}
-
-.login-logo{
-  width:86px!important;
-  height:86px!important;
-  background:transparent!important;
-  border-radius:0!important;
-  padding:0!important;
-  margin-bottom:20px!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-
-.login-logo img{
-  width:100%!important;
-  height:100%!important;
-  object-fit:contain!important;
-  display:block!important;
-}
-
-.logo-icon{
-  width:42px!important;
-  height:42px!important;
-  background:transparent!important;
-  border-radius:0!important;
-  padding:0!important;
-  overflow:visible!important;
-}
-
-.logo-icon img{
-  width:100%!important;
-  height:100%!important;
-  object-fit:contain!important;
-  display:block!important;
-}
-
-.sidebar-header{
-  background:transparent!important;
-  border-bottom:1px solid rgba(255,85,0,.25)!important;
-}
-
-body{
-  background:#F5F5F5!important;
-  color:#1A1A1A!important;
-}
-
-.main{
-  background:#F5F5F5!important;
-}
-
-.card,
-.topbar{
-  background:#FFFFFF!important;
-  border:1px solid #E5E5E5!important;
-  box-shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06)!important;
-}
-
-  .card-sub,
-.topbar-left p{
-  color:#888888!important;
-}
-
-.card-title,
-.topbar-left h1{
-  color:#1A1A1A!important;
-}
-
-.user-campaign-hero{
-  height:104px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  padding:16px!important;
-  position:relative!important;
-  overflow:hidden!important;
-}
-
-.user-campaign-hero:before{
-  content:"";
-  position:absolute;
-  width:130px;
-  height:130px;
-  border-radius:50%;
-  background:rgba(255,255,255,.08);
-  top:-35px;
-  right:-35px;
-}
-
-.user-campaign-card{
-  border-radius:14px!important;
-  border:1px solid #E5E5E5!important;
-  box-shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06)!important;
-}
-
-.user-campaign-body{
-  background:#FFFFFF!important;
-}
-  
 </style>
 </head>
 <body>
@@ -701,9 +248,10 @@ body{
 <!-- USER LOGIN -->
 <div id="userLoginScreen">
   <div class="login-box">
-<div class="login-logo">
-  <img src="https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png" alt="Buzz Agency Logo">
-</div>    <h1 id="loginCampaignTitle" style="color:#FF5500">Buzz Agency</h1>
+    <div class="login-logo">
+      <img src="https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png" alt="Buzz Agency Logo">
+    </div>
+    <h1 id="loginCampaignTitle" style="color:#FF5500">Buzz Agency</h1>
     <p style="color:#7A5C4E;margin-bottom:28px">Campaign OS — ادخل بيانات حسابك</p>
     <input type="text" class="login-input" id="uLoginName" placeholder="اسم المستخدم">
     <input type="password" class="login-input" id="uLoginPass" placeholder="الباسورد">
@@ -731,9 +279,9 @@ body{
 <div id="app" style="display:none">
   <div class="app">
     <aside class="sidebar">
-<div class="sidebar-header">
-  <div class="logo-mark">
-          <div class="logo-icon" style="background:var(--primary);overflow:hidden;padding:0;display:flex;align-items:center;justify-content:center">
+      <div class="sidebar-header">
+        <div class="logo-mark">
+          <div class="logo-icon">
             <img id="buzzLogoSidebar" src="" alt="B" style="width:36px;height:36px;object-fit:contain;display:none">
             <span id="buzzLogoFallback" style="font-size:18px;font-weight:900;color:white">B</span>
           </div>
@@ -765,7 +313,7 @@ body{
         <div class="nav-group">
           <div class="nav-label">الإعدادات</div>
           <button data-section="budget" data-perm="budget"><span class="icon">💰</span> Budget</button>
-<button data-section="save" data-perm="save" id="superSaveNav"><span class="icon">💾</span> Save</button>
+          <button data-section="save" data-perm="save" id="superSaveNav"><span class="icon">💾</span> Save</button>
         </div>
       </nav>
       <div class="sidebar-footer">
@@ -859,103 +407,46 @@ body{
               <div class="field"><label class="field-label">Dark Color</label><div class="color-row"><input type="text" id="darkColor" placeholder="#0F172A"><input type="color" id="darkPicker" value="#0F172A"></div></div>
               <div class="field"><label class="field-label">Background Color</label><div class="color-row"><input type="text" id="bgColor" placeholder="#F1F5F9"><input type="color" id="bgPicker" value="#F1F5F9"></div></div>
               <div class="field"><label class="field-label">Accent Color</label><div class="color-row"><input type="text" id="accentColor" placeholder="#F59E0B"><input type="color" id="accentPicker" value="#F59E0B"></div></div>
-            <div class="field">
-  <label class="field-label">Text Main (العناوين)</label>
-  <div class="color-row">
-    <input type="text" id="textMain" placeholder="#111111">
-    <input type="color" id="textMainPicker" value="#111111">
-  </div>
-</div>
-
-<div class="field">
-  <label class="field-label">Text Sub (الوصف)</label>
-  <div class="color-row">
-    <input type="text" id="textSub" placeholder="#666666">
-    <input type="color" id="textSubPicker" value="#666666">
-  </div>
-</div>
-
-<div class="field">
-  <label class="field-label">Surface (خلفيات الكروت)</label>
-  <div class="color-row">
-    <input type="text" id="surfaceColor" placeholder="#FFFFFF">
-    <input type="color" id="surfacePicker" value="#FFFFFF">
-  </div>
-</div>
-
+              <div class="field"><label class="field-label">Text Main (العناوين)</label><div class="color-row"><input type="text" id="textMain" placeholder="#111111"><input type="color" id="textMainPicker" value="#111111"></div></div>
+              <div class="field"><label class="field-label">Text Sub (الوصف)</label><div class="color-row"><input type="text" id="textSub" placeholder="#666666"><input type="color" id="textSubPicker" value="#666666"></div></div>
+              <div class="field"><label class="field-label">Surface (خلفيات الكروت)</label><div class="color-row"><input type="text" id="surfaceColor" placeholder="#FFFFFF"><input type="color" id="surfacePicker" value="#FFFFFF"></div></div>
+              <div class="field"><label class="field-label">Hero BG 1</label><div class="color-row"><input type="text" id="heroBg1" placeholder="#000000"><input type="color" id="heroBg1Picker" value="#000000"></div></div>
+              <div class="field"><label class="field-label">Hero BG 2</label><div class="color-row"><input type="text" id="heroBg2" placeholder="#B5FC02"><input type="color" id="heroBg2Picker" value="#B5FC02"></div></div>
+              <div class="field"><label class="field-label">Big Idea BG 1</label><div class="color-row"><input type="text" id="bigIdeaBg1" placeholder="#000000"><input type="color" id="bigIdeaBg1Picker" value="#000000"></div></div>
+              <div class="field"><label class="field-label">Big Idea BG 2</label><div class="color-row"><input type="text" id="bigIdeaBg2" placeholder="#B5FC02"><input type="color" id="bigIdeaBg2Picker" value="#B5FC02"></div></div>
+            </div>
+            <div>
               <div class="field">
-  <label class="field-label">Hero BG 1</label>
-  <div class="color-row">
-    <input type="text" id="heroBg1" placeholder="#000000">
-    <input type="color" id="heroBg1Picker" value="#000000">
-  </div>
-</div>
-
-<div class="field">
-  <label class="field-label">Hero BG 2</label>
-  <div class="color-row">
-    <input type="text" id="heroBg2" placeholder="#B5FC02">
-    <input type="color" id="heroBg2Picker" value="#B5FC02">
-  </div>
-</div>
-
-<div class="field">
-  <label class="field-label">Big Idea BG 1</label>
-  <div class="color-row">
-    <input type="text" id="bigIdeaBg1" placeholder="#000000">
-    <input type="color" id="bigIdeaBg1Picker" value="#000000">
-  </div>
-</div>
-
-<div class="field">
-  <label class="field-label">Big Idea BG 2</label>
-  <div class="color-row">
-    <input type="text" id="bigIdeaBg2" placeholder="#B5FC02">
-    <input type="color" id="bigIdeaBg2Picker" value="#B5FC02">
-  </div>
-</div>
+                <label class="field-label">Logo</label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input type="url" id="logoUrl" placeholder="رابط اللوجو (PNG/JPG/SVG)" style="flex:1">
+                  <div class="file-upload-wrap">
+                    <span class="file-upload-btn">⬆️ رفع</span>
+                    <input type="file" id="logoUpload" accept="image/*">
+                  </div>
+                </div>
+                <div id="logoPreviewWrap" style="display:none;margin-top:8px;text-align:center;border-radius:12px;padding:20px;background:var(--logo-preview-bg)">
+                  <img id="logoPreviewImg" style="max-height:60px;max-width:180px;object-fit:contain" alt="Logo"/>
+                </div>
               </div>
-              
-   <div>
-  <div class="field">
-    <label class="field-label">Logo</label>
-
-    <div style="display:flex;gap:8px;align-items:center">
-      <input type="url" id="logoUrl" placeholder="رابط اللوجو (PNG/JPG/SVG)" style="flex:1">
-
-      <div class="file-upload-wrap">
-        <span class="file-upload-btn">⬆️ رفع</span>
-        <input type="file" id="logoUpload" accept="image/*">
-      </div>
-    </div>
-
-   <div id="logoPreviewWrap"
-     style="display:none;margin-top:8px;text-align:center;border-radius:12px;padding:20px;background:var(--logo-preview-bg)">
-  <img id="logoPreviewImg"
-       style="max-height:60px;max-width:180px;object-fit:contain"
-       alt="Logo"/>
-</div>
-
-  <div class="field"><label class="field-label">Typography</label>
-    <select id="fontFamily">
-      <option value="Cairo">Cairo</option>
-      <option value="Tajawal">Tajawal</option>
-      <option value="Almarai">Almarai</option>
-    </select>
-  </div>
-
-  <div class="field"><label class="field-label">Visual Style</label>
-    <select id="visualStyle">
-      <option value="modern">Modern & Clean</option>
-      <option value="bold">Bold & Energetic</option>
-      <option value="elegant">Elegant & Luxury</option>
-      <option value="playful">Playful & Fun</option>
-      <option value="minimal">Minimal</option>
-    </select>
-  </div>
-
-  <div class="field"><label class="field-label">Brand Notes</label><textarea id="brandNotes" placeholder="DO's & DON'Ts..." style="min-height:80px"></textarea></div>
-</div>
+              <div class="field"><label class="field-label">Typography</label>
+                <select id="fontFamily">
+                  <option value="Cairo">Cairo</option>
+                  <option value="Tajawal">Tajawal</option>
+                  <option value="Almarai">Almarai</option>
+                </select>
+              </div>
+              <div class="field"><label class="field-label">Visual Style</label>
+                <select id="visualStyle">
+                  <option value="modern">Modern & Clean</option>
+                  <option value="bold">Bold & Energetic</option>
+                  <option value="elegant">Elegant & Luxury</option>
+                  <option value="playful">Playful & Fun</option>
+                  <option value="minimal">Minimal</option>
+                </select>
+              </div>
+              <div class="field"><label class="field-label">Brand Notes</label><textarea id="brandNotes" placeholder="DO's & DON'Ts..." style="min-height:80px"></textarea></div>
+            </div>
           </div>
         </div>
       </section>
@@ -1136,15 +627,13 @@ body{
         <div class="card">
           <div class="card-header"><div class="card-title">Save & Export</div></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
-          <button class="btn btn-primary super-only" id="saveBtn2">💾 Save</button>
-
-<label class="btn btn-ghost super-only" style="cursor:pointer">
-  📤 Upload JSON
-  <input type="file" id="uploadJsonInput" accept=".json,application/json" hidden>
-</label>
-
-<button class="btn btn-ghost" id="copyJsonBtn">📋 Copy JSON</button>
-<button class="btn btn-ghost" id="downloadJsonBtn">⬇️ Download JSON</button>
+            <button class="btn btn-primary super-only" id="saveBtn2">💾 Save</button>
+            <label class="btn btn-ghost super-only" style="cursor:pointer">
+              📤 Upload JSON
+              <input type="file" id="uploadJsonInput" accept=".json,application/json" hidden>
+            </label>
+            <button class="btn btn-ghost" id="copyJsonBtn">📋 Copy JSON</button>
+            <button class="btn btn-ghost" id="downloadJsonBtn">⬇️ Download JSON</button>
           </div>
           <label class="field-label">Raw JSON</label>
           <textarea id="jsonOutput" readonly></textarea>
@@ -1157,472 +646,190 @@ body{
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ==========================================
-// BUZZ AGENCY CONFIG
+// CONFIG
 // ==========================================
-// ضع رابط اللوجو على GitHub هنا بعد ما ترفعه
-const BUZZ_LOGO_URL = "https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png"; // مثال: "https://raw.githubusercontent.com/yourusername/yourrepo/main/buzz-logo.png"
+const BUZZ_LOGO_URL = "https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png";
 
-function loadBuzzLogo() {
-  if (!BUZZ_LOGO_URL) return;
-  const img = document.getElementById("buzzLogoSidebar");
-  const fallback = document.getElementById("buzzLogoFallback");
-  if (img) { img.src = BUZZ_LOGO_URL; img.style.display = "block"; }
-  if (fallback) fallback.style.display = "none";
-}
+const SUPABASE_URL = "https://nnhxnswtzcqjnsmvytzr.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaHhuc3d0emNxam5zbXZ5dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNjM1MjEsImV4cCI6MjA5MjczOTUyMX0.h0k7PS5zWx_SGGFGIvkh3w7SfSfhPHiVmh1x8HUYx0s";
 
-// ==========================================
-// URL PARAMS
-// ==========================================
 const params = new URLSearchParams(window.location.search);
 const CAMPAIGN_ID = params.get("id");
 const IS_SUPER_ADMIN = params.get("auth") === "1";
 
+let dbClient = null;
+let currentUser = null;
+let userPermissions = {};
+let autoSaveTimer = null;
+
+const DEFAULT_DATA = {
+  client:{name:"",campaignName:"",industry:"",start:"",end:"",brief:"",progress:0},
+  hero:{title:"",subtitle:"",slogan:"",bigIdea:"",keyMessage:"",tov:[]},
+  theme:{
+    primary:"#2563EB",dark:"#0F172A",background:"#F1F5F9",accent:"#F59E0B",
+    textMain:"#111111",textSub:"#666666",surface:"#FFFFFF",
+    heroBg1:"#000000",heroBg2:"#B5FC02",bigIdeaBg1:"#000000",bigIdeaBg2:"#B5FC02",
+    logo:"",font:"Cairo",style:"modern",brandNotes:""
+  },
+  objectives:{type:"",notes:"",ageRange:"",gender:"all",location:"",interests:"",painPoints:"",platforms:[]},
+  scripts:[],stories:[],posts:[],ads:[],calendar:[],phases:[],
+  kpis:{reach:"",engagement:"",leads:"",visits:"",conversions:"",roas:"",views:"",ctr:"",successDef:""},
+  budget:{total:"",production:"",ads:"",influencer:"",currency:"EGP",notes:""}
+};
+
+let D = {};
+
+// ==========================================
+// HELPERS
+// ==========================================
+function ea(v){ return String(v||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;"); }
+function et(v){ return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
+function setStatus(msg, type="info"){
+  const el = document.getElementById("statusBar");
+  const icons = {ok:"✅",bad:"❌",warn:"⚠️",info:"⏳"};
+  el.textContent = (icons[type]||"") + " " + msg;
+  el.className = "status-bar " + type;
+}
+
+function allPermissions(){
+  const all = {};
+  ["overview","objectives","scripts","posts","stories","ads","calendar","phases","kpis","budget","branding","hero","save"]
+    .forEach(p => all[p] = true);
+  return all;
+}
+
+function normalize(data){
+  const d = (data && typeof data === "object") ? data : {};
+  return {
+    client:   {...DEFAULT_DATA.client,   ...(d.client||{})},
+    hero:     {...DEFAULT_DATA.hero,     tov: Array.isArray(d.hero?.tov)?d.hero.tov:[], ...(d.hero||{})},
+    theme:    {...DEFAULT_DATA.theme,    ...(d.theme||{})},
+    objectives:{...DEFAULT_DATA.objectives, platforms: Array.isArray(d.objectives?.platforms)?d.objectives.platforms:[], ...(d.objectives||{})},
+    scripts:  Array.isArray(d.scripts)  ? d.scripts  : [],
+    stories:  Array.isArray(d.stories)  ? d.stories  : [],
+    posts:    Array.isArray(d.posts)    ? d.posts    : [],
+    ads:      Array.isArray(d.ads)      ? d.ads      : [],
+    calendar: Array.isArray(d.calendar) ? d.calendar : [],
+    phases:   Array.isArray(d.phases)   ? d.phases   : [],
+    kpis:     {...DEFAULT_DATA.kpis,    ...(d.kpis||{})},
+    budget:   {...DEFAULT_DATA.budget,  ...(d.budget||{})}
+  };
+}
+
+function loadBuzzLogo(){
+  if(!BUZZ_LOGO_URL) return;
+  const img      = document.getElementById("buzzLogoSidebar");
+  const fallback = document.getElementById("buzzLogoFallback");
+  if(img){ img.src = BUZZ_LOGO_URL; img.style.display = "block"; }
+  if(fallback) fallback.style.display = "none";
+}
+
+// ==========================================
+// SUPABASE IMAGE UPLOAD
+// ==========================================
+async function uploadImageToSupabase(file, folder="actors"){
+  if(!file) return "";
+  if(!dbClient){ setStatus("Supabase مش متصل", "bad"); return ""; }
+
+  const ext      = (file.name.split(".").pop()||"png").toLowerCase();
+  const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+  const { error } = await dbClient.storage.from("images").upload(fileName, file, {
+    cacheControl:"3600", upsert:true, contentType:file.type
+  });
+
+  if(error){ console.error(error); setStatus("فشل رفع الصورة — تأكد إن Bucket اسمها images وهي Public","bad"); return ""; }
+
+  const { data } = dbClient.storage.from("images").getPublicUrl(fileName);
+  return data.publicUrl;
+}
+
+// ==========================================
+// NAV
+// ==========================================
+function setupNav(){
+  document.querySelectorAll(".nav button[data-section]").forEach(btn => {
+    const perm = btn.dataset.perm;
+    if(perm && userPermissions[perm] === false){ btn.style.display = "none"; return; }
+    btn.style.display = "";
+    btn.addEventListener("click", () => showSection(btn.dataset.section));
+  });
+  const firstAllowed = document.querySelector(".nav button[data-section]:not([style*='display: none'])");
+  if(firstAllowed) showSection(firstAllowed.dataset.section);
+}
+
+function showSection(id){
+  const navBtn = document.querySelector(`.nav button[data-section="${id}"]`);
+  if(!navBtn || navBtn.style.display === "none") return;
+  const perm = navBtn.dataset.perm;
+  if(perm && userPermissions[perm] === false) return;
+
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  const section = document.getElementById(id);
+  if(section) section.classList.add("active");
+  document.querySelectorAll(".nav button").forEach(b => b.classList.toggle("active", b.dataset.section === id));
+}
+
 function applySuperAdminVisibility(){
-
-  if(!userPermissions) return; // ✅ مهم
-
+  if(!userPermissions) return;
   document.querySelectorAll(".super-only").forEach(el => {
     el.style.display = IS_SUPER_ADMIN ? "" : "none";
   });
-
   const saveBtn = document.getElementById("superSaveNav");
-
   if(saveBtn){
     const canSave = IS_SUPER_ADMIN || (userPermissions && userPermissions.save);
     saveBtn.style.display = canSave ? "" : "none";
   }
 }
 
-let dbClient = null;
-let currentUser = null;
-let userPermissions = {};
-let D = {};
-
-const DEFAULT_DATA = {
-  client:{name:"",campaignName:"",industry:"",start:"",end:"",brief:"",progress:0},
-  hero:{title:"",subtitle:"",slogan:"",bigIdea:"",keyMessage:"",tov:[]},
-  theme:{
-    primary:"#2563EB",
-    dark:"#0F172A",
-    background:"#F1F5F9",
-    accent:"#F59E0B",
-    textMain:"#111111",
-    textSub:"#666666",
-    surface:"#FFFFFF",
-    heroBg1:"#000000",
-    heroBg2:"#B5FC02",
-    bigIdeaBg1:"#000000",
-    bigIdeaBg2:"#B5FC02",
-    logo:"",
-    font:"Cairo",
-    style:"modern",
-    brandNotes:""
-  },
-  objectives:{type:"",notes:"",ageRange:"",gender:"all",location:"",interests:"",painPoints:"",platforms:[]},
-  scripts:[],
-  stories:[],
-  posts:[],
-  ads:[],
-  calendar:[],
-  phases:[],
-  kpis:{reach:"",engagement:"",leads:"",visits:"",conversions:"",roas:"",views:"",ctr:"",successDef:""},
-  budget:{total:"",production:"",ads:"",influencer:"",currency:"EGP",notes:""}
-};
-
 // ==========================================
-// INIT
+// USER LOGIN  ← FIX: doUserLogin defined as top-level function
 // ==========================================
-document.addEventListener("DOMContentLoaded", () => {
-  loadBuzzLogo();
-  const cfg = getConfig();
-  if (cfg.supabaseUrl && cfg.supabaseKey && window.supabase) {
-    dbClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
-  }
-
-  if (IS_SUPER_ADMIN) {
-    // Super admin — full access, skip login
-    currentUser = { name: "Super Admin", role: "superadmin" };
-    userPermissions = allPermissions();
-    document.getElementById("userLoginScreen").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    document.getElementById("userBadge").textContent = "👑 Super Admin";
-    setupNav();
-    loadCampaignData();
-  } else {
-    // Regular user login or existing session
-    document.getElementById("uLoginBtn").addEventListener("click", doUserLogin);
-    document.getElementById("uLoginPass").addEventListener("keydown", e => { if (e.key === "Enter") doUserLogin(); });
-    const savedUser = sessionStorage.getItem("cos_current_user");
-    if (savedUser) {
-      try {
-        const user = JSON.parse(savedUser);
-        if (user && user.username) enterAsUser(user);
-      } catch(e) { sessionStorage.removeItem("cos_current_user"); }
-    }
-  }
-
-  document.getElementById("saveBtn2").addEventListener("click", saveData);
-  document.getElementById("userLogoutBtn").addEventListener("click", logoutUser);
-  document.getElementById("dashLogoutBtn").addEventListener("click", logoutUser);
-  document.getElementById("backBtn").addEventListener("click", () => { if (IS_SUPER_ADMIN) window.location.href = "admin.html"; else showUserDashboard(); });
-  document.getElementById("copyJsonBtn").addEventListener("click", () => { navigator.clipboard.writeText(document.getElementById("jsonOutput").value); setStatus("JSON copied!", "ok"); });
-  document.getElementById("uploadJsonInput").addEventListener("change", uploadCampaignJson);
-  document.getElementById("downloadJsonBtn").addEventListener("click", () => {
-    const blob = new Blob([document.getElementById("jsonOutput").value], {type:"application/json"});
-    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "campaign.json"; a.click();
-  });
-  document.getElementById("addScriptBtn").addEventListener("click", () => { D.scripts.push({title:"",location:"",actors:[],duration:"",type:"ad",hook:"",body:"",cta:""}); renderScripts(); updateJsonOutput(); });
-document.getElementById("addPostBtn").addEventListener("click", () => {
-D.posts.push({
-  title:"",
-  platform:"facebook",
-  contentType:"image",
-  tov:"",
-  hook:"",
-  caption:"",
-  hashtags:"",
-  designImage:"",
-  reviewStatus:"need_edit",
-  reviewComment:"",
-  comments:[]
-});
-  renderPosts();
-  updateJsonOutput();
-});  document.getElementById("addStoryBtn").addEventListener("click", () => { D.stories.push({text:"",cta:"",platform:"instagram"}); renderStories(); updateJsonOutput(); });
-  document.getElementById("addAdBtn").addEventListener("click", () => { D.ads.push({name:"",adType:"awareness",headline:"",primary:"",description:"",cta:"learn_more"}); renderAds(); updateJsonOutput(); });
-  document.getElementById("addCalendarBtn").addEventListener("click", () => { D.calendar.push({day:"",type:"post",platform:"",title:"",status:"planned",notes:""}); renderCalendar(); updateJsonOutput(); });
-  document.getElementById("addPhaseBtn").addEventListener("click", () => { D.phases.push({name:"",duration:"",goal:"",activities:""}); renderPhases(); updateJsonOutput(); });
-
-  // Colors
-  // Colors
-  bindColor("primaryColor", "primaryPicker");
-  bindColor("darkColor", "darkPicker");
-  bindColor("bgColor", "bgPicker");
-  bindColor("accentColor", "accentPicker");
-
-  bindColor("textMain", "textMainPicker");
-  bindColor("textSub", "textSubPicker");
-  bindColor("surfaceColor", "surfacePicker");
-
-  bindColor("heroBg1", "heroBg1Picker");
-  bindColor("heroBg2", "heroBg2Picker");
-  bindColor("bigIdeaBg1", "bigIdeaBg1Picker");
-  bindColor("bigIdeaBg2", "bigIdeaBg2Picker");
-  document.getElementById("logoUrl").addEventListener("input", function() {
-    if (this.value) { document.getElementById("logoPreviewImg").src = this.value; document.getElementById("logoPreviewWrap").style.display = "block"; }
-  });
-
-document.getElementById("logoUpload").addEventListener("change", function(e){
-  const file = e.target.files[0];
-
-  if(!file){
-    setStatus("اختار صورة الأول", "warn");
-    return;
-  }
-
-  setStatus("جاري رفع اللوجو...", "info");
-
-  uploadImageToSupabase(file, "branding").then(url => {
-    if(!url) return;
-
-    document.getElementById("logoUrl").value = url;
-    D.theme.logo = url;
-
-    document.getElementById("logoPreviewImg").src = url;
-    document.getElementById("logoPreviewWrap").style.display = "block";
-
-    updateJsonOutput();
-    setStatus("تم رفع اللوجو", "ok");
-  });
-});
-  
-  // TOV, Objectives, Platforms
-  document.querySelectorAll("[data-tov]").forEach(el => el.addEventListener("click", () => {
-    el.classList.toggle("sel");
-    D.hero.tov = Array.from(document.querySelectorAll("[data-tov].sel")).map(e => e.dataset.tov);
-    updateJsonOutput();
-  }));
-  document.querySelectorAll("[data-obj]").forEach(el => el.addEventListener("click", () => {
-    D.objectives.type = el.dataset.obj;
-    document.querySelectorAll("[data-obj]").forEach(e => e.classList.remove("sel")); el.classList.add("sel");
-    updateJsonOutput();
-  }));
-  document.querySelectorAll("[data-platform]").forEach(el => el.addEventListener("click", () => {
-    el.classList.toggle("sel");
-    D.objectives.platforms = Array.from(document.querySelectorAll("[data-platform].sel")).map(e => e.dataset.platform);
-    updateJsonOutput();
-  }));
-
-  // Delete handlers
-  document.addEventListener("click", e => {
-
-    
-
-    const uploadPostImageIndex = e.target.getAttribute("data-upload-post-image");
-if (uploadPostImageIndex !== undefined) {
-  const i = +uploadPostImageIndex;
-  const file = document.getElementById(`postImage-${i}`).files[0];
-
-  if (!file) {
-    setStatus("اختار صورة الأول", "warn");
-    return;
-  }
-
-setStatus("جاري رفع صورة البوست...", "info");
-setPostUploadProgress(i, 10);
-
-setTimeout(() => setPostUploadProgress(i, 35), 300);
-setTimeout(() => setPostUploadProgress(i, 70), 700);
-
-uploadImageToSupabase(file, "posts")
-  .then(async imageUrl => {
-    if (!imageUrl) {
-      setStatus("فشل رفع الصورة — مفيش لينك رجع من Supabase", "bad");
-      return;
-    }
-
-    D.posts[i].designImage = imageUrl;
-    setPostUploadProgress(i, 100);
-
-    renderPosts();
-    updateJsonOutput();
-
-    await saveData();
-
-    setStatus("تم رفع صورة البوست وحفظها بنجاح ✅", "ok");
-  })
-  .catch(err => {
-    console.error("POST IMAGE UPLOAD ERROR:", err);
-    setStatus("فشل رفع صورة البوست — افتح Console وشوف الخطأ", "bad");
-  });
-
-return;
-}
-
-const delPostImageIndex = e.target.dataset.delPostImage;
-if (delPostImageIndex !== undefined) {
-  const i = +delPostImageIndex;
-
-  D.posts[i].designImage = "";
-
-  renderPosts();
-  updateJsonOutput();
-  setStatus("تم حذف صورة البوست", "ok");
-
-  return;
-}
-    
-    const addActorIndex = e.target.dataset.addActor;
-if (addActorIndex !== undefined) {
-  const i = +addActorIndex;
-  const name = document.getElementById(`actorName-${i}`).value.trim();
-  const age = document.getElementById(`actorAge-${i}`).value.trim();
-  const file = document.getElementById(`actorImage-${i}`).files[0];
-
-  if (!name || !age || !file) {
-    setStatus("اكتب اسم الممثل والسن وارفع الصورة", "warn");
-    return;
-  }
-
-  setStatus("جاري رفع صورة الممثل...", "info");
-
-  uploadImageToSupabase(file, "actors").then(imageUrl => {
-    if (!imageUrl) return;
-
-    if (!Array.isArray(D.scripts[i].actors)) D.scripts[i].actors = [];
-
-    D.scripts[i].actors.push({ name, age, image: imageUrl });
-
-    renderScripts();
-    updateJsonOutput();
-    setStatus("تم إضافة الممثل بنجاح", "ok");
-  });
-
-  return;
-}
-
-const delActorScript = e.target.dataset.delActor;
-if (delActorScript !== undefined) {
-  const i = +delActorScript;
-  const ai = +e.target.dataset.ai;
-
-  if (Array.isArray(D.scripts[i].actors)) {
-    D.scripts[i].actors.splice(ai, 1);
-  }
-
-  renderScripts();
-  updateJsonOutput();
-  return;
-}
-
-const addPostCommentIndex = e.target.dataset.addPostComment;
-if (addPostCommentIndex !== undefined) {
-  const i = +addPostCommentIndex;
-  const commentInput = document.getElementById(`postComment-${i}`);
-  const commentText = commentInput.value.trim();
-
-  if (!commentText) {
-    setStatus("اكتب الكومنت الأول", "warn");
-    return;
-  }
-
-  if (!Array.isArray(D.posts[i].comments)) D.posts[i].comments = [];
-
-  D.posts[i].comments.push({
-    text: commentText,
-by: currentUser?.username || "unknown_user_" + Date.now(),
-    role: currentUser?.role || "editor",
-    date: new Date().toLocaleString("ar-EG")
-  });
-
-  D.posts[i].reviewComment = "";
-  commentInput.value = "";
-
-  renderPosts();
-  updateJsonOutput();
-  setStatus("تم إضافة وحفظ الكومنت ✅", "ok");
-  return;
-}
-
-const delPostComment = e.target.dataset.delPostComment;
-if (delPostComment !== undefined) {
-  const i = +delPostComment;
-  const idx = +e.target.dataset.idx;
-
-  const comment = D.posts[i].comments[idx];
-
-const isOwner = comment.by === currentUser?.username;
-  if (!isOwner) {
-    setStatus("مش مسموح لك تحذف الكومنت ده ❌", "bad");
-    return;
-  }
-
-  D.posts[i].comments.splice(idx, 1);
-
-  renderPosts();
-  updateJsonOutput();
-
-  saveData();
-
-  setStatus("تم حذف الكومنت ✅", "ok");
-  return;
-}
-    
-    const ds = e.target.dataset.delScript; if (ds !== undefined) { D.scripts.splice(+ds,1); renderScripts(); updateJsonOutput(); return; }
-    const dp = e.target.dataset.delPost; if (dp !== undefined) { D.posts.splice(+dp,1); renderPosts(); updateJsonOutput(); return; }
-    const dSt = e.target.dataset.delStory; if (dSt !== undefined) { D.stories.splice(+dSt,1); renderStories(); updateJsonOutput(); return; }
-    const da = e.target.dataset.delAd; if (da !== undefined) { D.ads.splice(+da,1); renderAds(); updateJsonOutput(); return; }
-    const dc = e.target.dataset.delCal; if (dc !== undefined) { D.calendar.splice(+dc,1); renderCalendar(); updateJsonOutput(); return; }
-    const dph = e.target.dataset.delPhase; if (dph !== undefined) { D.phases.splice(+dph,1); renderPhases(); updateJsonOutput(); return; }
-  });
-
-  // Input handlers
- document.addEventListener("input", e => {
-  const t = e.target;
-
-  if (t.dataset.actorName !== undefined) {
-    const i = +t.dataset.actorName;
-    const ai = +t.dataset.ai;
-    D.scripts[i].actors[ai].name = t.value;
-    updateJsonOutput();
-    return;
-  }
-
-  if (t.dataset.actorAge !== undefined) {
-    const i = +t.dataset.actorAge;
-    const ai = +t.dataset.ai;
-    D.scripts[i].actors[ai].age = t.value;
-    updateJsonOutput();
-    return;
-  }
-
-  if (t.closest("#userLoginScreen") || t.closest("#userCampaignsScreen")) return;
-  if (document.getElementById("app").style.display === "none") return;
-
-  if (!D || !D.client) D = normalize(DEFAULT_DATA);
-
-  if (t.dataset.sf !== undefined) { D.scripts[+t.dataset.i][t.dataset.sf] = t.value; updateJsonOutput(); }
-else if (t.dataset.pf !== undefined) {
-  D.posts[+t.dataset.i][t.dataset.pf] = t.value;
-  updateJsonOutput();
-}
-
-else if (t.dataset.postReviewStatus !== undefined) {
-  D.posts[+t.dataset.postReviewStatus].reviewStatus = t.value;
-  updateJsonOutput();
-}
-else if (t.dataset.storyText !== undefined) { D.stories[+t.dataset.storyText].text = t.value; updateJsonOutput(); }
-  else if (t.dataset.storyCta !== undefined) { D.stories[+t.dataset.storyCta].cta = t.value; updateJsonOutput(); }
-  else if (t.dataset.storyPlatform !== undefined) { D.stories[+t.dataset.storyPlatform].platform = t.value; updateJsonOutput(); }
-  else if (t.dataset.af !== undefined) { D.ads[+t.dataset.i][t.dataset.af] = t.value; updateJsonOutput(); }
-  else if (t.dataset.cf !== undefined) { D.calendar[+t.dataset.i][t.dataset.cf] = t.value; updateJsonOutput(); }
-  else if (t.dataset.phf !== undefined) { D.phases[+t.dataset.i][t.dataset.phf] = t.value; updateJsonOutput(); }
-
-  collectInputs();
-
-if (currentUser?.role !== "viewer" && CAMPAIGN_ID) {
-  triggerAutoSave();
-}});
-
-// ==========================================
-// USER LOGIN
-// ==========================================
-async function doUserLogin() {
-  const username = document.getElementById("uLoginName").value.trim();
-  const pass = document.getElementById("uLoginPass").value.trim();
-
-  const errorBox = document.getElementById("uLoginError");
+async function doUserLogin(){
+  const username  = document.getElementById("uLoginName").value.trim();
+  const pass      = document.getElementById("uLoginPass").value.trim();
+  const errorBox  = document.getElementById("uLoginError");
   errorBox.textContent = "";
 
-  if (!username || !pass) {
-    errorBox.textContent = "❌ اكتب اليوزر والباسورد";
-    return;
-  }
+  if(!username || !pass){ errorBox.textContent = "❌ اكتب اليوزر والباسورد"; return; }
 
   let user = null;
 
-  // محاولة من Supabase
-  if (dbClient) {
-    try {
+  if(dbClient){
+    try{
       const { data, error } = await dbClient
         .from("cos_users")
         .select("*")
         .eq("username", username)
         .eq("password", pass)
         .maybeSingle();
-
-      if (error) throw error;
+      if(error) throw error;
       user = data;
-
-    } catch (e) {
-      console.error("USER LOGIN SUPABASE ERROR", e);
-    }
+    }catch(e){ console.error("USER LOGIN SUPABASE ERROR", e); }
   }
 
-  // fallback لو Supabase مش شغال
-  if (!user) {
-    const users = JSON.parse(localStorage.getItem("cos_users") || "[]");
+  if(!user){
+    const users = JSON.parse(localStorage.getItem("cos_users")||"[]");
     user = users.find(u => u.username === username && u.password === pass);
   }
 
-  // لو مفيش user
-  if (!user) {
+  if(!user){
     errorBox.textContent = "❌ بيانات غلط";
-    setTimeout(() => errorBox.textContent = "", 2000);
+    setTimeout(() => { errorBox.textContent = ""; }, 2000);
     return;
   }
 
-  // نجاح
   sessionStorage.setItem("cos_current_user", JSON.stringify(user));
   enterAsUser(user);
 }
 
-function enterAsUser(user) {
-  currentUser = user;
+function enterAsUser(user){
+  currentUser    = user;
   userPermissions = user.permissions || allPermissions();
 
-  if (CAMPAIGN_ID) {
-    if (!user.campaigns || !user.campaigns.includes(CAMPAIGN_ID)) {
+  if(CAMPAIGN_ID){
+    if(!user.campaigns || !user.campaigns.includes(CAMPAIGN_ID)){
       document.getElementById("userLoginScreen").style.display = "flex";
       document.getElementById("userCampaignsScreen").style.display = "none";
       document.getElementById("app").style.display = "none";
@@ -1632,530 +839,391 @@ function enterAsUser(user) {
     openEditorForUser(user);
     return;
   }
-
   showUserDashboard();
 }
 
-function openEditorForUser(user) {
-  document.getElementById("userLoginScreen").style.display = "none";
+function openEditorForUser(user){
+  document.getElementById("userLoginScreen").style.display  = "none";
   document.getElementById("userCampaignsScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
   document.getElementById("userBadge").textContent = `${user.role === "editor" ? "✏️" : "👁"} ${user.name}`;
-
   applySuperAdminVisibility();
   setupNav();
   loadCampaignData();
 }
 
-async function showUserDashboard() {
-  document.getElementById("userLoginScreen").style.display = "none";
-  document.getElementById("app").style.display = "none";
+async function showUserDashboard(){
+  document.getElementById("userLoginScreen").style.display    = "none";
+  document.getElementById("app").style.display                = "none";
   document.getElementById("userCampaignsScreen").style.display = "block";
-  document.getElementById("userDashSub").textContent = `مرحباً ${currentUser?.name || ""} — اختار كامبين`;
+  document.getElementById("userDashSub").textContent = `مرحباً ${currentUser?.name||""} — اختار كامبين`;
 
-  const ids = currentUser?.campaigns || [];
+  const ids  = currentUser?.campaigns || [];
   const grid = document.getElementById("userCampaignsGrid");
 
-  if (!ids.length) {
+  if(!ids.length){
     grid.innerHTML = `<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">🔒</div><p>مفيش كامبينز متاحة لحسابك حالياً</p></div>`;
     return;
   }
 
   let rows = [];
-
-  if (dbClient) {
-    try {
+  if(dbClient){
+    try{
       const { data, error } = await dbClient.from("campaigns").select("*").in("id", ids);
-      if (error) throw error;
+      if(error) throw error;
       rows = data || [];
-    } catch(e) {
-      console.error("LOAD USER CAMPAIGNS ERROR", e);
-    }
+    }catch(e){ console.error("LOAD USER CAMPAIGNS ERROR", e); }
   }
 
-  if (!rows.length) {
-    const stored = JSON.parse(localStorage.getItem("cos_campaigns") || "[]");
+  if(!rows.length){
+    const stored = JSON.parse(localStorage.getItem("cos_campaigns")||"[]");
     rows = stored.filter(c => ids.includes(c.id));
   }
 
   grid.innerHTML = rows.map(c => {
-    const d = c.data || {};
+    const d     = c.data || {};
     const theme = d.theme || {};
-    const clientData = d.client || {};
-
-    const logo = theme.logo || "https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png";
-    const primary = theme.primary || c.primaryColor || "#FF5500";
-    const dark = theme.dark || c.darkColor || "#1A1A1A";
-
-    const campaignName = clientData.campaignName || c.name || "Campaign";
-    const clientName = clientData.name || c.client || "";
-    const status = c.status || "draft";
+    const cl    = d.client || {};
+    const logo  = theme.logo || BUZZ_LOGO_URL;
+    const primary   = theme.primary || c.primaryColor || "#FF5500";
+    const dark      = theme.dark    || c.darkColor    || "#1A1A1A";
+    const campName  = cl.campaignName || c.name   || "Campaign";
+    const clientName = cl.name        || c.client || "";
+    const status    = c.status || "draft";
 
     return `
       <div class="user-campaign-card" onclick="window.location.href='campaign.html?id=${c.id}'">
-        <div class="user-campaign-hero" style="background:linear-gradient(135deg,${dark},${primary})">
+        <div class="user-campaign-hero" style="background:linear-gradient(135deg,${et(dark)},${et(primary)})">
           <img src="${et(logo)}" style="width:66px;height:66px;object-fit:contain">
         </div>
         <div class="user-campaign-body">
-          <div class="user-campaign-name">${et(campaignName)}</div>
+          <div class="user-campaign-name">${et(campName)}</div>
           <div class="user-campaign-client">${et(clientName)}</div>
           <div class="user-campaign-meta">${et(status)}</div>
         </div>
-      </div>
-    `;
+      </div>`;
   }).join("");
 }
 
-function logoutUser() {
+function logoutUser(){
   sessionStorage.removeItem("cos_current_user");
   window.location.href = "campaign.html";
 }
 
-function previewCampaign() {
-  if (!CAMPAIGN_ID) {
-    alert("احفظ أو افتح كامبين الأول");
-    return;
-  }
-
-  const previewUrl = `${location.origin}/englishzone/English-zone-may-campaign.html?id=${CAMPAIGN_ID}`;
-  window.open(previewUrl, "_blank");
-}
-
-function allPermissions() {
-  const all = {};
-  ["overview","objectives","scripts","posts","stories","ads","calendar","phases","kpis","budget","branding","hero","save"]
-  .forEach(p => all[p] = true);
-  return all;
-}
 // ==========================================
-// NAV + PERMISSIONS
+// LOAD DATA
 // ==========================================
-function setupNav() {
-  document.querySelectorAll(".nav button[data-section]").forEach(btn => {
-    const perm = btn.dataset.perm;
-
-    if (perm && userPermissions[perm] === false) {
-      btn.style.display = "none";
-      return;
-    }
-
-    btn.style.display = "";
-    btn.addEventListener("click", () => showSection(btn.dataset.section));
-  });
-
-  const firstAllowed = document.querySelector(".nav button[data-section]:not([style*='display: none'])");
-  if (firstAllowed) {
-    showSection(firstAllowed.dataset.section);
-  }
-}
-
-function showSection(id) {
-  const navBtn = document.querySelector(`.nav button[data-section="${id}"]`);
-
-  if (!navBtn || navBtn.style.display === "none") return;
-
-  const perm = navBtn.dataset.perm;
-
-  if (perm && userPermissions[perm] === false) return;
-
-  document.querySelectorAll(".section").forEach(s => {
-    s.classList.remove("active");
-  });
-
-  const section = document.getElementById(id);
-  if (section) section.classList.add("active");
-
-  document.querySelectorAll(".nav button").forEach(b => {
-    b.classList.toggle("active", b.dataset.section === id);
-  });
-}
-
-// ==========================================
-// DATA
-// ==========================================
-function getConfig() {
-  // Forced config: do not read localStorage because old/wrong settings can break login/save.
-  return {
-    supabaseUrl: "https://nnhxnswtzcqjnsmvytzr.supabase.co",
-    supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uaHhuc3d0emNxam5zbXZ5dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxNjM1MjEsImV4cCI6MjA5MjczOTUyMX0.h0k7PS5zWx_SGGFGIvkh3w7SfSfhPHiVmh1x8HUYx0s"
-  };
-}
-
-function setStatus(msg, type = "info") {
-  const el = document.getElementById("statusBar");
-  const icons = { ok:"✅", bad:"❌", warn:"⚠️", info:"⏳" };
-  el.textContent = (icons[type]||"") + " " + msg;
-  el.className = "status-bar " + type;
-}
-
-async function loadCampaignData() {
-  setStatus("جاري تحميل الكامبين...", "info");
+async function loadCampaignData(){
+  setStatus("جاري تحميل الكامبين...","info");
 
   let campaignMeta = null;
   let campaignData = DEFAULT_DATA;
 
-  // Try Supabase first
-  if (dbClient && CAMPAIGN_ID) {
-    try {
+  if(dbClient && CAMPAIGN_ID){
+    try{
       const { data, error } = await dbClient.from("campaigns").select("*").eq("id", CAMPAIGN_ID).maybeSingle();
-      if (!error && data) {
-        campaignMeta = data;
-        campaignData = data.data || DEFAULT_DATA;
-      }
-    } catch(e) { console.error(e); }
+      if(!error && data){ campaignMeta = data; campaignData = data.data || DEFAULT_DATA; }
+    }catch(e){ console.error(e); }
   }
 
-  // Fallback to localStorage
-  if (!campaignMeta) {
-    const stored = JSON.parse(localStorage.getItem("cos_campaigns") || "[]");
+  if(!campaignMeta){
+    const stored = JSON.parse(localStorage.getItem("cos_campaigns")||"[]");
     campaignMeta = stored.find(c => c.id === CAMPAIGN_ID);
-    if (campaignMeta) campaignData = campaignMeta.data || DEFAULT_DATA;
+    if(campaignMeta) campaignData = campaignMeta.data || DEFAULT_DATA;
   }
 
   D = normalize(campaignData);
-  if (campaignMeta) {
-    document.getElementById("campaignTitleSide").textContent = campaignMeta.name || "Campaign";
-    document.getElementById("topbarTitle").textContent = campaignMeta.client || "Campaign";
-    document.getElementById("topbarSub").textContent = campaignMeta.name || "";
+
+  if(campaignMeta){
+    document.getElementById("campaignTitleSide").textContent = campaignMeta.name   || "Campaign";
+    document.getElementById("topbarTitle").textContent       = campaignMeta.client || "Campaign";
+    document.getElementById("topbarSub").textContent         = campaignMeta.name   || "";
   }
+
   fillInputs();
   renderAll();
-  setStatus("تم التحميل بنجاح", "ok");
+  setStatus("تم التحميل بنجاح","ok");
 }
 
-function normalize(data) {
-  const d = data && typeof data === "object" ? data : {};
-  return {
-    client: {...DEFAULT_DATA.client,...(d.client||{})},
-    hero: {...DEFAULT_DATA.hero, tov: Array.isArray(d.hero?.tov)?d.hero.tov:[], ...(d.hero||{})},
-    theme: {...DEFAULT_DATA.theme,...(d.theme||{})},
-    objectives: {...DEFAULT_DATA.objectives, platforms: Array.isArray(d.objectives?.platforms)?d.objectives.platforms:[], ...(d.objectives||{})},
-    scripts: Array.isArray(d.scripts)?d.scripts:[],
-    stories: Array.isArray(d.stories)?d.stories:[],
-    posts: Array.isArray(d.posts)?d.posts:[],
-    ads: Array.isArray(d.ads)?d.ads:[],
-    calendar: Array.isArray(d.calendar)?d.calendar:[],
-    phases: Array.isArray(d.phases)?d.phases:[],
-    kpis: {...DEFAULT_DATA.kpis,...(d.kpis||{})},
-    budget: {...DEFAULT_DATA.budget,...(d.budget||{})}
-  };
-}
+// ==========================================
+// FILL INPUTS
+// ==========================================
+function fillInputs(){
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val||""; };
 
-function fillInputs() {
-  document.getElementById("clientName").value = D.client.name;
-  document.getElementById("campaignName").value = D.client.campaignName;
-  document.getElementById("industry").value = D.client.industry;
-  document.getElementById("campaignStart").value = D.client.start;
-  document.getElementById("campaignEnd").value = D.client.end;
-  document.getElementById("brief").value = D.client.brief;
-  document.getElementById("campaignProgress").value = D.client.progress;
-  document.getElementById("progressFill").style.width = D.client.progress + "%";
-  document.getElementById("heroTitle").value = D.hero.title;
-  document.getElementById("heroSubtitle").value = D.hero.subtitle;
-  document.getElementById("slogan").value = D.hero.slogan;
-  document.getElementById("bigIdea").value = D.hero.bigIdea;
-  document.getElementById("keyMessage").value = D.hero.keyMessage;
+  set("clientName",        D.client.name);
+  set("campaignName",      D.client.campaignName);
+  set("industry",          D.client.industry);
+  set("campaignStart",     D.client.start);
+  set("campaignEnd",       D.client.end);
+  set("brief",             D.client.brief);
+  set("campaignProgress",  D.client.progress);
+  document.getElementById("progressFill").style.width = (D.client.progress||0) + "%";
+
+  set("heroTitle",    D.hero.title);
+  set("heroSubtitle", D.hero.subtitle);
+  set("slogan",       D.hero.slogan);
+  set("bigIdea",      D.hero.bigIdea);
+  set("keyMessage",   D.hero.keyMessage);
   document.querySelectorAll("[data-tov]").forEach(el => el.classList.toggle("sel", D.hero.tov.includes(el.dataset.tov)));
-  document.getElementById("primaryColor").value = D.theme.primary;
-  document.getElementById("darkColor").value = D.theme.dark;
-  document.getElementById("bgColor").value = D.theme.background;
-  document.getElementById("accentColor").value = D.theme.accent;
-  document.getElementById("logoUrl").value = D.theme.logo;
-  if (D.theme.logo) { document.getElementById("logoPreviewImg").src = D.theme.logo; document.getElementById("logoPreviewWrap").style.display = "block"; }
-  document.getElementById("fontFamily").value = D.theme.font;
-  document.getElementById("visualStyle").value = D.theme.style;
-  document.getElementById("brandNotes").value = D.theme.brandNotes;
-  document.getElementById("primaryPicker").value = D.theme.primary;
-  document.getElementById("darkPicker").value = D.theme.dark;
-  document.getElementById("bgPicker").value = D.theme.background;
-  document.getElementById("accentPicker").value = D.theme.accent;
-    document.getElementById("textMain").value = D.theme.textMain;
-  document.getElementById("textMainPicker").value = D.theme.textMain;
 
-  document.getElementById("textSub").value = D.theme.textSub;
-  document.getElementById("textSubPicker").value = D.theme.textSub;
+  set("primaryColor",  D.theme.primary);
+  set("darkColor",     D.theme.dark);
+  set("bgColor",       D.theme.background);
+  set("accentColor",   D.theme.accent);
+  set("textMain",      D.theme.textMain);
+  set("textSub",       D.theme.textSub);
+  set("surfaceColor",  D.theme.surface);
+  set("heroBg1",       D.theme.heroBg1);
+  set("heroBg2",       D.theme.heroBg2);
+  set("bigIdeaBg1",    D.theme.bigIdeaBg1);
+  set("bigIdeaBg2",    D.theme.bigIdeaBg2);
+  set("logoUrl",       D.theme.logo);
+  set("fontFamily",    D.theme.font);
+  set("visualStyle",   D.theme.style);
+  set("brandNotes",    D.theme.brandNotes);
 
-  document.getElementById("surfaceColor").value = D.theme.surface;
-  document.getElementById("surfacePicker").value = D.theme.surface;
+  // Sync color pickers
+  const syncPicker = (textId, pickerId) => {
+    const p = document.getElementById(pickerId);
+    const t = document.getElementById(textId);
+    if(p && t && /^#[0-9A-Fa-f]{6}$/.test(t.value)) p.value = t.value;
+  };
+  syncPicker("primaryColor","primaryPicker"); syncPicker("darkColor","darkPicker");
+  syncPicker("bgColor","bgPicker");           syncPicker("accentColor","accentPicker");
+  syncPicker("textMain","textMainPicker");    syncPicker("textSub","textSubPicker");
+  syncPicker("surfaceColor","surfacePicker");
+  syncPicker("heroBg1","heroBg1Picker");      syncPicker("heroBg2","heroBg2Picker");
+  syncPicker("bigIdeaBg1","bigIdeaBg1Picker");syncPicker("bigIdeaBg2","bigIdeaBg2Picker");
 
-  document.getElementById("heroBg1").value = D.theme.heroBg1;
-  document.getElementById("heroBg1Picker").value = D.theme.heroBg1;
+  if(D.theme.logo){
+    document.getElementById("logoPreviewImg").src = D.theme.logo;
+    document.getElementById("logoPreviewWrap").style.display = "block";
+  }
 
-  document.getElementById("heroBg2").value = D.theme.heroBg2;
-  document.getElementById("heroBg2Picker").value = D.theme.heroBg2;
-
-  document.getElementById("bigIdeaBg1").value = D.theme.bigIdeaBg1;
-  document.getElementById("bigIdeaBg1Picker").value = D.theme.bigIdeaBg1;
-
-  document.getElementById("bigIdeaBg2").value = D.theme.bigIdeaBg2;
-  document.getElementById("bigIdeaBg2Picker").value = D.theme.bigIdeaBg2;
   document.querySelectorAll("[data-obj]").forEach(el => el.classList.toggle("sel", el.dataset.obj === D.objectives.type));
-  document.getElementById("objectiveNotes").value = D.objectives.notes;
-  document.getElementById("ageRange").value = D.objectives.ageRange;
-  document.getElementById("gender").value = D.objectives.gender;
-  document.getElementById("location").value = D.objectives.location;
-  document.getElementById("interests").value = D.objectives.interests;
-  document.getElementById("painPoints").value = D.objectives.painPoints;
+  set("objectiveNotes", D.objectives.notes);
+  set("ageRange",       D.objectives.ageRange);
+  set("gender",         D.objectives.gender);
+  set("location",       D.objectives.location);
+  set("interests",      D.objectives.interests);
+  set("painPoints",     D.objectives.painPoints);
   document.querySelectorAll("[data-platform]").forEach(el => el.classList.toggle("sel", D.objectives.platforms.includes(el.dataset.platform)));
-  document.getElementById("kpiReach").value = D.kpis.reach;
-  document.getElementById("kpiEngagement").value = D.kpis.engagement;
-  document.getElementById("kpiLeads").value = D.kpis.leads;
-  document.getElementById("kpiVisits").value = D.kpis.visits;
-  document.getElementById("kpiConversions").value = D.kpis.conversions;
-  document.getElementById("kpiRoas").value = D.kpis.roas;
-  document.getElementById("kpiViews").value = D.kpis.views;
-  document.getElementById("kpiCtr").value = D.kpis.ctr;
-  document.getElementById("successDef").value = D.kpis.successDef;
-  document.getElementById("budgetTotal").value = D.budget.total;
-  document.getElementById("budgetProduction").value = D.budget.production;
-  document.getElementById("budgetAds").value = D.budget.ads;
-  document.getElementById("budgetInfluencer").value = D.budget.influencer;
-  document.getElementById("currency").value = D.budget.currency;
-  document.getElementById("budgetNotes").value = D.budget.notes;
+
+  set("kpiReach",       D.kpis.reach);
+  set("kpiEngagement",  D.kpis.engagement);
+  set("kpiLeads",       D.kpis.leads);
+  set("kpiVisits",      D.kpis.visits);
+  set("kpiConversions", D.kpis.conversions);
+  set("kpiRoas",        D.kpis.roas);
+  set("kpiViews",       D.kpis.views);
+  set("kpiCtr",         D.kpis.ctr);
+  set("successDef",     D.kpis.successDef);
+
+  set("budgetTotal",       D.budget.total);
+  set("budgetProduction",  D.budget.production);
+  set("budgetAds",         D.budget.ads);
+  set("budgetInfluencer",  D.budget.influencer);
+  set("currency",          D.budget.currency);
+  set("budgetNotes",       D.budget.notes);
+
   applyTheme();
   updatePreview();
   updateJsonOutput();
 }
-function bindColor(textId, pickerId){
-  const text = document.getElementById(textId);
-  const picker = document.getElementById(pickerId);
 
-  if(!text || !picker) return;
+// ==========================================
+// COLLECT INPUTS
+// ==========================================
+function collectInputs(){
+  if(!D || !D.client) D = normalize(DEFAULT_DATA);
 
-  picker.addEventListener("input", e => {
-    text.value = e.target.value;
-    collectInputs();
-  });
+  const g = id => (document.getElementById(id)||{}).value || "";
 
-  text.addEventListener("input", e => {
-    if(/^#[0-9A-Fa-f]{6}$/.test(e.target.value)){
-      picker.value = e.target.value;
-      collectInputs();
-    }
-  });
-}
-  
-function collectInputs() {
-  if (!D || !D.client) D = normalize(DEFAULT_DATA);
-  D.client.name = document.getElementById("clientName").value;
-  D.client.campaignName = document.getElementById("campaignName").value;
-  D.client.industry = document.getElementById("industry").value;
-  D.client.start = document.getElementById("campaignStart").value;
-  D.client.end = document.getElementById("campaignEnd").value;
-  D.client.brief = document.getElementById("brief").value;
-  D.client.progress = Number(document.getElementById("campaignProgress").value)||0;
-  D.hero.title = document.getElementById("heroTitle").value;
-  D.hero.subtitle = document.getElementById("heroSubtitle").value;
-  D.hero.slogan = document.getElementById("slogan").value;
-  D.hero.bigIdea = document.getElementById("bigIdea").value;
-  D.hero.keyMessage = document.getElementById("keyMessage").value;
-  D.theme.primary = document.getElementById("primaryColor").value || "#2563EB";
-  D.theme.dark = document.getElementById("darkColor").value || "#0F172A";
-  D.theme.background = document.getElementById("bgColor").value || "#F1F5F9";
-  D.theme.accent = document.getElementById("accentColor").value || "#F59E0B";
+  D.client.name         = g("clientName");
+  D.client.campaignName = g("campaignName");
+  D.client.industry     = g("industry");
+  D.client.start        = g("campaignStart");
+  D.client.end          = g("campaignEnd");
+  D.client.brief        = g("brief");
+  D.client.progress     = Number(g("campaignProgress")) || 0;
 
-  D.theme.textMain = document.getElementById("textMain").value || "#111111";
-  D.theme.textSub = document.getElementById("textSub").value || "#666666";
-  D.theme.surface = document.getElementById("surfaceColor").value || "#FFFFFF";
+  D.hero.title      = g("heroTitle");
+  D.hero.subtitle   = g("heroSubtitle");
+  D.hero.slogan     = g("slogan");
+  D.hero.bigIdea    = g("bigIdea");
+  D.hero.keyMessage = g("keyMessage");
 
-  D.theme.heroBg1 = document.getElementById("heroBg1").value || "#000000";
-  D.theme.heroBg2 = document.getElementById("heroBg2").value || D.theme.primary;
+  D.theme.primary     = g("primaryColor")  || "#2563EB";
+  D.theme.dark        = g("darkColor")     || "#0F172A";
+  D.theme.background  = g("bgColor")       || "#F1F5F9";
+  D.theme.accent      = g("accentColor")   || "#F59E0B";
+  D.theme.textMain    = g("textMain")      || "#111111";
+  D.theme.textSub     = g("textSub")       || "#666666";
+  D.theme.surface     = g("surfaceColor")  || "#FFFFFF";
+  D.theme.heroBg1     = g("heroBg1")       || "#000000";
+  D.theme.heroBg2     = g("heroBg2")       || D.theme.primary;
+  D.theme.bigIdeaBg1  = g("bigIdeaBg1")    || "#000000";
+  D.theme.bigIdeaBg2  = g("bigIdeaBg2")    || D.theme.primary;
+  D.theme.logo        = g("logoUrl");
+  D.theme.font        = g("fontFamily")    || "Cairo";
+  D.theme.style       = g("visualStyle")   || "modern";
+  D.theme.brandNotes  = g("brandNotes");
 
-  D.theme.bigIdeaBg1 = document.getElementById("bigIdeaBg1").value || "#000000";
-  D.theme.bigIdeaBg2 = document.getElementById("bigIdeaBg2").value || D.theme.primary;
+  D.objectives.notes     = g("objectiveNotes");
+  D.objectives.ageRange  = g("ageRange");
+  D.objectives.gender    = g("gender");
+  D.objectives.location  = g("location");
+  D.objectives.interests = g("interests");
+  D.objectives.painPoints = g("painPoints");
 
-  D.theme.logo = document.getElementById("logoUrl").value || "";
-  D.theme.font = document.getElementById("fontFamily").value || "Cairo";
-  D.theme.style = document.getElementById("visualStyle").value || "modern";
-  D.theme.brandNotes = document.getElementById("brandNotes").value || "";
-  D.objectives.notes = document.getElementById("objectiveNotes").value;
-  D.objectives.ageRange = document.getElementById("ageRange").value;
-  D.objectives.gender = document.getElementById("gender").value;
-  D.objectives.location = document.getElementById("location").value;
-  D.objectives.interests = document.getElementById("interests").value;
-  D.objectives.painPoints = document.getElementById("painPoints").value;
-  D.kpis.reach = document.getElementById("kpiReach").value;
-  D.kpis.engagement = document.getElementById("kpiEngagement").value;
-  D.kpis.leads = document.getElementById("kpiLeads").value;
-  D.kpis.visits = document.getElementById("kpiVisits").value;
-  D.kpis.conversions = document.getElementById("kpiConversions").value;
-  D.kpis.roas = document.getElementById("kpiRoas").value;
-  D.kpis.views = document.getElementById("kpiViews").value;
-  D.kpis.ctr = document.getElementById("kpiCtr").value;
-  D.kpis.successDef = document.getElementById("successDef").value;
-  D.budget.total = document.getElementById("budgetTotal").value;
-  D.budget.production = document.getElementById("budgetProduction").value;
-  D.budget.ads = document.getElementById("budgetAds").value;
-  D.budget.influencer = document.getElementById("budgetInfluencer").value;
-  D.budget.currency = document.getElementById("currency").value;
-  D.budget.notes = document.getElementById("budgetNotes").value;
+  D.kpis.reach       = g("kpiReach");
+  D.kpis.engagement  = g("kpiEngagement");
+  D.kpis.leads       = g("kpiLeads");
+  D.kpis.visits      = g("kpiVisits");
+  D.kpis.conversions = g("kpiConversions");
+  D.kpis.roas        = g("kpiRoas");
+  D.kpis.views       = g("kpiViews");
+  D.kpis.ctr         = g("kpiCtr");
+  D.kpis.successDef  = g("successDef");
+
+  D.budget.total        = g("budgetTotal");
+  D.budget.production   = g("budgetProduction");
+  D.budget.ads          = g("budgetAds");
+  D.budget.influencer   = g("budgetInfluencer");
+  D.budget.currency     = g("currency");
+  D.budget.notes        = g("budgetNotes");
+
   document.getElementById("progressFill").style.width = D.client.progress + "%";
   updatePreview();
   updateJsonOutput();
 }
 
-function updatePreview() {
+function updatePreview(){
   document.getElementById("pvTitle").textContent = D.hero.title || D.client.campaignName || "Campaign Title";
-  document.getElementById("pvSub").textContent = D.hero.subtitle || D.hero.slogan || "Campaign subtitle";
+  document.getElementById("pvSub").textContent   = D.hero.subtitle || D.hero.slogan || "Campaign subtitle";
   document.getElementById("livePreview").style.background = `linear-gradient(135deg, ${D.theme.dark||"#0F172A"}, ${D.theme.primary||"#2563EB"})`;
 }
 
-function updateJsonOutput() {
+function updateJsonOutput(){
   document.getElementById("jsonOutput").value = JSON.stringify(D, null, 2);
 }
 
-function previewPostImage(input, i){
-  const file = input.files && input.files[0];
-  if(!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e){
-    const box = document.getElementById(`postPreview-${i}`);
-    const img = document.getElementById(`postPreviewImg-${i}`);
-
-    if(box && img){
-      img.src = e.target.result;
-      box.style.display = "block";
-    }
-  };
-
-  reader.readAsDataURL(file);
+function applyTheme(){
+  const s = document.documentElement.style;
+  s.setProperty('--primary',      D.theme.primary);
+  s.setProperty('--dark',         D.theme.dark);
+  s.setProperty('--bg',           D.theme.background);
+  s.setProperty('--accent',       D.theme.accent);
+  s.setProperty('--text-main',    D.theme.textMain);
+  s.setProperty('--text-sub',     D.theme.textSub);
+  s.setProperty('--surface',      D.theme.surface);
+  s.setProperty('--hero-bg-1',    D.theme.heroBg1);
+  s.setProperty('--hero-bg-2',    D.theme.heroBg2);
+  s.setProperty('--bigidea-bg-1', D.theme.bigIdeaBg1);
+  s.setProperty('--bigidea-bg-2', D.theme.bigIdeaBg2);
 }
 
-function setPostUploadProgress(i, percent){
-  const progress = document.getElementById(`postUploadProgress-${i}`);
-  const bar = document.getElementById(`postUploadBar-${i}`);
-  const text = document.getElementById(`postUploadText-${i}`);
-
-  if(progress) progress.style.display = "block";
-  if(bar) bar.style.width = percent + "%";
-  if(text) text.textContent = percent + "%";
-}
-  
-async function uploadImageToSupabase(file, folder = "actors") {
-  if (!file) return "";
-
-  if (!dbClient) {
-    setStatus("Supabase مش متصل — مش هينفع نرفع الصورة", "bad");
-    return "";
-  }
-
-  const ext = (file.name.split(".").pop() || "png").toLowerCase();
-  const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-
-  const { error } = await dbClient.storage
-    .from("images")
-.upload(fileName, file, {
-  cacheControl: "3600",
-  upsert: true,
-  contentType: file.type
-});
-  
-  if (error) {
-    console.error(error);
-    setStatus("فشل رفع الصورة. تأكد إن Bucket اسمها images و Public", "bad");
-    return "";
-  }
-
-  const { data } = dbClient.storage
-    .from("images")
-    .getPublicUrl(fileName);
-
-  return data.publicUrl;
+function bindColor(textId, pickerId){
+  const text   = document.getElementById(textId);
+  const picker = document.getElementById(pickerId);
+  if(!text || !picker) return;
+  picker.addEventListener("input", e => { text.value = e.target.value; collectInputs(); applyTheme(); });
+  text.addEventListener("input",  e => { if(/^#[0-9A-Fa-f]{6}$/.test(e.target.value)){ picker.value = e.target.value; } });
 }
 
-function uploadCampaignJson(e){
-  if(!IS_SUPER_ADMIN){
-    setStatus("⚠️ غير مسموح", "warn");
-    return;
-  }
-
-  const file = e.target.files[0];
-  if(!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(event){
-    try{
-      const json = JSON.parse(event.target.result);
-
-      D = normalize(json);
-
-      fillInputs();
-      renderAll();
-      updateJsonOutput();
-
-      setStatus("✅ تم تحميل ملف JSON بنجاح، اضغط Save للحفظ", "ok");
-
-      e.target.value = "";
-    }catch(err){
-      console.error(err);
-      alert("ملف JSON غير صحيح");
-    }
-  };
-
-  reader.readAsText(file);
-}
-  
 // ==========================================
 // SAVE
 // ==========================================
-async function saveData() {
-  // Check if viewer — can't save
-  if (currentUser && currentUser.role === "viewer") {
-    setStatus("⚠️ Viewer مش بيقدر يحفظ", "warn");
-    return;
-  }
+async function saveData(){
+  if(currentUser && currentUser.role === "viewer"){ setStatus("⚠️ Viewer مش بيقدر يحفظ","warn"); return; }
   collectInputs();
-  
-  // Update campaign in localStorage
-  const stored = JSON.parse(localStorage.getItem("cos_campaigns") || "[]");
-  const idx = stored.findIndex(c => c.id === CAMPAIGN_ID);
-  if (idx >= 0) {
-    stored[idx].data = D;
-    stored[idx].progress = D.client.progress;
-    stored[idx].updated_at = new Date().toISOString();
-  }
-  localStorage.setItem("cos_campaigns", JSON.stringify(stored));
 
-  if (dbClient && CAMPAIGN_ID) {
-    try {
-      setStatus("Saving...", "info");
+  const stored = JSON.parse(localStorage.getItem("cos_campaigns")||"[]");
+  const idx    = stored.findIndex(c => c.id === CAMPAIGN_ID);
+  if(idx >= 0){
+    stored[idx].data       = D;
+    stored[idx].progress   = D.client.progress;
+    stored[idx].updated_at = new Date().toISOString();
+    localStorage.setItem("cos_campaigns", JSON.stringify(stored));
+  }
+
+  if(dbClient && CAMPAIGN_ID){
+    try{
+      setStatus("Saving...","info");
       const { error } = await dbClient.from("campaigns").update({
-        data: D,
-        progress: D.client.progress,
-        updated_at: new Date().toISOString()
+        data: D, progress: D.client.progress, updated_at: new Date().toISOString()
       }).eq("id", CAMPAIGN_ID);
-      if (error) throw error;
-    } catch(e) {
-      console.error("SAVE SUPABASE ERROR", e);
-      alert("Supabase Save Error: " + (e.message || JSON.stringify(e)));
-      setStatus("Saved locally — Supabase error", "warn");
+      if(error) throw error;
+    }catch(e){
+      console.error("SAVE ERROR", e);
+      setStatus("Saved locally — Supabase error","warn");
       return;
     }
   }
 
   document.getElementById("lastSaved").textContent = "Last saved: " + new Date().toLocaleTimeString("ar");
-  setStatus("✅ تم الحفظ بنجاح", "ok");
+  setStatus("✅ تم الحفظ بنجاح","ok");
+}
+
+function triggerAutoSave(){
+  clearTimeout(autoSaveTimer);
+  if(currentUser?.role === "viewer" || !CAMPAIGN_ID) return;
+  autoSaveTimer = setTimeout(() => saveData(), 1500);
+}
+
+function uploadCampaignJson(e){
+  if(!IS_SUPER_ADMIN){ setStatus("⚠️ غير مسموح","warn"); return; }
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(event){
+    try{
+      const json = JSON.parse(event.target.result);
+      D = normalize(json);
+      fillInputs();
+      renderAll();
+      updateJsonOutput();
+      setStatus("✅ تم تحميل ملف JSON — اضغط Save للحفظ","ok");
+      e.target.value = "";
+    }catch(err){ console.error(err); alert("ملف JSON غير صحيح"); }
+  };
+  reader.readAsText(file);
 }
 
 // ==========================================
-// RENDER FUNCTIONS
+// RENDER
 // ==========================================
-function ea(v){return String(v||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
-function et(v){return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function renderAll(){ renderScripts(); renderPosts(); renderStories(); renderAds(); renderCalendar(); renderPhases(); }
 
-function isReadOnly(){
-  return currentUser && currentUser.role === "viewer";
+function previewPostImage(input, i){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const box = document.getElementById(`postPreview-${i}`);
+    const img = document.getElementById(`postPreviewImg-${i}`);
+    if(box && img){ img.src = e.target.result; box.style.display = "block"; }
+  };
+  reader.readAsDataURL(file);
 }
-function renderAll(){renderScripts();renderPosts();renderStories();renderAds();renderCalendar();renderPhases();}
+
+function setPostUploadProgress(i, percent){
+  const progress = document.getElementById(`postUploadProgress-${i}`);
+  const bar      = document.getElementById(`postUploadBar-${i}`);
+  const text     = document.getElementById(`postUploadText-${i}`);
+  if(progress) progress.style.display = "block";
+  if(bar)      bar.style.width = percent + "%";
+  if(text)     text.textContent = percent + "%";
+}
 
 function renderScripts(){
-  const el=document.getElementById("scriptsList"),empty=document.getElementById("scriptsEmpty");
-  if(!D.scripts.length){el.innerHTML="";empty.style.display="";return;}
-  empty.style.display="none";
-  el.innerHTML=D.scripts.map((s,i)=>`
+  const el    = document.getElementById("scriptsList");
+  const empty = document.getElementById("scriptsEmpty");
+  if(!D.scripts.length){ el.innerHTML=""; empty.style.display=""; return; }
+  empty.style.display = "none";
+
+  el.innerHTML = D.scripts.map((s,i) => `
     <div class="list-item">
       <div class="list-item-head">
         <span class="item-num">${i+1}</span>
@@ -2167,29 +1235,27 @@ function renderScripts(){
           <label class="field-label">العنوان</label><input type="text" value="${ea(s.title)}" data-sf="title" data-i="${i}">
           <label class="field-label">اللوكيشن</label><input type="text" value="${ea(s.location)}" data-sf="location" data-i="${i}">
           <label class="field-label">الممثلين / Cast</label>
-
-<div id="actorsWrap-${i}" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px">
-  ${(Array.isArray(s.actors) ? s.actors : []).map((a, ai) => `
-    <div style="display:grid;grid-template-columns:50px 1fr 80px auto;gap:8px;align-items:center;background:white;border:1px solid var(--border);border-radius:12px;padding:8px">
-      <img src="${ea(a.image)}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;background:#eee">
-      <input type="text" value="${ea(a.name)}" placeholder="اسم الممثل" data-actor-name="${i}" data-ai="${ai}">
-      <input type="number" value="${ea(a.age)}" placeholder="السن" data-actor-age="${i}" data-ai="${ai}">
-      <button type="button" class="btn btn-danger btn-sm" data-del-actor="${i}" data-ai="${ai}">حذف</button>
-    </div>
-  `).join("")}
-</div>
-
-<div style="display:grid;grid-template-columns:1fr 90px 1fr auto;gap:8px;align-items:center">
-  <input type="text" placeholder="اسم الممثل" id="actorName-${i}">
-  <input type="number" placeholder="السن" id="actorAge-${i}">
-  <label class="file-upload-wrap" style="width:100%">
-    <input type="file" accept="image/png,image/jpeg,image/webp" id="actorImage-${i}" onchange="this.parentElement.querySelector('.file-upload-name').textContent=this.files[0]?.name||'لا يوجد'">
-    <div class="file-upload-btn">📷 اختار صورة</div>
-    <div class="file-upload-name">لا يوجد</div>
-  </label>
-  <button type="button" class="btn btn-primary btn-sm" data-add-actor="${i}">+ ممثل</button>
-</div>
-          <label class="field-label">المدة</label><input type="text" value="${ea(s.duration)}" data-sf="duration" data-i="${i}" placeholder="30 ثانية">
+          <div id="actorsWrap-${i}" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px">
+            ${(Array.isArray(s.actors)?s.actors:[]).map((a,ai) => `
+              <div style="display:grid;grid-template-columns:50px 1fr 80px auto;gap:8px;align-items:center;background:white;border:1px solid var(--border);border-radius:12px;padding:8px">
+                <img src="${ea(a.image)}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;background:#eee">
+                <input type="text" value="${ea(a.name)}" placeholder="اسم الممثل" data-actor-name="${i}" data-ai="${ai}">
+                <input type="number" value="${ea(a.age)}" placeholder="السن" data-actor-age="${i}" data-ai="${ai}">
+                <button type="button" class="btn btn-danger btn-sm" data-del-actor="${i}" data-ai="${ai}">حذف</button>
+              </div>`).join("")}
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 90px 1fr auto;gap:8px;align-items:center">
+            <input type="text" placeholder="اسم الممثل" id="actorName-${i}">
+            <input type="number" placeholder="السن" id="actorAge-${i}">
+            <label class="file-upload-wrap" style="width:100%">
+              <input type="file" accept="image/png,image/jpeg,image/webp" id="actorImage-${i}" onchange="this.parentElement.querySelector('.file-upload-name').textContent=this.files[0]?.name||'لا يوجد'">
+              <div class="file-upload-btn">📷 اختار صورة</div>
+              <div class="file-upload-name">لا يوجد</div>
+            </label>
+            <button type="button" class="btn btn-primary btn-sm" data-add-actor="${i}">+ ممثل</button>
+          </div>
+          <label class="field-label" style="margin-top:8px">المدة</label>
+          <input type="text" value="${ea(s.duration)}" data-sf="duration" data-i="${i}" placeholder="30 ثانية">
         </div>
         <div>
           <label class="field-label">نوع الفيديو</label>
@@ -2207,72 +1273,64 @@ function renderScripts(){
       <textarea data-sf="body" data-i="${i}" style="min-height:130px">${et(s.body)}</textarea>
       <label class="field-label" style="margin-top:8px">الـ CTA</label>
       <input type="text" value="${ea(s.cta)}" data-sf="cta" data-i="${i}" placeholder="اتصل الآن">
-    </div>
-  `).join("");
+    </div>`).join("");
 }
 
 function renderPosts(){
-  const el=document.getElementById("postsList"),empty=document.getElementById("postsEmpty");
-  if(!D.posts.length){el.innerHTML="";empty.style.display="";return;}
-  empty.style.display="none";
+  const el    = document.getElementById("postsList");
+  const empty = document.getElementById("postsEmpty");
+  if(!D.posts.length){ el.innerHTML=""; empty.style.display=""; return; }
+  empty.style.display = "none";
 
-  el.innerHTML=D.posts.map((p,i)=>`
+  el.innerHTML = D.posts.map((p,i) => `
     <div class="list-item post-card-clean">
-      
-    <div class="post-card-head">
+      <div class="post-card-head">
+        <div class="post-title-wrap">
+          <span class="item-num">${i+1}</span>
+          <strong>Post ${i+1}</strong>
+        </div>
+        <div class="post-controls">
+          <div class="badge-group">
+            <span class="badge-label">Platform</span>
+            <select class="mini-select platform-select" data-pf="platform" data-i="${i}">
+              <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
+              <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
+              <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
+              <option ${p.platform==="all"?"selected":""} value="all">All</option>
+            </select>
+          </div>
+          <div class="badge-group">
+            <span class="badge-label">Type</span>
+            <select class="mini-select type-select" data-pf="contentType" data-i="${i}">
+              <option ${p.contentType==="post"?"selected":""} value="post">Single</option>
+              <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
+              <option ${p.contentType==="reel"?"selected":""} value="reel">Reel</option>
+              <option ${p.contentType==="video"?"selected":""} value="video">Video</option>
+            </select>
+          </div>
+          <div class="badge-group">
+            <span class="badge-label">Status</span>
+            <select class="mini-select status-select ${p.reviewStatus||"need_edit"}" data-post-review-status="${i}">
+              <option ${p.reviewStatus==="approved"?"selected":""} value="approved">Approved</option>
+              <option ${p.reviewStatus==="rejected"?"selected":""} value="rejected">Rejected</option>
+              <option ${p.reviewStatus==="need_edit"||!p.reviewStatus?"selected":""} value="need_edit">Need Edit</option>
+            </select>
+          </div>
+          <button class="post-delete-btn" data-del-post="${i}">Delete</button>
+        </div>
+      </div>
 
-  <div class="post-title-wrap">
-    <span class="item-num">${i+1}</span>
-    <strong>Post ${i+1}</strong>
-  </div>
-
-  <div class="post-controls">
-
-    <div class="badge-group">
-      <span class="badge-label">Platform</span>
-      <select class="mini-select platform-select" data-pf="platform" data-i="${i}">
-        <option ${p.platform==="facebook"?"selected":""} value="facebook">Facebook</option>
-        <option ${p.platform==="instagram"?"selected":""} value="instagram">Instagram</option>
-        <option ${p.platform==="tiktok"?"selected":""} value="tiktok">TikTok</option>
-        <option ${p.platform==="all"?"selected":""} value="all">All</option>
-      </select>
-    </div>
-
-    <div class="badge-group">
-      <span class="badge-label">Type</span>
-      <select class="mini-select type-select" data-pf="contentType" data-i="${i}">
-        <option ${p.contentType==="post"?"selected":""} value="post">Single</option>
-        <option ${p.contentType==="carousel"?"selected":""} value="carousel">Carousel</option>
-        <option ${p.contentType==="reel"?"selected":""} value="reel">Reel</option>
-        <option ${p.contentType==="video"?"selected":""} value="video">Video</option>
-      </select>
-    </div>
-
-    <div class="badge-group">
-      <span class="badge-label">Status</span>
-      <select class="mini-select status-select ${p.reviewStatus || "need_edit"}" data-post-review-status="${i}">
-        <option ${p.reviewStatus==="approved"?"selected":""} value="approved">Approved</option>
-        <option ${p.reviewStatus==="rejected"?"selected":""} value="rejected">Rejected</option>
-        <option ${p.reviewStatus==="need_edit" || !p.reviewStatus ? "selected" : ""} value="need_edit">Need Edit</option>
-      </select>
-    </div>
-
-    <button class="post-delete-btn" data-del-post="${i}">Delete</button>
-
-  </div>
-</div>
       <div class="grid-2" style="margin-top:16px">
         <div>
           <label class="field-label">TOV / الكلمة الرئيسية على التصميم</label>
           <input type="text" value="${ea(p.tov)}" data-pf="tov" data-i="${i}" placeholder="العنوان الرئيسي للتصميم">
-
-          <label class="field-label" style="margin-top:10px">باقي الكلام اللي هيتكتب على التصميم</label>
-          <textarea data-pf="hook" data-i="${i}" style="min-height:90px" placeholder="اكتب باقي النص الظاهر على التصميم...">${et(p.hook)}</textarea>
-
+          <label class="field-label" style="margin-top:10px">باقي الكلام على التصميم</label>
+          <textarea data-pf="hook" data-i="${i}" style="min-height:90px" placeholder="اكتب باقي النص...">${et(p.hook)}</textarea>
           <label class="field-label" style="margin-top:10px">Caption</label>
           <textarea data-pf="caption" data-i="${i}" style="min-height:120px" placeholder="اكتب الكابشن هنا...">${et(p.caption)}</textarea>
+          <label class="field-label" style="margin-top:10px">Hashtags</label>
+          <input type="text" value="${ea(p.hashtags)}" data-pf="hashtags" data-i="${i}" placeholder="#hashtag">
         </div>
-
         <div>
           <label class="field-label">Design Image</label>
           <div class="upload-box-clean">
@@ -2285,20 +1343,16 @@ function renderPosts(){
               <div class="upload-icon">🖼️</div>
               <div class="upload-text">ارفع تصميم البوست هنا</div>
             `}
-
-<input type="file" id="postImage-${i}" accept="image/*" style="display:none" onchange="previewPostImage(this, ${i})">
-
-<div id="postPreview-${i}" style="display:none;margin-top:12px">
-  <img id="postPreviewImg-${i}" style="width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:white;border:1px solid var(--border)">
-</div>
-
-<div id="postUploadProgress-${i}" style="display:none;margin-top:12px">
-  <div style="height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden">
-    <div id="postUploadBar-${i}" style="height:100%;width:0%;background:#000;border-radius:999px;transition:.3s"></div>
-  </div>
-  <div id="postUploadText-${i}" style="font-size:11px;margin-top:6px;color:#64748b">0%</div>
-</div>
-
+            <input type="file" id="postImage-${i}" accept="image/*" style="display:none" onchange="previewPostImage(this,${i})">
+            <div id="postPreview-${i}" style="display:none;margin-top:12px">
+              <img id="postPreviewImg-${i}" style="width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:white;border:1px solid var(--border)">
+            </div>
+            <div id="postUploadProgress-${i}" style="display:none;margin-top:12px">
+              <div style="height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden">
+                <div id="postUploadBar-${i}" style="height:100%;width:0%;background:#000;border-radius:999px;transition:.3s"></div>
+              </div>
+              <div id="postUploadText-${i}" style="font-size:11px;margin-top:6px;color:#64748b">0%</div>
+            </div>
             <label for="postImage-${i}" class="btn btn-ghost btn-sm" style="margin-top:8px;cursor:pointer">اختيار صورة</label>
             <button type="button" class="btn btn-primary btn-sm" data-upload-post-image="${i}" style="margin-top:8px">رفع الصورة</button>
           </div>
@@ -2308,48 +1362,43 @@ function renderPosts(){
               <strong>Comments</strong>
               <span>${(Array.isArray(p.comments)?p.comments.length:0)} comments</span>
             </div>
-
             <div class="comment-input-row">
-              <div class="comment-avatar">${(currentUser?.name || "U").charAt(0).toUpperCase()}</div>
-              <textarea id="postComment-${i}" data-post-review-comment="${i}" placeholder="Write a comment...">${et(p.reviewComment || "")}</textarea>
+              <div class="comment-avatar">${(currentUser?.name||"U").charAt(0).toUpperCase()}</div>
+              <textarea id="postComment-${i}" placeholder="Write a comment...">${et(p.reviewComment||"")}</textarea>
               <button type="button" data-add-post-comment="${i}">Send</button>
             </div>
-
-            ${(Array.isArray(p.comments) && p.comments.length) ? `
+            ${(Array.isArray(p.comments)&&p.comments.length) ? `
               <div class="comments-list">
                 ${p.comments.map((c,ci) => `
                   <div class="comment-item">
-                    <div class="comment-avatar small">${et(c.by || "U").charAt(0).toUpperCase()}</div>
+                    <div class="comment-avatar small">${et(c.by||"U").charAt(0).toUpperCase()}</div>
                     <div class="comment-bubble">
                       <div class="comment-meta">
-                        <strong>${et(c.by || "User")}</strong>
-                        <span>${et(c.date || "")}</span>
-${c.by === (currentUser?.username || "") 
-  ? `<button type="button" data-del-post-comment="${i}" data-idx="${ci}">حذف</button>` 
-  : ""
-}
+                        <strong>${et(c.by||"User")}</strong>
+                        <span>${et(c.date||"")}</span>
+                        ${c.by===(currentUser?.username||"") ? `<button type="button" data-del-post-comment="${i}" data-idx="${ci}">حذف</button>` : ""}
                       </div>
-                      <div class="comment-text">${et(c.text || "")}</div>
+                      <div class="comment-text">${et(c.text||"")}</div>
                     </div>
-                  </div>
-                `).join("")}
-              </div>
-            ` : ""}
+                  </div>`).join("")}
+              </div>` : ""}
           </div>
         </div>
       </div>
-    </div>
-  `).join("");
+    </div>`).join("");
 }
-  
+
 function renderStories(){
-  const el=document.getElementById("storiesList"),empty=document.getElementById("storiesEmpty");
-  if(!D.stories.length){el.innerHTML="";empty.style.display="";return;}
-  empty.style.display="none";
-  el.innerHTML=D.stories.map((s,i)=>`
+  const el    = document.getElementById("storiesList");
+  const empty = document.getElementById("storiesEmpty");
+  if(!D.stories.length){ el.innerHTML=""; empty.style.display=""; return; }
+  empty.style.display = "none";
+
+  el.innerHTML = D.stories.map((s,i) => `
     <div class="list-item">
       <div class="list-item-head">
-        <span class="item-num">${i+1}</span><span class="item-title">Story ${i+1}</span>
+        <span class="item-num">${i+1}</span>
+        <span class="item-title">Story ${i+1}</span>
         <button class="btn btn-danger btn-sm" data-del-story="${i}">🗑</button>
       </div>
       <div class="grid-2">
@@ -2364,15 +1413,16 @@ function renderStories(){
           </select>
         </div>
       </div>
-    </div>
-  `).join("");
+    </div>`).join("");
 }
 
 function renderAds(){
-  const el=document.getElementById("adsList"),empty=document.getElementById("adsEmpty");
-  if(!D.ads.length){el.innerHTML="";empty.style.display="";return;}
-  empty.style.display="none";
-  el.innerHTML=D.ads.map((a,i)=>`
+  const el    = document.getElementById("adsList");
+  const empty = document.getElementById("adsEmpty");
+  if(!D.ads.length){ el.innerHTML=""; empty.style.display=""; return; }
+  empty.style.display = "none";
+
+  el.innerHTML = D.ads.map((a,i) => `
     <div class="list-item">
       <div class="list-item-head">
         <span class="item-num">${i+1}</span>
@@ -2398,49 +1448,32 @@ function renderAds(){
           <input type="text" value="${ea(a.description)}" data-af="description" data-i="${i}">
         </div>
       </div>
-    </div>
-  `).join("");
+    </div>`).join("");
 }
 
 function renderCalendar(){
-  const el=document.getElementById("calendarList"),empty=document.getElementById("calendarEmpty");
-  if(!D.calendar.length){el.innerHTML="";empty.style.display="";return;}
-  empty.style.display="none";
-  
-  const typeColors = {
-    post:"#2563EB",story:"#7C3AED",reel:"#C2410C",ad:"#B91C1C",event:"#166534"
-  };
-  const statusBg = {
-    planned:"#F1F5F9",inprogress:"#FFFBEB",done:"#DCFCE7"
-  };
-  const statusColor = {
-    planned:"#475569",inprogress:"#92400E",done:"#166534"
-  };
-  const statusLabel = {
-    planned:"Planned",inprogress:"In Progress",done:"Done ✅"
-  };
-  
-  // Table header
-  let html = `
-    <div style="overflow-x:auto">
-    <table style="width:100%;border-collapse:collapse;font-size:13px">
-      <thead>
-        <tr style="background:var(--bg);border-bottom:2px solid var(--border)">
-          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;width:60px">اليوم</th>
-          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">العنوان</th>
-          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;width:100px">النوع</th>
-          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;width:120px">الحالة</th>
-          <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">ملاحظات</th>
-          <th style="padding:10px 12px;width:40px"></th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-  
-  html += D.calendar.map((c,i)=>`
-    <tr style="border-bottom:1px solid var(--border);transition:.15s" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=''">
+  const el    = document.getElementById("calendarList");
+  const empty = document.getElementById("calendarEmpty");
+  if(!D.calendar.length){ el.innerHTML=""; empty.style.display=""; return; }
+  empty.style.display = "none";
+
+  const statusBg    = {planned:"#F1F5F9",inprogress:"#FFFBEB",done:"#DCFCE7"};
+  const statusColor = {planned:"#475569",inprogress:"#92400E",done:"#166534"};
+
+  let html = `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
+    <thead><tr style="background:var(--bg);border-bottom:2px solid var(--border)">
+      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;width:60px">اليوم</th>
+      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase">العنوان</th>
+      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;width:100px">النوع</th>
+      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;width:120px">الحالة</th>
+      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase">ملاحظات</th>
+      <th style="padding:10px 12px;width:40px"></th>
+    </tr></thead><tbody>`;
+
+  html += D.calendar.map((c,i) => `
+    <tr style="border-bottom:1px solid var(--border)" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=''">
       <td style="padding:10px 12px;vertical-align:middle">
-        <div style="width:40px;height:40px;background:var(--primary-light);border:1.5px solid var(--primary-mid);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:var(--primary)">
+        <div style="width:40px;height:40px;background:var(--primary-light);border:1.5px solid var(--primary-mid);border-radius:10px;display:flex;align-items:center;justify-content:center">
           <input type="text" value="${ea(c.day)}" data-cf="day" data-i="${i}" style="width:36px;background:transparent;border:none;text-align:center;font-weight:900;font-size:12px;color:var(--primary);padding:0;outline:none" placeholder="${i+1}">
         </div>
       </td>
@@ -2448,7 +1481,7 @@ function renderCalendar(){
         <input type="text" value="${ea(c.title)}" data-cf="title" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-weight:600" placeholder="عنوان المحتوى">
       </td>
       <td style="padding:10px 12px;vertical-align:middle">
-        <select data-cf="type" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700;color:${typeColors[c.type]||'var(--dark)'}">
+        <select data-cf="type" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700">
           <option ${c.type==="post"?"selected":""} value="post">📝 Post</option>
           <option ${c.type==="story"?"selected":""} value="story">🔮 Story</option>
           <option ${c.type==="reel"?"selected":""} value="reel">🎬 Reel</option>
@@ -2469,18 +1502,19 @@ function renderCalendar(){
       <td style="padding:10px 12px;vertical-align:middle;text-align:center">
         <button class="btn btn-danger btn-sm" data-del-cal="${i}" style="padding:6px 10px;font-size:11px">🗑</button>
       </td>
-    </tr>
-  `).join("");
-  
-  html += `</tbody></table></div>`;
+    </tr>`).join("");
+
+  html += "</tbody></table></div>";
   el.innerHTML = html;
 }
 
 function renderPhases(){
-  const el=document.getElementById("phasesList"),empty=document.getElementById("phasesEmpty");
-  if(!D.phases.length){el.innerHTML="";empty.style.display="";return;}
-  empty.style.display="none";
-  el.innerHTML=D.phases.map((p,i)=>`
+  const el    = document.getElementById("phasesList");
+  const empty = document.getElementById("phasesEmpty");
+  if(!D.phases.length){ el.innerHTML=""; empty.style.display=""; return; }
+  empty.style.display = "none";
+
+  el.innerHTML = D.phases.map((p,i) => `
     <div class="list-item">
       <div class="list-item-head">
         <span class="item-num">${i+1}</span>
@@ -2492,63 +1526,332 @@ function renderPhases(){
           <label class="field-label">اسم المرحلة</label><input type="text" value="${ea(p.name)}" data-phf="name" data-i="${i}">
           <label class="field-label" style="margin-top:8px">المدة</label><input type="text" value="${ea(p.duration)}" data-phf="duration" data-i="${i}">
         </div>
-        <div>
-          <label class="field-label">الهدف</label><textarea data-phf="goal" data-i="${i}" style="min-height:80px">${et(p.goal)}</textarea>
-        </div>
+        <div><label class="field-label">الهدف</label><textarea data-phf="goal" data-i="${i}" style="min-height:80px">${et(p.goal)}</textarea></div>
       </div>
       <label class="field-label" style="margin-top:8px">الأنشطة</label>
       <textarea data-phf="activities" data-i="${i}" style="min-height:70px">${et(p.activities)}</textarea>
-    </div>
-  `).join("");
+    </div>`).join("");
 }
 
+// ==========================================
+// DELEGATED EVENT HANDLERS (click + input)
+// ==========================================
+document.addEventListener("click", function(e){
+  const t = e.target;
 
-  function applyTheme(){
-  document.documentElement.style.setProperty('--primary', D.theme.primary);
-  document.documentElement.style.setProperty('--dark', D.theme.dark);
-  document.documentElement.style.setProperty('--bg', D.theme.background);
-  document.documentElement.style.setProperty('--accent', D.theme.accent);
+  // Upload post image
+  const uploadPostImg = t.getAttribute("data-upload-post-image");
+  if(uploadPostImg !== null){
+    const i    = +uploadPostImg;
+    const file = document.getElementById(`postImage-${i}`)?.files[0];
+    if(!file){ setStatus("اختار صورة الأول","warn"); return; }
+    setStatus("جاري رفع صورة البوست...","info");
+    setPostUploadProgress(i, 10);
+    setTimeout(()=>setPostUploadProgress(i,35),300);
+    setTimeout(()=>setPostUploadProgress(i,70),700);
+    uploadImageToSupabase(file,"posts").then(async url => {
+      if(!url){ setStatus("فشل رفع الصورة","bad"); return; }
+      D.posts[i].designImage = url;
+      setPostUploadProgress(i,100);
+      renderPosts(); updateJsonOutput();
+      await saveData();
+      setStatus("تم رفع صورة البوست ✅","ok");
+    }).catch(err=>{ console.error(err); setStatus("فشل رفع الصورة","bad"); });
+    return;
+  }
 
-  document.documentElement.style.setProperty('--text-main', D.theme.textMain);
-  document.documentElement.style.setProperty('--text-sub', D.theme.textSub);
-  document.documentElement.style.setProperty('--surface', D.theme.surface);
+  // Delete post image
+  const delPostImg = t.dataset.delPostImage;
+  if(delPostImg !== undefined){
+    D.posts[+delPostImg].designImage = "";
+    renderPosts(); updateJsonOutput();
+    setStatus("تم حذف صورة البوست","ok");
+    return;
+  }
 
-  document.documentElement.style.setProperty('--hero-bg-1', D.theme.heroBg1);
-  document.documentElement.style.setProperty('--hero-bg-2', D.theme.heroBg2);
+  // Add actor
+  const addActor = t.dataset.addActor;
+  if(addActor !== undefined){
+    const i    = +addActor;
+    const name = document.getElementById(`actorName-${i}`)?.value.trim();
+    const age  = document.getElementById(`actorAge-${i}`)?.value.trim();
+    const file = document.getElementById(`actorImage-${i}`)?.files[0];
+    if(!name || !age || !file){ setStatus("اكتب اسم الممثل والسن وارفع الصورة","warn"); return; }
+    setStatus("جاري رفع صورة الممثل...","info");
+    uploadImageToSupabase(file,"actors").then(url => {
+      if(!url) return;
+      if(!Array.isArray(D.scripts[i].actors)) D.scripts[i].actors = [];
+      D.scripts[i].actors.push({name, age, image:url});
+      renderScripts(); updateJsonOutput();
+      setStatus("تم إضافة الممثل بنجاح","ok");
+    });
+    return;
+  }
 
-  document.documentElement.style.setProperty('--bigidea-bg-1', D.theme.bigIdeaBg1);
-  document.documentElement.style.setProperty('--bigidea-bg-2', D.theme.bigIdeaBg2);
-}
+  // Delete actor
+  const delActor = t.dataset.delActor;
+  if(delActor !== undefined){
+    const i  = +delActor;
+    const ai = +t.dataset.ai;
+    if(Array.isArray(D.scripts[i].actors)) D.scripts[i].actors.splice(ai,1);
+    renderScripts(); updateJsonOutput();
+    return;
+  }
 
-  let autoSaveTimer;
+  // Add post comment
+  const addComment = t.dataset.addPostComment;
+  if(addComment !== undefined){
+    const i     = +addComment;
+    const input = document.getElementById(`postComment-${i}`);
+    const text  = input?.value.trim();
+    if(!text){ setStatus("اكتب الكومنت الأول","warn"); return; }
+    if(!Array.isArray(D.posts[i].comments)) D.posts[i].comments = [];
+    D.posts[i].comments.push({
+      text,
+      by:   currentUser?.username || "unknown",
+      role: currentUser?.role     || "editor",
+      date: new Date().toLocaleString("ar-EG")
+    });
+    D.posts[i].reviewComment = "";
+    if(input) input.value = "";
+    renderPosts(); updateJsonOutput();
+    setStatus("تم إضافة الكومنت ✅","ok");
+    return;
+  }
 
-function triggerAutoSave(){
-  clearTimeout(autoSaveTimer);
-
-  autoSaveTimer = setTimeout(() => {
+  // Delete post comment
+  const delComment = t.dataset.delPostComment;
+  if(delComment !== undefined){
+    const i   = +delComment;
+    const idx = +t.dataset.idx;
+    const comment = D.posts[i].comments[idx];
+    if(comment.by !== (currentUser?.username||"")){ setStatus("مش مسموح لك تحذف الكومنت ده ❌","bad"); return; }
+    D.posts[i].comments.splice(idx,1);
+    renderPosts(); updateJsonOutput();
     saveData();
-  }, 1500);
-}
+    setStatus("تم حذف الكومنت ✅","ok");
+    return;
+  }
 
-
-
-window.addEventListener("beforeunload", () => {
-  try {
-    collectInputs();
-
-    const stored = JSON.parse(localStorage.getItem("cos_campaigns") || "[]");
-    const idx = stored.findIndex(c => c.id === CAMPAIGN_ID);
-
-    if (idx >= 0) {
-      stored[idx].data = D;
-      stored[idx].progress = D.client.progress;
-      stored[idx].updated_at = new Date().toISOString();
-    }
-
-    localStorage.setItem("cos_campaigns", JSON.stringify(stored));
-  } catch(e) {}
+  // Delete script
+  if(t.dataset.delScript !== undefined){ D.scripts.splice(+t.dataset.delScript,1); renderScripts(); updateJsonOutput(); return; }
+  // Delete post
+  if(t.dataset.delPost   !== undefined){ D.posts.splice(+t.dataset.delPost,1);     renderPosts();   updateJsonOutput(); return; }
+  // Delete story
+  if(t.dataset.delStory  !== undefined){ D.stories.splice(+t.dataset.delStory,1);  renderStories(); updateJsonOutput(); return; }
+  // Delete ad
+  if(t.dataset.delAd     !== undefined){ D.ads.splice(+t.dataset.delAd,1);         renderAds();     updateJsonOutput(); return; }
+  // Delete calendar
+  if(t.dataset.delCal    !== undefined){ D.calendar.splice(+t.dataset.delCal,1);   renderCalendar();updateJsonOutput(); return; }
+  // Delete phase
+  if(t.dataset.delPhase  !== undefined){ D.phases.splice(+t.dataset.delPhase,1);   renderPhases();  updateJsonOutput(); return; }
 });
-  
+
+document.addEventListener("input", function(e){
+  const t = e.target;
+
+  // Actor name/age live edit
+  if(t.dataset.actorName !== undefined){
+    const i=+t.dataset.actorName, ai=+t.dataset.ai;
+    if(D.scripts[i]?.actors?.[ai]) D.scripts[i].actors[ai].name = t.value;
+    updateJsonOutput(); return;
+  }
+  if(t.dataset.actorAge !== undefined){
+    const i=+t.dataset.actorAge, ai=+t.dataset.ai;
+    if(D.scripts[i]?.actors?.[ai]) D.scripts[i].actors[ai].age = t.value;
+    updateJsonOutput(); return;
+  }
+
+  // Skip login/dashboard inputs
+  if(t.closest("#userLoginScreen") || t.closest("#userCampaignsScreen")) return;
+  if(document.getElementById("app").style.display === "none") return;
+
+  if(!D || !D.client) D = normalize(DEFAULT_DATA);
+
+  // Script fields
+  if(t.dataset.sf !== undefined){ D.scripts[+t.dataset.i][t.dataset.sf] = t.value; updateJsonOutput(); }
+  // Post fields
+  else if(t.dataset.pf !== undefined){ D.posts[+t.dataset.i][t.dataset.pf] = t.value; updateJsonOutput(); }
+  // Post review status
+  else if(t.dataset.postReviewStatus !== undefined){ D.posts[+t.dataset.postReviewStatus].reviewStatus = t.value; updateJsonOutput(); }
+  // Story fields
+  else if(t.dataset.storyText     !== undefined){ D.stories[+t.dataset.storyText].text     = t.value; updateJsonOutput(); }
+  else if(t.dataset.storyCta      !== undefined){ D.stories[+t.dataset.storyCta].cta       = t.value; updateJsonOutput(); }
+  else if(t.dataset.storyPlatform !== undefined){ D.stories[+t.dataset.storyPlatform].platform = t.value; updateJsonOutput(); }
+  // Ad fields
+  else if(t.dataset.af !== undefined){ D.ads[+t.dataset.i][t.dataset.af] = t.value; updateJsonOutput(); }
+  // Calendar fields
+  else if(t.dataset.cf !== undefined){ D.calendar[+t.dataset.i][t.dataset.cf] = t.value; updateJsonOutput(); }
+  // Phase fields
+  else if(t.dataset.phf !== undefined){ D.phases[+t.dataset.i][t.dataset.phf] = t.value; updateJsonOutput(); }
+
+  collectInputs();
+  triggerAutoSave();
+});
+
+// ==========================================
+// INIT — runs after DOM is ready
+// ==========================================
+document.addEventListener("DOMContentLoaded", function(){
+  loadBuzzLogo();
+
+  // Init Supabase
+  if(window.supabase){
+    dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  }
+
+  // Super admin — skip login
+  if(IS_SUPER_ADMIN){
+    currentUser     = {name:"Super Admin", username:"superadmin", role:"superadmin"};
+    userPermissions = allPermissions();
+    document.getElementById("userLoginScreen").style.display = "none";
+    document.getElementById("app").style.display             = "block";
+    document.getElementById("userBadge").textContent         = "👑 Super Admin";
+    applySuperAdminVisibility();
+    setupNav();
+    loadCampaignData();
+  } else {
+    // Attach login button — FIX: arrow function wrapping doUserLogin
+    document.getElementById("uLoginBtn").addEventListener("click", function(){ doUserLogin(); });
+    document.getElementById("uLoginPass").addEventListener("keydown", function(e){ if(e.key==="Enter") doUserLogin(); });
+
+    // Check existing session
+    const savedUser = sessionStorage.getItem("cos_current_user");
+    if(savedUser){
+      try{
+        const user = JSON.parse(savedUser);
+        if(user && user.username) enterAsUser(user);
+      }catch(e){ sessionStorage.removeItem("cos_current_user"); }
+    }
+  }
+
+  // Save button
+  document.getElementById("saveBtn2").addEventListener("click", function(){ saveData(); });
+
+  // Logout
+  document.getElementById("userLogoutBtn").addEventListener("click",  logoutUser);
+  document.getElementById("dashLogoutBtn").addEventListener("click",  logoutUser);
+
+  // Back
+  document.getElementById("backBtn").addEventListener("click", function(){
+    if(IS_SUPER_ADMIN) window.location.href = "admin.html";
+    else showUserDashboard();
+  });
+
+  // JSON tools
+  document.getElementById("copyJsonBtn").addEventListener("click", function(){
+    navigator.clipboard.writeText(document.getElementById("jsonOutput").value);
+    setStatus("JSON copied!","ok");
+  });
+  document.getElementById("downloadJsonBtn").addEventListener("click", function(){
+    const blob = new Blob([document.getElementById("jsonOutput").value],{type:"application/json"});
+    const a    = document.createElement("a");
+    a.href     = URL.createObjectURL(blob);
+    a.download = "campaign.json";
+    a.click();
+  });
+  document.getElementById("uploadJsonInput").addEventListener("change", uploadCampaignJson);
+
+  // Add buttons
+  document.getElementById("addScriptBtn").addEventListener("click", function(){
+    D.scripts.push({title:"",location:"",actors:[],duration:"",type:"ad",hook:"",body:"",cta:""});
+    renderScripts(); updateJsonOutput();
+  });
+  document.getElementById("addPostBtn").addEventListener("click", function(){
+    D.posts.push({title:"",platform:"facebook",contentType:"image",tov:"",hook:"",caption:"",hashtags:"",designImage:"",reviewStatus:"need_edit",reviewComment:"",comments:[]});
+    renderPosts(); updateJsonOutput();
+  });
+  document.getElementById("addStoryBtn").addEventListener("click", function(){
+    D.stories.push({text:"",cta:"",platform:"instagram"});
+    renderStories(); updateJsonOutput();
+  });
+  document.getElementById("addAdBtn").addEventListener("click", function(){
+    D.ads.push({name:"",adType:"awareness",headline:"",primary:"",description:"",cta:"learn_more"});
+    renderAds(); updateJsonOutput();
+  });
+  document.getElementById("addCalendarBtn").addEventListener("click", function(){
+    D.calendar.push({day:"",type:"post",platform:"",title:"",status:"planned",notes:""});
+    renderCalendar(); updateJsonOutput();
+  });
+  document.getElementById("addPhaseBtn").addEventListener("click", function(){
+    D.phases.push({name:"",duration:"",goal:"",activities:""});
+    renderPhases(); updateJsonOutput();
+  });
+
+  // Color bindings
+  bindColor("primaryColor","primaryPicker");
+  bindColor("darkColor","darkPicker");
+  bindColor("bgColor","bgPicker");
+  bindColor("accentColor","accentPicker");
+  bindColor("textMain","textMainPicker");
+  bindColor("textSub","textSubPicker");
+  bindColor("surfaceColor","surfacePicker");
+  bindColor("heroBg1","heroBg1Picker");
+  bindColor("heroBg2","heroBg2Picker");
+  bindColor("bigIdeaBg1","bigIdeaBg1Picker");
+  bindColor("bigIdeaBg2","bigIdeaBg2Picker");
+
+  // Logo URL preview
+  document.getElementById("logoUrl").addEventListener("input", function(){
+    if(this.value){
+      document.getElementById("logoPreviewImg").src = this.value;
+      document.getElementById("logoPreviewWrap").style.display = "block";
+    }
+  });
+
+  // Logo file upload
+  document.getElementById("logoUpload").addEventListener("change", function(e){
+    const file = e.target.files[0];
+    if(!file){ setStatus("اختار صورة الأول","warn"); return; }
+    setStatus("جاري رفع اللوجو...","info");
+    uploadImageToSupabase(file,"branding").then(url => {
+      if(!url) return;
+      document.getElementById("logoUrl").value = url;
+      D.theme.logo = url;
+      document.getElementById("logoPreviewImg").src = url;
+      document.getElementById("logoPreviewWrap").style.display = "block";
+      updateJsonOutput();
+      setStatus("تم رفع اللوجو","ok");
+    });
+  });
+
+  // TOV pills
+  document.querySelectorAll("[data-tov]").forEach(el => el.addEventListener("click", function(){
+    el.classList.toggle("sel");
+    D.hero.tov = Array.from(document.querySelectorAll("[data-tov].sel")).map(e => e.dataset.tov);
+    updateJsonOutput();
+  }));
+
+  // Objective cards
+  document.querySelectorAll("[data-obj]").forEach(el => el.addEventListener("click", function(){
+    D.objectives.type = el.dataset.obj;
+    document.querySelectorAll("[data-obj]").forEach(e => e.classList.remove("sel"));
+    el.classList.add("sel");
+    updateJsonOutput();
+  }));
+
+  // Platform pills
+  document.querySelectorAll("[data-platform]").forEach(el => el.addEventListener("click", function(){
+    el.classList.toggle("sel");
+    D.objectives.platforms = Array.from(document.querySelectorAll("[data-platform].sel")).map(e => e.dataset.platform);
+    updateJsonOutput();
+  }));
+});
+
+// Save to localStorage on page unload
+window.addEventListener("beforeunload", function(){
+  try{
+    collectInputs();
+    const stored = JSON.parse(localStorage.getItem("cos_campaigns")||"[]");
+    const idx    = stored.findIndex(c => c.id === CAMPAIGN_ID);
+    if(idx >= 0){
+      stored[idx].data       = D;
+      stored[idx].progress   = D.client.progress;
+      stored[idx].updated_at = new Date().toISOString();
+      localStorage.setItem("cos_campaigns", JSON.stringify(stored));
+    }
+  }catch(e){}
+});
 </script>
 </body>
 </html>
