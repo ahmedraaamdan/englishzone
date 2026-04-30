@@ -689,7 +689,10 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
 
     <select id="calIndex"></select>
 
-    <button class="btn btn-primary" onclick="saveCalendarItem()">حفظ</button>
+<div style="display:flex;gap:8px;margin-top:10px">
+  <button class="btn btn-primary" onclick="saveCalendarItem()">حفظ</button>
+  <button class="btn btn-danger" onclick="deleteCalendarItem()">حذف</button>
+</div>
   </div>
 </div>
       
@@ -2121,6 +2124,17 @@ function changeMonth(step){
 
   generateCalendar();
   localStorage.setItem("calMonth", currentMonth);
+}
+
+function deleteCalendarItem(){
+  if(!D.calendar) return;
+
+  D.calendar = D.calendar.filter(e => e.day !== calSelectedDay);
+
+  document.getElementById("calendarPopup").classList.add("hidden");
+
+  generateCalendar();
+  updateJsonOutput();
 }
   
 </script>
