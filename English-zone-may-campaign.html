@@ -731,13 +731,16 @@ function renderCalendar(data){
 
   if(!data) data = [];
 
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
+  const start = c?.client?.start || new Date().toISOString().slice(0,10);
+const d = new Date(start);
 
-const firstDay = (new Date(year, month, 1).getDay() + 8) % 7;
+const year = d.getFullYear();
+const month = d.getMonth();
+
+let firstDay = new Date(year, month, 1).getDay();
+
 // تحويله لنفس ترتيب الهيدر
-firstDay = (firstDay + 7) % 7;
+let firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const prevMonthDays = new Date(year, month, 0).getDate();
 
