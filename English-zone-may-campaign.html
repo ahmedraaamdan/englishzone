@@ -89,6 +89,18 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
   gap:10px;
 }
 
+.cal-type{
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  opacity:0.7;
+}
+
+.cal-title{
+  font-size:11px;
+  margin-top:2px;
+}
+  
 .cal-day{
   direction:rtl;
   background:#fff;
@@ -791,8 +803,13 @@ function renderCalendar(data){
 
     div.innerHTML = `
       <div class="cal-number">${day}</div>
-      ${item ? `<div class="cal-item">${item.title}</div>` : ""}
-    `;
+${item ? `
+  <div class="cal-item">
+    <div class="cal-type">${item.type}</div>
+    <div class="cal-title">${item.title}</div>
+  </div>
+` : ""}
+`;
 
     grid.appendChild(div);
   }
