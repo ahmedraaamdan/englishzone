@@ -1173,7 +1173,7 @@ function collectInputs(){
   D.budget.influencer   = g("budgetInfluencer");
   D.budget.currency     = g("currency");
 D.budget.notes = g("budgetNotes");
-
+  
   document.getElementById("progressFill").style.width = D.client.progress + "%";
   updatePreview();
   updateJsonOutput();
@@ -2032,7 +2032,6 @@ function saveCalendarItem(){
 
 // عرض الكونتنت في اليوم
 function renderCalContent(day){
-function renderCalContent(day){
   if(!D.calendar) return "";
 
   const item = D.calendar.find(e => e.day === day);
@@ -2057,7 +2056,6 @@ function renderCalContent(day){
     </div>
   `;
 }
-  
 
 </body>
 </html>
