@@ -1372,16 +1372,25 @@ if (uploadPostImageIndex !== undefined) {
 
   setStatus("جاري رفع صورة البوست...", "info");
 
-  uploadImageToSupabase(file, "posts").then(imageUrl => {
-    if (!imageUrl) return;
+uploadImageToSupabase(file, "posts")
+  .then(async imageUrl => {
+    if (!imageUrl) {
+      setStatus("فشل رفع الصورة — مفيش لينك رجع من Supabase", "bad");
+      return;
+    }
 
-D.posts[i].designImage = imageUrl;
+    D.posts[i].designImage = imageUrl;
 
-renderPosts();
-updateJsonOutput();
-saveData();
+    renderPosts();
+    updateJsonOutput();
 
-setStatus("تم رفع صورة البوست وحفظها", "ok");
+    await saveData();
+
+    setStatus("تم رفع صورة البوست وحفظها بنجاح ✅", "ok");
+  })
+  .catch(err => {
+    console.error("POST IMAGE UPLOAD ERROR:", err);
+    setStatus("فشل رفع صورة البوست — افتح Console وشوف الخطأ", "bad");
   });
 
   return;
