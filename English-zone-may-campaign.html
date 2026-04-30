@@ -661,62 +661,6 @@ ${p.hook?`<div class="card-section-label">Hook 🪝</div><div class="body-text" 
     }).join('');
   }
 
-  // Calendar
-let cal = [];
-
-if (Array.isArray(c.calendar)) {
-  cal = c.calendar;
-} else if (typeof c.calendar === 'object') {
-  cal = Object.values(c.calendar).flat();
-}
-  
-// 👇 نحدد عدد الأيام (افتراضي 30)
-let daysInMonth = 30;
-
-// لو عندك تاريخ بداية
-if(c.client?.start){
-  const d = new Date(c.client.start);
-  daysInMonth = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
-}
-
-let html = "";
-
-for(let d=1; d<=daysInMonth; d++){
-
-  const items = cal.filter(e => {
-    if (!e.day) return false;
-
-    if (!isNaN(e.day)) return Number(e.day) === d;
-
-    const date = new Date(e.day);
-    return date.getDate() === d;
-  });
-
-  let content = "";
-
-  if(items.length){
-    content = items.map(i=>`
-      <div class="cal-item ${i.type}">
-        <b>${i.type}</b><br>
-        ${i.title || ""}
-      </div>
-    `).join('');
-  }
-
-  html += `
-    <div class="cal-day">
-      <div class="cal-number">${d}</div>
-      ${content}
-    </div>
-  `;
-}
-
-
-  
-$('calendarGrid').innerHTML = html;
-
-$('calendarGrid').innerHTML = html;
-
 // Budget
 const budget = c.budget || {};
 const budgetItems = [];
