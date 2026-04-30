@@ -629,26 +629,24 @@ let html = "";
 
 for(let d=1; d<=daysInMonth; d++){
 
-const item = cal.find(e => {
+const items = cal.filter(e => {
   if (!e.day) return false;
 
-  // لو day رقم أو string رقم
   if (!isNaN(e.day)) return Number(e.day) === d;
 
-  // لو day تاريخ كامل
   const date = new Date(e.day);
   return date.getDate() === d;
 });
+  
     let content = "";
 
   if(item){
-    content = `
-      <div class="cal-item ${item.type}">
-        <b>${item.type}</b><br>
-        ${item.title || ""}
-      </div>
-    `;
-  }
+content = items.map(i=>`
+  <div class="cal-item ${i.type}">
+    <b>${i.type}</b><br>
+    ${i.title || ""}
+  </div>
+`).join('');
 
   html += `
     <div class="cal-day">
