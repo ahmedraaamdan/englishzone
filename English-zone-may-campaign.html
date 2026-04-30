@@ -372,8 +372,14 @@ function cleanPreviewSections(c){
   const hasScripts = Array.isArray(c.scripts) && c.scripts.length > 0;
   const hasPosts = Array.isArray(c.posts) && c.posts.length > 0;
   const hasStories = Array.isArray(c.stories) && c.stories.length > 0;
-  const hasCalendar = Array.isArray(c.calendar) && c.calendar.length > 0;
+const hasCalendar = c.calendar && Object.keys(c.calendar).length > 0;
+  let calendarData = [];
 
+if (Array.isArray(c.calendar)) {
+  calendarData = c.calendar;
+} else if (typeof c.calendar === 'object') {
+  calendarData = Object.values(c.calendar).flat();
+}
   const hasBudget =
     !isEmptyValue(budget.total) ||
     !isEmptyValue(budget.production) ||
@@ -602,8 +608,14 @@ ${p.hook?`<div class="card-section-label">Hook 🪝</div><div class="body-text" 
   }
 
   // Calendar
- const cal = c.calendar || [];
+let cal = [];
 
+if (Array.isArray(c.calendar)) {
+  cal = c.calendar;
+} else if (typeof c.calendar === 'object') {
+  cal = Object.values(c.calendar).flat();
+}
+  
 // 👇 نحدد عدد الأيام (افتراضي 30)
 let daysInMonth = 30;
 
@@ -711,6 +723,37 @@ const { data, error } = await sb
   }
 }
 load();
+
+function renderCalendar(cal){
+  const grid = document.getElementById('calendarGrid');
+  const empty = document.getElementById('calendarEmpty');
+
+  if (!grid) return;
+
+  grid.innerHTML = '';
+
+  if (!cal || !cal.length) {
+    if(empty) empty.style.display = 'block';
+    return;
+  }
+
+  if(empty) empty.style.display = 'none';
+
+  cal.forEach(item=>{
+    const div = document.createElement('div');
+    div.className = 'cal-day';
+
+    div.innerHTML = `
+      <div class="cal-number">${item.day || ''}</div>
+      <div class="cal-item ${item.type || ''}">
+        ${item.title || ''}
+      </div>
+    `;
+
+    grid.appendChild(div);
+  });
+}
+
 </script>
 </body>
 </html>
