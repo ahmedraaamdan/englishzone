@@ -1581,6 +1581,7 @@ async function doUserLogin() {
 
   let user = null;
 
+  // 🔹 محاولة من Supabase
   if (dbClient) {
     try {
       const { data, error } = await dbClient
@@ -1595,37 +1596,23 @@ async function doUserLogin() {
 
     } catch (e) {
       console.error("USER LOGIN SUPABASE ERROR", e);
-      errorBox.textContent = "❌ Supabase error: " + (e.message || e);
-      return;
     }
   }
 
-  // لو مفيش user
-  if (!user) {
-    errorBox.textContent = "❌ بيانات غلط";
-    return;
-  }
-
-  // حفظ السيشن
-  sessionStorage.setItem("cos_current_user", JSON.stringify(user));
-
-  // دخول
-  enterAsUser(user);
-}
-
-  // fallback لو Supabase وقع
+  // 🔹 fallback لو Supabase مش شغال
   if (!user) {
     const users = JSON.parse(localStorage.getItem("cos_users") || "[]");
     user = users.find(u => u.username === username && u.password === pass);
   }
 
+  // ❌ لو مفيش user
   if (!user) {
-    const err = document.getElementById("uLoginError");
-    err.textContent = "❌ بيانات غلط";
-    setTimeout(() => err.textContent = "", 2000);
+    errorBox.textContent = "❌ بيانات غلط";
+    setTimeout(() => errorBox.textContent = "", 2000);
     return;
   }
 
+  // ✅ نجاح
   sessionStorage.setItem("cos_current_user", JSON.stringify(user));
   enterAsUser(user);
 }
