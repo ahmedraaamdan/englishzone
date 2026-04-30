@@ -327,6 +327,18 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
   margin-bottom:15px;
 }
 
+.calendar-grid{
+  direction:ltr;
+}
+
+.calendar-header{
+  direction:ltr;
+}
+
+.cal-day{
+  direction:rtl;
+}
+  
 .month-picker button{
   background:#FF5500;
   color:#fff;
@@ -1930,29 +1942,49 @@ let calData = {};
 
 // لما تختار الشهر
 function generateCalendar(){
-  const year = currentMonth.getFullYear();
-  const month = currentMonth.getMonth() + 1;
-
-  const days = new Date(year, month, 0).getDate();
 
   const grid = document.getElementById("calendarGrid");
   grid.innerHTML = "";
 
-  for(let d=1; d<=days; d++){
+const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth();
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const prevMonthDays = new Date(year, month, 0).getDate();
+
+  // 👈 الأيام اللي قبل الشهر
+  for(let i = firstDay; i > 0; i--){
     const div = document.createElement("div");
+    div.className = "cal-day muted";
+    div.innerHTML = `<div class="cal-number">${prevMonthDays - i + 1}</div>`;
+    grid.appendChild(div);
+  }
 
-    const item = D.calendar?.find(e => Number(e.day) === d);
+  // 👈 أيام الشهر الحالي
+  for(let day = 1; day <= daysInMonth; day++){
 
+    const item = D.calendar?.find(e => e.day == day);
+
+    const div = document.createElement("div");
     div.className = "cal-day " + (item?.type || "");
-    div.onclick = ()=>openCalPopup(d);
 
     div.innerHTML = `
-      <div class="cal-number">${d}</div>
-      <div class="cal-content">${renderCalContent(d)}</div>
+      <div class="cal-number">${day}</div>
+
+      ${
+        item ? `
+          <div class="cal-item">
+            <div class="cal-type">${item.type}</div>
+            <div class="cal-title">${item.title}</div>
+          </div>
+        ` : ""
+      }
     `;
 
     grid.appendChild(div);
   }
+
 }
 
 // فتح البوب اب
