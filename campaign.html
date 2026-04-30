@@ -1494,6 +1494,15 @@ if (delPostComment !== undefined) {
   const i = +delPostComment;
   const idx = +e.target.dataset.idx;
 
+  const comment = D.posts[i].comments[idx];
+
+  const isOwner = comment.by === (currentUser?.name || "");
+
+  if (!isOwner) {
+    setStatus("مش مسموح لك تحذف الكومنت ده ❌", "bad");
+    return;
+  }
+
   D.posts[i].comments.splice(idx, 1);
 
   renderPosts();
@@ -1501,7 +1510,7 @@ if (delPostComment !== undefined) {
 
   saveData();
 
-  setStatus("تم حذف الكومنت وحفظه ✅", "ok");
+  setStatus("تم حذف الكومنت ✅", "ok");
   return;
 }
     
@@ -2310,7 +2319,10 @@ function renderPosts(){
                       <div class="comment-meta">
                         <strong>${et(c.by || "User")}</strong>
                         <span>${et(c.date || "")}</span>
-                        <button type="button" data-del-post-comment="${i}" data-comment-index="${ci}">حذف</button>
+${c.by === (currentUser?.name || "") 
+  ? `<button type="button" data-del-post-comment="${i}" data-idx="${ci}">حذف</button>` 
+  : ""
+}
                       </div>
                       <div class="comment-text">${et(c.text || "")}</div>
                     </div>
