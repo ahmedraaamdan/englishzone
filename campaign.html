@@ -244,34 +244,42 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
 
 
 .calendar-grid{
+  direction:ltr; /* 👈 يخلي البداية من الشمال */
   display:grid;
   grid-template-columns: repeat(7,1fr);
-  gap:10px;
+  gap:12px;
   margin-top:15px;
 }
 
 .cal-day{
+  direction:rtl; /* 👈 يخلي الكلام عربي جوه */
   background:#fff;
-  border-radius:12px;
+  border-radius:14px;
   padding:10px;
-  min-height:90px;
+  min-height:100px;
   cursor:pointer;
   border:1px solid #E5E5E5;
   transition:.2s;
+  position:relative;
 }
 
 .cal-day:hover{
   border-color:#FF5500;
+  transform:translateY(-2px);
 }
 
 .cal-number{
+  position:absolute;
+  top:8px;
+  left:10px; /* 👈 رقم اليوم يبقى شمال */
   font-weight:900;
-  font-size:13px;
+  font-size:12px;
+  color:#888;
 }
 
 .cal-content{
-  font-size:11px;
-  margin-top:6px;
+  margin-top:20px;
+  font-size:12px;
 }
 
 /* popup */
@@ -715,7 +723,7 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
 <script>
 // ==========================================
 // CONFIG
@@ -1999,26 +2007,57 @@ function saveCalendarItem(){
   if(type==="script") item = D.scripts[index];
   if(type==="story") item = D.stories[index];
 
-  calData[calSelectedDay] = {
+  const entry = {
+    day: calSelectedDay,
     type,
     title: item?.title || "بدون عنوان"
   };
 
+  // 👇 نحفظ في الداتا الأساسية
+  D.calendar = D.calendar || [];
+
+  // لو اليوم موجود نعدله
+  const existingIndex = D.calendar.findIndex(e => e.day === calSelectedDay);
+  if(existingIndex > -1){
+    D.calendar[existingIndex] = entry;
+  } else {
+    D.calendar.push(entry);
+  }
+
   document.getElementById("calendarPopup").classList.add("hidden");
 
   generateCalendar();
+  updateJsonOutput(); // 👈 مهم
 }
 
 // عرض الكونتنت في اليوم
 function renderCalContent(day){
-  if(!calData[day]) return "";
+function renderCalContent(day){
+  if(!D.calendar) return "";
+
+  const item = D.calendar.find(e => e.day === day);
+  if(!item) return "";
+
+  let color = "#eee";
+
+  if(item.type === "post") color = "#DBEAFE";
+  if(item.type === "story") color = "#FEF3C7";
+  if(item.type === "script") color = "#DCFCE7";
 
   return `
-    <b>${calData[day].type}</b><br>
-    ${calData[day].title}
+    <div style="
+      background:${color};
+      padding:5px;
+      border-radius:6px;
+      font-size:11px;
+      margin-top:4px;
+    ">
+      <b>${item.type}</b><br>
+      ${item.title}
+    </div>
   `;
 }
   
-</script>
+
 </body>
 </html>
