@@ -1374,11 +1374,13 @@ if (uploadPostImageIndex !== undefined) {
   uploadImageToSupabase(file, "posts").then(imageUrl => {
     if (!imageUrl) return;
 
-    D.posts[i].designImage = imageUrl;
+D.posts[i].designImage = imageUrl;
 
-    renderPosts();
-    updateJsonOutput();
-    setStatus("تم رفع صورة البوست", "ok");
+renderPosts();
+updateJsonOutput();
+saveData();
+
+setStatus("تم رفع صورة البوست وحفظها", "ok");
   });
 
   return;
