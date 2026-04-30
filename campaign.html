@@ -301,7 +301,18 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
   border-radius:12px;
   width:260px;
 }
-  
+
+  .cal-day.post{
+  background:#DBEAFE;
+}
+
+.cal-day.story{
+  background:#FEF3C7;
+}
+
+.cal-day.script{
+  background:#DCFCE7;
+}
 </style>
 </head>
 <body>
@@ -1951,7 +1962,8 @@ function generateCalendar(){
 
   for(let d=1; d<=days; d++){
     const div = document.createElement("div");
-    div.className = "cal-day";
+const item = D.calendar?.find(e => e.day === d);
+div.className = "cal-day " + (item?.type || "");
     div.onclick = ()=>openCalPopup(d);
 
     div.innerHTML = `
@@ -2043,18 +2055,12 @@ function renderCalContent(day){
   if(item.type === "story") color = "#FEF3C7";
   if(item.type === "script") color = "#DCFCE7";
 
-  return `
-    <div style="
-      background:${color};
-      padding:5px;
-      border-radius:6px;
-      font-size:11px;
-      margin-top:4px;
-    ">
-      <b>${item.type}</b><br>
-      ${item.title}
-    </div>
-  `;
+return `
+  <div class="cal-item ${item.type}">
+    <b>${item.type}</b><br>
+    ${item.title}
+  </div>
+`;
 }
 </script>
   
