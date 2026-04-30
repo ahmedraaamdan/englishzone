@@ -392,7 +392,6 @@ function renderCalendar(calData, startDateStr) {
   // actual days
   for (let day = 1; day <= daysInMon; day++) {
     const cell = document.createElement('div');
- const cell = document.createElement('div');
 
 const dayEvents = lookup[day] || [];
 const mainType = dayEvents[0]?.type?.toLowerCase() || '';
