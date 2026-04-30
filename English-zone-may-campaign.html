@@ -13,15 +13,16 @@
   --border:rgba(37,99,235,.12);--shadow:0 4px 20px rgba(15,23,42,.08);
   --radius:18px;
   --hero-bg-1:#000000;
---hero-bg-2:#B5FC02;
---bigidea-bg-1:#000000;
---bigidea-bg-2:#B5FC02;
---content-card-bg:#FFFFFF;
+  --hero-bg-2:#B5FC02;
+  --bigidea-bg-1:#000000;
+  --bigidea-bg-2:#B5FC02;
+  --content-card-bg:#FFFFFF;
+  --text-main:#111111;
+  --text-sub:#666666;
 }
 html{scroll-behavior:smooth}
 body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);line-height:1.75;min-height:100vh}
 
-/* HERO */
 .hero{background:linear-gradient(135deg,var(--hero-bg-1,#000000) 0%,var(--hero-bg-2,var(--primary)) 100%);color:#fff;padding:70px 20px 60px;position:relative;overflow:hidden;text-align:center}
 .hero-bg-circle{position:absolute;border-radius:50%;pointer-events:none}
 .hero-bg-circle.c1{width:500px;height:500px;top:-200px;right:-150px;background:rgba(255,255,255,.04)}
@@ -33,40 +34,30 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
 .hero h1{font-size:clamp(30px,6vw,58px);font-weight:900;line-height:1.2;margin-bottom:16px}
 .hero-sub{font-size:clamp(15px,2.5vw,19px);color:rgba(255,255,255,.8);max-width:700px;margin:auto}
 .hero-slogan{display:inline-block;margin-top:20px;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 24px;font-size:16px;font-weight:800;color:rgba(255,255,255,.95)}
-.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:800px;margin:36px auto 0}
-.kpi-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px 10px;text-align:center;backdrop-filter:blur(10px)}
-.kpi-box strong{display:block;font-size:26px;font-weight:900;line-height:1}
-.kpi-box span{font-size:11px;color:rgba(255,255,255,.7);font-weight:700;text-transform:uppercase;letter-spacing:.8px}
 
-/* NAV */
 .sticky-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 2px 16px rgba(0,0,0,.06)}
 .nav-inner{max-width:1100px;margin:auto;display:flex;align-items:center;padding:0 16px;overflow-x:auto;gap:4px}
 .nav-inner a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13px;font-weight:800;padding:14px 16px;border-bottom:2px solid transparent;transition:.2s;display:flex;align-items:center;gap:6px}
-.nav-inner a:hover{color:var(--primary);border-bottom-color:var(--primary-mid,#bfdbfe)}
+.nav-inner a:hover{color:var(--primary);border-bottom-color:var(--primary)}
 .nav-brand{margin-right:auto;font-weight:900;color:var(--dark);font-size:15px;padding:12px 0;white-space:nowrap}
 
-/* STATUS */
 .load-status{max-width:1100px;margin:24px auto 0;padding:14px 18px;border-radius:12px;font-weight:700;font-size:13px;background:#FFFBEB;color:#92400E;border:1px solid #FDE68A;display:none}
 
-/* CONTENT */
 .page{max-width:1100px;margin:auto;padding:32px 16px 60px}
 .section-block{margin-bottom:44px}
 .section-label{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:var(--primary);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .section-label:after{content:"";flex:1;height:1px;background:var(--border)}
 
-/* BIG IDEA */
 .big-idea-card{background:linear-gradient(135deg,var(--bigidea-bg-1,#000000),var(--bigidea-bg-2,var(--primary)));color:#fff;border-radius:24px;padding:44px 36px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow)}
 .big-idea-card:before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.04);top:-100px;right:-80px}
 .big-idea-card h2{font-size:clamp(22px,4vw,38px);font-weight:900;margin-bottom:14px;position:relative}
 .big-idea-card p{font-size:16px;color:rgba(255,255,255,.85);max-width:720px;margin:auto;position:relative;line-height:2}
 
-/* INFO CARDS */
 .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
 .info-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
 .info-card .ic-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
 .info-card .ic-value{font-size:16px;font-weight:700;color:var(--text-main)}
 
-/* GRID CARDS */
 .content-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
 .content-card{background:var(--content-card-bg,var(--card));border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
 .content-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.1)}
@@ -76,143 +67,89 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
 .meta-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .pill{background:var(--bg);color:var(--primary);font-size:11px;font-weight:800;border-radius:8px;padding:4px 10px;border:1px solid var(--border)}
 .pill.accent{background:#FFF7ED;color:#C2410C;border-color:#FED7AA}
-.pill.green{background:#F0FDF4;color:#166534;border-color:#BBF7D0}
 .body-text{white-space:pre-wrap;color:var(--text-sub);font-size:14px;line-height:1.8}
 .card-section-label{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:12px 0 4px}
 .cta-badge{display:inline-flex;align-items:center;gap:5px;background:var(--primary);color:white;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:800;margin-top:10px}
 
-/* CALENDAR */
-.calendar-grid{
-  direction:ltr;
+/* ======= CALENDAR - FIXED ======= */
+.calendar-wrapper{overflow-x:auto}
+.calendar-header-row{
   display:grid;
-  grid-template-columns: repeat(7,1fr);
-  gap:10px;
-}
-
-.cal-badge{
-  display:inline-block;
-  padding:4px 10px;
-  border-radius:999px;
-  font-size:10px;
-  font-weight:900;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
   margin-bottom:6px;
+  direction:ltr;
 }
-
-
-.cal-type{
-  font-size:10px;
-  font-weight:900;
-  text-transform:uppercase;
-  opacity:0.7;
-}
-
-  .cal-title{
-  margin-top:4px;
+.calendar-header-row div{
+  text-align:center;
   font-size:11px;
-  font-weight:700;
+  font-weight:800;
+  color:var(--muted);
+  padding:6px 0;
+  background:var(--bg);
+  border-radius:8px;
 }
-  
-.cal-day{
-  direction:rtl;
+.cal-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
+  direction:ltr;
+}
+.cal-cell{
   background:#fff;
   border:1px solid var(--border);
   border-radius:12px;
-  padding:8px;
+  padding:8px 6px;
   min-height:90px;
   position:relative;
 }
-
-.cal-number{
-  position:absolute;
-  top:6px;
-  left:8px;
+.cal-cell.cal-muted{opacity:.35;background:#f8f9fb}
+.cal-cell.cal-today{border-color:var(--primary);border-width:2px}
+.cal-day-num{
   font-size:11px;
   font-weight:900;
-  color:#888;
+  color:#aaa;
+  margin-bottom:4px;
+  display:block;
 }
-
-.cal-day.muted{
-  opacity: 0.3;
-}
-
-.calendar-header{
-  display:grid;
-  grid-template-columns: repeat(7,1fr);
-  margin-bottom:6px;
-}
-
-.calendar-header div{
-  text-align:center;
-  font-size:12px;
-  font-weight:800;
-  color:#666;
-  padding:6px 0;
-}
-  
-.cal-item{
-  margin-top:18px;
-  font-size:11px;
-  padding:4px;
+.cal-event{
   border-radius:6px;
+  padding:3px 6px;
+  margin-bottom:3px;
+  font-size:10px;
+  font-weight:800;
+  line-height:1.3;
 }
-.cal-day.post{ background:#DBEAFE; }
-.cal-day.story{ background:#FEF3C7; }
-.cal-day.script{ background:#DCFCE7; }
-.cal-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.cal-card:before{content:"";position:absolute;top:0;right:0;width:3px;height:100%;background:var(--primary)}
-.cal-day-num{font-size:11px;font-weight:900;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.cal-type-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase}
-.cal-type-post{background:#EFF6FF;color:#1D4ED8}
-.cal-type-story{background:#F5F3FF;color:#6D28D9}
-.cal-type-reel,.cal-type-video{background:#FFF7ED;color:#C2410C}
-.cal-type-ad{background:#FEF2F2;color:#B91C1C}
-.cal-type-event{background:#F0FDF4;color:#166534}
-.cal-title{font-size:13px;font-weight:800;line-height:1.4;margin-bottom:4px}
-.cal-notes{font-size:12px;color:var(--muted);line-height:1.5}
-.status-done{background:#DCFCE7;color:#166534;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;display:inline-block}
-.status-inprogress{background:#FFFBEB;color:#92400E;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;display:inline-block}
-.status-planned{background:#F1F5F9;color:#475569;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;display:inline-block}
+.cal-event.type-post{background:#DBEAFE;color:#1D4ED8}
+.cal-event.type-story{background:#FEF3C7;color:#92400E}
+.cal-event.type-script{background:#DCFCE7;color:#166534}
+.cal-event.type-reel{background:#FFF7ED;color:#C2410C}
+.cal-event.type-video{background:#F5F3FF;color:#6D28D9}
+.cal-event.type-ad{background:#FEF2F2;color:#B91C1C}
+.cal-event-type{font-size:9px;opacity:.7;text-transform:uppercase;letter-spacing:.3px}
+/* ======= END CALENDAR ======= */
 
-/* PHASES */
-.phases-list{display:flex;flex-direction:column;gap:12px}
-.phase-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);display:grid;grid-template-columns:auto 1fr;gap:0 20px}
-.phase-num{width:44px;height:44px;border-radius:12px;background:var(--primary);color:white;font-size:18px;font-weight:900;display:flex;align-items:center;justify-content:center;grid-row:span 3;align-self:flex-start;margin-top:2px}
-.phase-name{font-size:17px;font-weight:900;margin-bottom:4px}
-.phase-duration{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:10px}
-.phase-goal{font-size:14px;color:#334155;line-height:1.7}
-.phase-activities{margin-top:10px;font-size:13px;color:var(--muted);line-height:1.7;border-top:1px solid var(--border);padding-top:10px}
-
-/* AUDIENCE */
 .audience-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.audience-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
 
-/* KPI BOXES */
 .kpi-result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
 .kpi-result-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;box-shadow:var(--shadow)}
 .kpi-result-card .kpi-val{font-size:32px;font-weight:900;color:var(--primary);display:block;line-height:1}
 .kpi-result-card .kpi-name{font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-top:6px}
 
-/* EMPTY */
 .empty-state{text-align:center;padding:48px 20px;color:var(--muted);background:var(--card);border-radius:var(--radius);border:1px dashed var(--border)}
 .empty-state .empty-icon{font-size:48px;margin-bottom:12px}
 .empty-state p{font-size:14px}
 
-/* FOOTER */
 footer{background:var(--dark);color:rgba(255,255,255,.5);text-align:center;padding:28px 20px;font-size:12px}
 footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6px}
 
-/* OBJECTIVE DISPLAY */
-.objective-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-light,#EFF6FF);border:1px solid var(--primary-mid,#BFDBFE);border-radius:12px;padding:10px 20px;font-size:15px;font-weight:800;color:var(--primary)}
-
-/* PLATFORM TAGS */
+.objective-badge{display:inline-flex;align-items:center;gap:8px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:10px 20px;font-size:15px;font-weight:800;color:var(--primary)}
 .platform-tag{display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--dark);margin:3px}
 
 @media(max-width:700px){
   .hero{padding:48px 16px 40px}
-  .kpi-strip{grid-template-columns:repeat(2,1fr)}
   .content-grid{grid-template-columns:1fr}
-  .phase-card{grid-template-columns:1fr}
-  .phase-num{display:none}
+  .cal-grid,.calendar-header-row{grid-template-columns:repeat(7,minmax(44px,1fr))}
 }
 </style>
 </head>
@@ -228,7 +165,7 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
     <img id="heroLogo" class="hero-logo" alt="Logo"/>
     <div class="hero-badge" id="heroBadge">Loading...</div>
     <h1 id="heroTitle">Campaign Title</h1>
-    <p class="hero-sub" id="heroSubtitle">Campaign subtitle</p>
+    <p class="hero-sub" id="heroSubtitle"></p>
     <div class="hero-slogan" id="heroSlogan" style="display:none"></div>
   </div>
 </header>
@@ -236,27 +173,25 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
 <nav class="sticky-nav">
   <div class="nav-inner">
     <span class="nav-brand" id="navBrand">Campaign OS</span>
-    <a href="#bigidea">Big Idea</a>
-    <a href="#objectives">Objectives</a>
-    <a href="#audience">Audience</a>
-    <a href="#phases">Phases</a>
-    <a href="#scripts">Scripts</a>
-    <a href="#posts">Posts</a>
-    <a href="#stories">Stories</a>
-    <a href="#calendar">Calendar</a>
-      <a href="#budget">Budget</a>
-    <a href="#kpis">KPIs</a>
+    <a href="#bigidea" id="nav-bigidea">💡 Big Idea</a>
+    <a href="#objectives" id="nav-objectives">🎯 Objectives</a>
+    <a href="#audience" id="nav-audience">👥 Audience</a>
+    <a href="#scripts" id="nav-scripts">🎬 Scripts</a>
+    <a href="#posts" id="nav-posts">📱 Posts</a>
+    <a href="#stories" id="nav-stories">🔮 Stories</a>
+    <a href="#calendar" id="nav-calendar">📅 Calendar</a>
+    <a href="#budget" id="nav-budget">💰 Budget</a>
+    <a href="#kpis" id="nav-kpis">📈 KPIs</a>
   </div>
 </nav>
 
 <div class="page">
 
-  <!-- BIG IDEA -->
-  <div class="section-block" id="bigidea">
+  <div class="section-block" id="bigidea" style="display:none">
     <div class="section-label">💡 Big Idea & Slogan</div>
-    <div class="big-idea-card" id="bigIdeaCard">
-      <h2 id="sloganDisplay">Slogan</h2>
-      <p id="bigIdeaDisplay">Big idea loading...</p>
+    <div class="big-idea-card">
+      <h2 id="sloganDisplay"></h2>
+      <p id="bigIdeaDisplay"></p>
     </div>
     <div id="keyMessageBlock" style="margin-top:14px;display:none">
       <div class="info-card">
@@ -266,11 +201,10 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
     </div>
   </div>
 
-  <!-- OBJECTIVES -->
-  <div class="section-block" id="objectives">
+  <div class="section-block" id="objectives" style="display:none">
     <div class="section-label">🎯 Campaign Objective</div>
-    <div id="objDisplay" style="margin-bottom:12px"></div>
-    <div id="objNotes" style="display:none" class="info-card">
+    <div id="objDisplay"></div>
+    <div id="objNotes" style="display:none;margin-top:12px" class="info-card">
       <div class="ic-label">Objective Notes</div>
       <div class="ic-value" id="objNotesText" style="font-size:14px;line-height:1.8"></div>
     </div>
@@ -282,77 +216,43 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
     </div>
   </div>
 
-  <!-- AUDIENCE -->
-  <div class="section-block" id="audience">
+  <div class="section-block" id="audience" style="display:none">
     <div class="section-label">👥 Target Audience</div>
     <div class="audience-grid" id="audienceGrid"></div>
   </div>
 
-  <!-- CAMPAIGN INFO -->
-  <div class="section-block" id="campinfo" style="display:none">
-    <div class="section-label">📋 Campaign Info</div>
-    <div class="info-grid" id="infoGrid"></div>
-  </div>
-
-  <!-- SCRIPTS -->
-  <div class="section-block" id="scripts">
+  <div class="section-block" id="scripts" style="display:none">
     <div class="section-label">🎬 Scripts</div>
     <div class="content-grid" id="scriptsGrid"></div>
-    <div class="empty-state" id="scriptsEmpty" style="display:none">
-      <div class="empty-icon">🎬</div>
-      <p>No scripts added yet</p>
-    </div>
   </div>
 
-  <!-- POSTS -->
-  <div class="section-block" id="posts">
+  <div class="section-block" id="posts" style="display:none">
     <div class="section-label">📱 Posts</div>
     <div class="content-grid" id="postsGrid"></div>
-    <div class="empty-state" id="postsEmpty" style="display:none">
-      <div class="empty-icon">📱</div>
-      <p>No posts added yet</p>
-    </div>
   </div>
 
-  <!-- STORIES -->
-  <div class="section-block" id="stories">
+  <div class="section-block" id="stories" style="display:none">
     <div class="section-label">🔮 Stories</div>
     <div class="content-grid" id="storiesGrid"></div>
-    <div class="empty-state" id="storiesEmpty" style="display:none">
-      <div class="empty-icon">🔮</div>
-      <p>No stories added yet</p>
-    </div>
   </div>
 
-
-  
-  <!-- CALENDAR -->
-  <div class="section-block" id="calendar">
+  <div class="section-block" id="calendar" style="display:none">
     <div class="section-label">📅 Content Calendar</div>
-<div class="calendar-header">
-<div>Saturday</div>
-<div>Friday</div>
-<div>Thursday</div>
-<div>Wednesday</div>
-<div>Tuesday</div>
-<div>Monday</div>
-<div>Sunday</div>
-</div>
-    <div class="calendar-grid" id="calendarGrid"></div>
-    <div class="empty-state" id="calendarEmpty" style="display:none">
-      <div class="empty-icon">📅</div>
-      <p>No calendar items added yet</p>
+    <div id="calendarMonthLabel" style="font-size:15px;font-weight:800;margin-bottom:12px;color:var(--dark)"></div>
+    <div class="calendar-wrapper">
+      <div class="calendar-header-row">
+        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
     </div>
   </div>
 
-<!-- BUDGET -->
-<div class="section-block" id="budget">
-  <div class="section-label">💰 Budget الميزانية</div>
-  <div class="info-grid" id="budgetGrid"></div>
-</div>
+  <div class="section-block" id="budget" style="display:none">
+    <div class="section-label">💰 Budget</div>
+    <div class="info-grid" id="budgetGrid"></div>
+  </div>
 
-  <!-- KPIs -->
-  <div class="section-block" id="kpis">
+  <div class="section-block" id="kpis" style="display:none">
     <div class="section-label">📈 KPIs & Goals</div>
     <div class="kpi-result-grid" id="kpisGrid"></div>
     <div id="successDefBlock" style="margin-top:14px;display:none">
@@ -378,412 +278,362 @@ const sb = window.supabase.createClient(SURL, SKEY);
 const $ = id => document.getElementById(id);
 const safe = v => String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-function showStatus(msg,show=true){const el=$('loadStatus');el.textContent=msg;el.style.display=show?'block':'none';}
-
-  function isEmptyValue(v){
-  if(v === null || v === undefined) return true;
-  if(typeof v === 'string') return !v.trim();
-  if(Array.isArray(v)) return v.length === 0;
-  if(typeof v === 'object') return Object.keys(v).length === 0 || Object.values(v).every(isEmptyValue);
+// ─── Check if a value is truly empty ───────────────────────────────────────
+function isEmpty(v) {
+  if (v === null || v === undefined) return true;
+  if (typeof v === 'string') return !v.trim();
+  if (typeof v === 'number') return v === 0;
+  if (Array.isArray(v)) return v.length === 0;
+  if (typeof v === 'object') return Object.keys(v).length === 0;
   return false;
 }
 
-function hideSection(sectionId){
-  const section = document.getElementById(sectionId);
-  if(section) section.style.display = 'none';
-
-  document.querySelectorAll(`.sticky-nav a[href="#${sectionId}"]`).forEach(a => {
-    a.style.display = 'none';
+// Returns true only if the array has at least one item with real content
+function hasRealItems(arr, keys) {
+  if (!Array.isArray(arr) || !arr.length) return false;
+  return arr.some(item => {
+    if (typeof item === 'string') return item.trim().length > 0;
+    return keys.some(k => !isEmpty(item[k]));
   });
 }
 
-function cleanPreviewSections(c){
-  const hero = c.hero || {};
-  const obj = c.objectives || {};
-  const kpis = c.kpis || {};
-  const budget = c.budget || {};
-
-  const hasBigIdea =
-    !isEmptyValue(hero.slogan) ||
-    !isEmptyValue(hero.bigIdea) ||
-    !isEmptyValue(hero.keyMessage);
-
-  const hasObjectives =
-    !isEmptyValue(obj.type) ||
-    !isEmptyValue(obj.notes) ||
-    !isEmptyValue(obj.platforms);
-
-  const hasAudience =
-    !isEmptyValue(obj.ageRange) ||
-    !isEmptyValue(obj.gender) ||
-    !isEmptyValue(obj.location) ||
-    !isEmptyValue(obj.interests) ||
-    !isEmptyValue(obj.painPoints) ||
-    !isEmptyValue((c.client || {}).industry);
-
-  const hasScripts = Array.isArray(c.scripts) && c.scripts.length > 0;
-  const hasPosts = Array.isArray(c.posts) && c.posts.length > 0;
-  const hasStories = Array.isArray(c.stories) && c.stories.length > 0;
-let calendarData = [];
-
-if (Array.isArray(c.calendar)) {
-  calendarData = c.calendar;
-} else if (typeof c.calendar === 'object' && c.calendar !== null) {
-  calendarData = Object.values(c.calendar).flat();
+// ─── Show / hide section + its nav link ────────────────────────────────────
+function showSection(id) {
+  $(id).style.display = '';
+  const navEl = $('nav-' + id);
+  if (navEl) navEl.style.display = '';
+}
+function hideSection(id) {
+  $(id).style.display = 'none';
+  const navEl = $('nav-' + id);
+  if (navEl) navEl.style.display = 'none';
 }
 
-const hasCalendar = calendarData.length > 0;
-
-renderCalendar(calendarData, c);
-
-if (!hasCalendar) {
-  document.getElementById("calendarEmpty").style.display = "block";
-}
-  const hasBudget =
-    !isEmptyValue(budget.total) ||
-    !isEmptyValue(budget.production) ||
-    !isEmptyValue(budget.ads) ||
-    !isEmptyValue(budget.influencer) ||
-    !isEmptyValue(budget.currency) ||
-    !isEmptyValue(budget.notes);
-
-  const hasKPIs =
-    !isEmptyValue(kpis.reach) ||
-    !isEmptyValue(kpis.engagement) ||
-    !isEmptyValue(kpis.leads) ||
-    !isEmptyValue(kpis.visits) ||
-    !isEmptyValue(kpis.conversions) ||
-    !isEmptyValue(kpis.roas) ||
-    !isEmptyValue(kpis.views) ||
-    !isEmptyValue(kpis.ctr) ||
-    !isEmptyValue(kpis.successDef);
-
-  if(!hasBigIdea) hideSection('bigidea');
-  if(!hasObjectives) hideSection('objectives');
-  if(!hasAudience) hideSection('audience');
-  if(!hasScripts) hideSection('scripts');
-  if(!hasPosts) hideSection('posts');
-  if(!hasStories) hideSection('stories');
-// if(!hasCalendar) hideSection('calendar');
-  if(!hasBudget) hideSection('budget');
-  if(!hasKPIs) hideSection('kpis');
+// ─── Theme ─────────────────────────────────────────────────────────────────
+function applyTheme(t={}) {
+  const s = document.documentElement.style;
+  const p = t.primary || '#2563EB';
+  s.setProperty('--primary',     p);
+  s.setProperty('--dark',        t.dark       || '#0F172A');
+  s.setProperty('--bg',          t.background || '#F1F5F9');
+  s.setProperty('--accent',      t.accent     || '#F59E0B');
+  s.setProperty('--text-main',   t.textMain   || '#111111');
+  s.setProperty('--text-sub',    t.textSub    || '#666666');
+  s.setProperty('--content-card-bg', t.surface|| '#FFFFFF');
+  s.setProperty('--hero-bg-1',   t.heroBg1    || '#000000');
+  s.setProperty('--hero-bg-2',   t.heroBg2    || p);
+  s.setProperty('--bigidea-bg-1',t.bigIdeaBg1 || '#000000');
+  s.setProperty('--bigidea-bg-2',t.bigIdeaBg2 || p);
 }
 
-function applyTheme(t={}){
-  const p=t.primary||'#2563EB',d=t.dark||'#0F172A',b=t.background||'#F1F5F9',a=t.accent||'#F59E0B';
+const OBJ_LABELS = {
+  awareness:'📢 Brand Awareness', engagement:'❤️ Engagement',
+  leads:'🎯 Lead Generation',     sales:'💰 Sales & Conversion',
+  retention:'🔄 Retention',       launch:'🚀 Product Launch'
+};
+const PLATFORM_ICONS = {
+  facebook:'🔵 Facebook', instagram:'📸 Instagram', tiktok:'🎵 TikTok',
+  youtube:'▶️ YouTube', twitter:'🐦 X (Twitter)', snapchat:'👻 Snapchat',
+  linkedin:'💼 LinkedIn', google:'🔍 Google Ads'
+};
 
-  document.documentElement.style.setProperty('--primary',p);
-  document.documentElement.style.setProperty('--dark',d);
-  document.documentElement.style.setProperty('--bg',b);
-  document.documentElement.style.setProperty('--accent',a);
+// ─── CALENDAR RENDERER (fully rewritten) ───────────────────────────────────
+function renderCalendar(calData, startDateStr) {
+  // normalise calData to flat array
+  let items = [];
+  if (Array.isArray(calData)) items = calData;
+  else if (calData && typeof calData === 'object') items = Object.values(calData).flat();
 
-  document.documentElement.style.setProperty('--text-main', t.textMain || '#111111');
-  document.documentElement.style.setProperty('--text-sub', t.textSub || '#666666');
-  document.documentElement.style.setProperty('--content-card-bg', t.surface || '#FFFFFF');
+  if (!items.length) return false; // nothing to show
 
-  document.documentElement.style.setProperty('--hero-bg-1', t.heroBg1 || '#000000');
-  document.documentElement.style.setProperty('--hero-bg-2', t.heroBg2 || p);
+  // determine which month to display
+  let year, month;
+  if (startDateStr) {
+    // try parse "YYYY-MM-DD" or "1 مايو" etc.
+    const d = new Date(startDateStr);
+    if (!isNaN(d)) { year = d.getFullYear(); month = d.getMonth(); }
+  }
+  if (year === undefined) { const now = new Date(); year = now.getFullYear(); month = now.getMonth(); }
 
-  document.documentElement.style.setProperty('--bigidea-bg-1', t.bigIdeaBg1 || '#000000');
-  document.documentElement.style.setProperty('--bigidea-bg-2', t.bigIdeaBg2 || p);
+  const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  $('calendarMonthLabel').textContent = MONTH_NAMES[month] + ' ' + year;
+
+  const firstDow  = new Date(year, month, 1).getDay();   // 0=Sun
+  const daysInMon = new Date(year, month + 1, 0).getDate();
+  const prevDays  = new Date(year, month, 0).getDate();
+
+  // build a lookup: day → [events]
+  const lookup = {};
+  items.forEach(item => {
+    const d = Number(item.day);
+    if (!d) return;
+    if (!lookup[d]) lookup[d] = [];
+    lookup[d].push(item);
+  });
+
+  const grid = $('calGrid');
+  grid.innerHTML = '';
+
+  // leading empty cells
+  for (let i = 0; i < firstDow; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell cal-muted';
+    cell.innerHTML = `<span class="cal-day-num">${prevDays - firstDow + i + 1}</span>`;
+    grid.appendChild(cell);
+  }
+
+  // actual days
+  for (let day = 1; day <= daysInMon; day++) {
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell';
+    let html = `<span class="cal-day-num">${day}</span>`;
+
+    (lookup[day] || []).forEach(ev => {
+      const type = (ev.type || 'post').toLowerCase();
+      const title = safe(ev.title || ev.type || '');
+      html += `<div class="cal-event type-${type}">
+        <div class="cal-event-type">${safe(type)}</div>
+        <div>${title}</div>
+      </div>`;
+    });
+
+    cell.innerHTML = html;
+    grid.appendChild(cell);
+  }
+
+  // trailing cells to complete grid
+  const total = firstDow + daysInMon;
+  const trailing = total % 7 === 0 ? 0 : 7 - (total % 7);
+  for (let i = 1; i <= trailing; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell cal-muted';
+    cell.innerHTML = `<span class="cal-day-num">${i}</span>`;
+    grid.appendChild(cell);
+  }
+
+  return true;
 }
 
-const objLabels={awareness:'📢 Brand Awareness',engagement:'❤️ Engagement',leads:'🎯 Lead Generation',sales:'💰 Sales & Conversion',retention:'🔄 Retention',launch:'🚀 Product Launch'};
-const platformIcons={facebook:'🔵 Facebook',instagram:'📸 Instagram',tiktok:'🎵 TikTok',youtube:'▶️ YouTube',twitter:'🐦 X (Twitter)',snapchat:'👻 Snapchat',linkedin:'💼 LinkedIn',google:'🔍 Google Ads'};
-const typeClass={post:'cal-type-post',story:'cal-type-story',reel:'cal-type-reel',video:'cal-type-video',ad:'cal-type-ad',event:'cal-type-event'};
-const statusClass={done:'status-done',inprogress:'status-inprogress',planned:'status-planned'};
-
-function render(c){
-  const client = c.client||{}, hero = c.hero||{}, theme = c.theme||{}, kpis = c.kpis||{}, obj = c.objectives||{};
+// ─── MAIN RENDER ───────────────────────────────────────────────────────────
+function render(c) {
+  const client = c.client  || {};
+  const hero   = c.hero    || {};
+  const theme  = c.theme   || {};
+  const kpis   = c.kpis    || {};
+  const obj    = c.objectives || {};
+  const budget = c.budget  || {};
 
   document.title = `${client.name||'Campaign'} — ${client.campaignName||'Preview'}`;
   applyTheme(theme);
-if (theme.logo) {
-  $('heroLogo').src = theme.logo;
-  $('heroLogo').style.display = 'block';
-} else {
-  $('heroLogo').style.display = 'none';
-}
-  $('heroBadge').textContent = `${client.name||''} ${client.campaignName?'• '+client.campaignName:''}`;
-  $('heroTitle').textContent = hero.title || client.campaignName || 'Campaign Title';
+
+  // Logo
+  if (theme.logo) { $('heroLogo').src = theme.logo; $('heroLogo').style.display = 'block'; }
+
+  // Hero
+  $('heroBadge').textContent = [client.name, client.campaignName].filter(Boolean).join(' • ') || 'Campaign';
+  $('heroTitle').textContent = hero.title || client.campaignName || 'Campaign';
   $('heroSubtitle').textContent = hero.subtitle || '';
-  $('navBrand').textContent = client.name || 'Campaign OS';
+  $('navBrand').textContent  = client.name || 'Campaign OS';
   $('footerBrand').textContent = client.name || 'Campaign OS';
-  $('footerSub').textContent = client.campaignName || '';
+  $('footerSub').textContent   = client.campaignName || '';
+  if (hero.slogan) { $('heroSlogan').textContent = hero.slogan; $('heroSlogan').style.display = 'inline-block'; }
 
-  if(hero.slogan){$('heroSlogan').textContent=hero.slogan;$('heroSlogan').style.display='inline-block';}
-
-  $('sloganDisplay').textContent = hero.slogan || hero.title || client.campaignName || 'Slogan';
-  $('bigIdeaDisplay').textContent = hero.bigIdea || 'Big Idea ✨';
-  if(hero.keyMessage){$('keyMessageDisplay').textContent=hero.keyMessage;$('keyMessageBlock').style.display='block';}
-
-  // Objective
-  if(obj.type && objLabels[obj.type]){
-    $('objDisplay').innerHTML=`<div class="objective-badge">${safe(objLabels[obj.type])}</div>`;
-  }
-  if(obj.notes){$('objNotes').style.display='block';$('objNotesText').textContent=obj.notes;}
-  if(obj.platforms&&obj.platforms.length){
-    $('platformsDisplay').style.display='block';
-    $('platformTagsList').innerHTML=obj.platforms.map(p=>`<span class="platform-tag">${safe(platformIcons[p]||p)}</span>`).join('');
+  // ── BIG IDEA ──────────────────────────────────────────────────────────────
+  const hasBigIdea = !isEmpty(hero.slogan) || !isEmpty(hero.bigIdea) || !isEmpty(hero.keyMessage);
+  if (hasBigIdea) {
+    showSection('bigidea');
+    $('sloganDisplay').textContent  = hero.slogan  || hero.title || client.campaignName || '';
+    $('bigIdeaDisplay').textContent = hero.bigIdea || '';
+    if (!isEmpty(hero.keyMessage)) {
+      $('keyMessageBlock').style.display = 'block';
+      $('keyMessageDisplay').textContent = hero.keyMessage;
+    }
   }
 
-  // Audience
-  const audItems=[];
-  if(obj.ageRange)audItems.push({l:'الفئة العمرية',v:obj.ageRange});
-  if(obj.gender&&obj.gender!=='all')audItems.push({l:'الجنس',v:{male:'ذكور',female:'إناث'}[obj.gender]||obj.gender});
-  if(obj.location)audItems.push({l:'الموقع الجغرافي',v:obj.location});
-  if(client.industry)audItems.push({l:'القطاع',v:client.industry});
-  if(client.start||client.end)audItems.push({l:'مدة الحملة',v:[client.start,client.end].filter(Boolean).join(' — ')});
-
-  $('audienceGrid').innerHTML=audItems.length?audItems.map(a=>`
-    <div class="info-card"><div class="ic-label">${safe(a.l)}</div><div class="ic-value">${safe(a.v)}</div></div>
-  `).join(''):'<div class="empty-state"><div class="empty-icon">👥</div><p>No audience data yet</p></div>';
-
-  if(obj.interests||obj.painPoints){
-    $('audienceGrid').innerHTML+=`
-      ${obj.interests?`<div class="info-card"><div class="ic-label">الاهتمامات</div><div class="ic-value" style="font-size:13px;line-height:1.7">${safe(obj.interests)}</div></div>`:''}
-      ${obj.painPoints?`<div class="info-card"><div class="ic-label">Pain Points</div><div class="ic-value" style="font-size:13px;line-height:1.7">${safe(obj.painPoints)}</div></div>`:''}
-    `;
+  // ── OBJECTIVES ────────────────────────────────────────────────────────────
+  const hasObj = !isEmpty(obj.type) || !isEmpty(obj.notes) || (Array.isArray(obj.platforms) && obj.platforms.length);
+  if (hasObj) {
+    showSection('objectives');
+    if (obj.type && OBJ_LABELS[obj.type]) {
+      $('objDisplay').innerHTML = `<div class="objective-badge">${safe(OBJ_LABELS[obj.type])}</div>`;
+    }
+    if (!isEmpty(obj.notes)) { $('objNotes').style.display='block'; $('objNotesText').textContent=obj.notes; }
+    if (Array.isArray(obj.platforms) && obj.platforms.length) {
+      $('platformsDisplay').style.display='block';
+      $('platformTagsList').innerHTML = obj.platforms.map(p=>`<span class="platform-tag">${safe(PLATFORM_ICONS[p]||p)}</span>`).join('');
+    }
   }
 
-  // Campaign Info
-  const infoItems=[];
-  if(client.start||client.end){infoItems.push({l:'مدة الحملة',v:[client.start,client.end].filter(Boolean).join(' → ')});$('campinfo').style.display='block';}
-  if(client.progress){infoItems.push({l:'Campaign Progress',v:client.progress+'%'});$('campinfo').style.display='block';}
-  $('infoGrid').innerHTML=infoItems.map(i=>`<div class="info-card"><div class="ic-label">${safe(i.l)}</div><div class="ic-value">${safe(i.v)}</div></div>`).join('');
+  // ── AUDIENCE ──────────────────────────────────────────────────────────────
+  const audItems = [];
+  if (!isEmpty(obj.ageRange))  audItems.push({l:'الفئة العمرية', v:obj.ageRange});
+  if (!isEmpty(obj.gender) && obj.gender!=='all') audItems.push({l:'الجنس', v:{male:'ذكور',female:'إناث'}[obj.gender]||obj.gender});
+  if (!isEmpty(obj.location))  audItems.push({l:'الموقع الجغرافي', v:obj.location});
+  if (!isEmpty(client.industry)) audItems.push({l:'القطاع', v:client.industry});
+  if (!isEmpty(client.start)||!isEmpty(client.end)) audItems.push({l:'مدة الحملة', v:[client.start,client.end].filter(Boolean).join(' — ')});
+  if (!isEmpty(obj.interests))  audItems.push({l:'الاهتمامات', v:obj.interests});
+  if (!isEmpty(obj.painPoints)) audItems.push({l:'Pain Points', v:obj.painPoints});
 
-  // Scripts
-  // Scripts
-const scripts = c.scripts || [];
+  if (audItems.length) {
+    showSection('audience');
+    $('audienceGrid').innerHTML = audItems.map(a=>`
+      <div class="info-card"><div class="ic-label">${safe(a.l)}</div><div class="ic-value" style="font-size:14px;line-height:1.7">${safe(a.v)}</div></div>
+    `).join('');
+  }
 
-if (!scripts.length) {
-  $('scriptsGrid').innerHTML = '';
-  $('scriptsEmpty').style.display = 'block';
-} else {
-  $('scriptsEmpty').style.display = 'none';
-
-  $('scriptsGrid').innerHTML = scripts.map((s, i) => `
-    <div class="content-card">
-      <div class="content-card-header">
-        <div class="card-num">${i + 1}</div>
-        <div class="card-title-block">
-          <h3>${safe(s.title || 'Script ' + (i + 1))}</h3>
+  // ── SCRIPTS ───────────────────────────────────────────────────────────────
+  const scripts = Array.isArray(c.scripts) ? c.scripts : [];
+  const realScripts = scripts.filter(s => !isEmpty(s.title)||!isEmpty(s.body)||!isEmpty(s.hook)||!isEmpty(s.cta));
+  if (realScripts.length) {
+    showSection('scripts');
+    $('scriptsGrid').innerHTML = realScripts.map((s,i)=>`
+      <div class="content-card">
+        <div class="content-card-header">
+          <div class="card-num">${i+1}</div>
+          <div class="card-title-block"><h3>${safe(s.title||'Script '+(i+1))}</h3></div>
         </div>
-      </div>
-
-      <div class="meta-pills">
-        ${s.type ? `<span class="pill">${safe(s.type)}</span>` : ''}
-        ${s.duration ? `<span class="pill accent">⏱ ${safe(s.duration)}</span>` : ''}
-        ${s.location ? `<span class="pill">📍 ${safe(s.location)}</span>` : ''}
-      </div>
-
-      ${Array.isArray(s.actors) && s.actors.length ? `
-        <div class="card-section-label">Actors</div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px">
-          ${s.actors.map(actor => `
-            <div style="
-              display:flex;
-              align-items:center;
-              gap:8px;
-              background:#F8FAFC;
-              border:1px solid var(--border);
-              border-radius:12px;
-              padding:8px 10px
-            ">
-              <img src="${safe(actor.image)}"
-                   style="width:36px;height:36px;border-radius:50%;object-fit:cover">
-
-              <div>
-                <div style="font-size:12px;font-weight:800">
-                  ${safe(actor.name)}
-                </div>
-                <div style="font-size:10px;color:#64748B">
-                  ${safe(actor.age)} سنة
-                </div>
-              </div>
-            </div>
-          `).join('')}
+        <div class="meta-pills">
+          ${s.type?`<span class="pill">${safe(s.type)}</span>`:''}
+          ${s.duration?`<span class="pill accent">⏱ ${safe(s.duration)}</span>`:''}
+          ${s.location?`<span class="pill">📍 ${safe(s.location)}</span>`:''}
         </div>
-      ` : ''}
+        ${s.hook?`<div class="card-section-label">Hook</div><div class="body-text" style="font-weight:700;color:var(--text-main)">${safe(s.hook)}</div>`:''}
+        ${s.body?`<div class="card-section-label">Script</div><div class="body-text">${safe(s.body)}</div>`:''}
+        ${s.cta?`<div class="cta-badge">📢 ${safe(s.cta)}</div>`:''}
+      </div>
+    `).join('');
+  }
 
-      ${s.hook ? `<div class="card-section-label">Hook</div><div class="body-text" style="font-weight:700;color:var(--text-main)">${safe(s.hook)}</div>` : ''}
-      ${s.body ? `<div class="card-section-label">Script</div><div class="body-text">${safe(s.body)}</div>` : ''}
-      ${s.cta ? `<div class="cta-badge">📢 ${safe(s.cta)}</div>` : ''}
-    </div>
-  `).join('');
-}
-  // Posts
-  const posts=c.posts||[];
-  if(!posts.length){$('postsGrid').innerHTML='';$('postsEmpty').style.display='block';}
-  else{
-    $('postsEmpty').style.display='none';
-    $('postsGrid').innerHTML=posts.map((p,i)=>`
+  // ── POSTS ─────────────────────────────────────────────────────────────────
+  const posts = Array.isArray(c.posts) ? c.posts : [];
+  // A post is "real" only if it has at least one non-empty content field
+  const realPosts = posts.filter(p =>
+    !isEmpty(p.caption) || !isEmpty(p.hook) || !isEmpty(p.tov) ||
+    !isEmpty(p.hashtags) || !isEmpty(p.designImage)
+  );
+  if (realPosts.length) {
+    showSection('posts');
+    $('postsGrid').innerHTML = realPosts.map((p,i)=>`
       <div class="content-card">
         <div class="content-card-header">
           <div class="card-num">${i+1}</div>
           <div class="card-title-block"><h3>${safe(p.title||'Post '+(i+1))}</h3></div>
         </div>
-     <div class="meta-pills">
-  ${p.platform?`<span class="pill">${safe(platformIcons[p.platform]||p.platform)}</span>`:''}
-  ${p.contentType?`<span class="pill accent">${safe(p.contentType)}</span>`:''}
-</div>
-
-${p.designImage ? `
-  <div style="margin:12px 0 14px">
-    <img src="${safe(p.designImage)}"
-         style="width:100%;max-height:320px;object-fit:contain;border-radius:14px;background:#F8FAFC;border:1px solid var(--border)">
-  </div>
-` : ''}
-
-${p.hook?`<div class="card-section-label">Hook 🪝</div><div class="body-text" style="font-weight:700">${safe(p.hook)}</div>`:''}
-        ${p.tov?`<div class="card-section-label">TOV</div><div class="body-text">${safe(p.tov)}</div>`:''}
+        <div class="meta-pills">
+          ${p.platform?`<span class="pill">${safe(PLATFORM_ICONS[p.platform]||p.platform)}</span>`:''}
+          ${p.contentType?`<span class="pill accent">${safe(p.contentType)}</span>`:''}
+        </div>
+        ${p.designImage?`<div style="margin:12px 0 14px"><img src="${safe(p.designImage)}" style="width:100%;max-height:320px;object-fit:contain;border-radius:14px;background:#F8FAFC;border:1px solid var(--border)"></div>`:''}
+        ${p.tov?`<div class="card-section-label">Visual Text</div><div class="body-text" style="font-weight:700">${safe(p.tov)}</div>`:''}
+        ${p.hook?`<div class="card-section-label">Hook 🪝</div><div class="body-text" style="font-weight:700">${safe(p.hook)}</div>`:''}
         ${p.caption?`<div class="card-section-label">Caption</div><div class="body-text">${safe(p.caption)}</div>`:''}
         ${p.hashtags?`<div class="card-section-label">Hashtags</div><div style="color:var(--text-sub);font-size:13px;font-weight:700">${safe(p.hashtags)}</div>`:''}
       </div>
     `).join('');
   }
 
-  // Stories
-  const stories=c.stories||[];
-  if(!stories.length){$('storiesGrid').innerHTML='';$('storiesEmpty').style.display='block';}
-  else{
-    $('storiesEmpty').style.display='none';
-    $('storiesGrid').innerHTML=stories.map((s,i)=>{
-      const text=typeof s==='string'?s:(s.text||'');
-      const cta=typeof s==='object'?s.cta:'';
-      const platform=typeof s==='object'?s.platform:'';
-      return `
-        <div class="content-card">
-          <div class="content-card-header">
-            <div class="card-num">${i+1}</div>
-            <div class="card-title-block"><h3>Story ${i+1}</h3></div>
-          </div>
-          ${platform?`<div class="meta-pills"><span class="pill">${safe(platformIcons[platform]||platform)}</span></div>`:''}
-          <div class="body-text">${safe(text)}</div>
-          ${cta?`<div class="cta-badge">🔗 ${safe(cta)}</div>`:''}
+  // ── STORIES ───────────────────────────────────────────────────────────────
+  const stories = Array.isArray(c.stories) ? c.stories : [];
+  const realStories = stories.filter(s => {
+    const text = typeof s==='string'?s:(s.text||'');
+    return !isEmpty(text);
+  });
+  if (realStories.length) {
+    showSection('stories');
+    $('storiesGrid').innerHTML = realStories.map((s,i)=>{
+      const text = typeof s==='string'?s:(s.text||'');
+      const cta  = typeof s==='object'?s.cta:'';
+      const plat = typeof s==='object'?s.platform:'';
+      return `<div class="content-card">
+        <div class="content-card-header">
+          <div class="card-num">${i+1}</div>
+          <div class="card-title-block"><h3>Story ${i+1}</h3></div>
         </div>
-      `;
+        ${plat?`<div class="meta-pills"><span class="pill">${safe(PLATFORM_ICONS[plat]||plat)}</span></div>`:''}
+        <div class="body-text">${safe(text)}</div>
+        ${cta?`<div class="cta-badge">🔗 ${safe(cta)}</div>`:''}
+      </div>`;
     }).join('');
   }
 
-// Budget
-const budget = c.budget || {};
-const budgetItems = [];
+  // ── CALENDAR ──────────────────────────────────────────────────────────────
+  let calData = [];
+  if (Array.isArray(c.calendar)) calData = c.calendar;
+  else if (c.calendar && typeof c.calendar==='object') calData = Object.values(c.calendar).flat();
 
-if(budget.total) budgetItems.push({l:'الميزانية الإجمالية',v:budget.total});
-if(budget.production) budgetItems.push({l:'ميزانية الإنتاج',v:budget.production});
-if(budget.ads) budgetItems.push({l:'ميزانية الإعلانات',v:budget.ads});
-if(budget.influencer) budgetItems.push({l:'ميزانية المؤثرين',v:budget.influencer});
-if(budget.currency) budgetItems.push({l:'العملة',v:budget.currency});
-if(budget.notes) budgetItems.push({l:'ملاحظات',v:budget.notes});
+  // filter out items without a valid day
+  calData = calData.filter(item => item && !isEmpty(item.day));
 
-$('budgetGrid').innerHTML = budgetItems.length ? budgetItems.map(i=>`
-  <div class="info-card">
-    <div class="ic-label">${safe(i.l)}</div>
-    <div class="ic-value">${safe(i.v)}</div>
-  </div>
-`).join('') : '<div class="empty-state"><div class="empty-icon">💰</div><p>No budget data yet</p></div>';
+  if (calData.length) {
+    showSection('calendar');
+    renderCalendar(calData, client.start);
+  }
 
-  // KPIs
-  const kpiMap=[
+  // ── BUDGET ────────────────────────────────────────────────────────────────
+  const budgetItems = [];
+  if (!isEmpty(budget.total))      budgetItems.push({l:'الميزانية الإجمالية', v:budget.total});
+  if (!isEmpty(budget.production)) budgetItems.push({l:'ميزانية الإنتاج',     v:budget.production});
+  if (!isEmpty(budget.ads))        budgetItems.push({l:'ميزانية الإعلانات',   v:budget.ads});
+  if (!isEmpty(budget.influencer)) budgetItems.push({l:'ميزانية المؤثرين',    v:budget.influencer});
+  if (!isEmpty(budget.currency))   budgetItems.push({l:'العملة',              v:budget.currency});
+  if (!isEmpty(budget.notes))      budgetItems.push({l:'ملاحظات',             v:budget.notes});
+  if (budgetItems.length) {
+    showSection('budget');
+    $('budgetGrid').innerHTML = budgetItems.map(i=>`
+      <div class="info-card"><div class="ic-label">${safe(i.l)}</div><div class="ic-value">${safe(i.v)}</div></div>
+    `).join('');
+  }
+
+  // ── KPIs ──────────────────────────────────────────────────────────────────
+  const KPI_MAP = [
     {k:'reach',l:'Reach'},{k:'engagement',l:'Engagement'},{k:'leads',l:'Leads'},
     {k:'visits',l:'Visits'},{k:'conversions',l:'Conversions'},{k:'roas',l:'ROAS'},
     {k:'views',l:'Video Views'},{k:'ctr',l:'CTR'}
   ];
-  const kpiCards=kpiMap.filter(m=>kpis[m.k]).map(m=>`
-    <div class="kpi-result-card">
-      <span class="kpi-val">${safe(kpis[m.k])}</span>
-      <div class="kpi-name">${safe(m.l)}</div>
-    </div>
-  `).join('');
-  $('kpisGrid').innerHTML=kpiCards||'<div class="empty-state"><div class="empty-icon">📈</div><p>No KPIs defined yet</p></div>';
-if(kpis.successDef){
-  $('successDefBlock').style.display='block';
-  $('successDefText').textContent=kpis.successDef;
+  // only show KPI if value is non-empty AND non-zero
+  const realKpis = KPI_MAP.filter(m => {
+    const v = kpis[m.k];
+    if (isEmpty(v)) return false;
+    if (v === '0' || v === 0) return false;
+    return true;
+  });
+  if (realKpis.length || !isEmpty(kpis.successDef)) {
+    showSection('kpis');
+    $('kpisGrid').innerHTML = realKpis.map(m=>`
+      <div class="kpi-result-card">
+        <span class="kpi-val">${safe(kpis[m.k])}</span>
+        <div class="kpi-name">${safe(m.l)}</div>
+      </div>
+    `).join('') || '';
+    if (!isEmpty(kpis.successDef)) {
+      $('successDefBlock').style.display='block';
+      $('successDefText').textContent = kpis.successDef;
+    }
+  }
 }
 
-cleanPreviewSections(c);
-}
+// ─── LOAD ──────────────────────────────────────────────────────────────────
+async function load() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const campaignId = params.get('id');
+    if (!campaignId) throw new Error('No campaign id in URL');
 
-async function load(){
-  try{
-    showStatus('Loading campaign data...');
-const params = new URLSearchParams(window.location.search);
-const campaignId = params.get("id");
+    const { data, error } = await sb.from('campaigns').select('*').eq('id', campaignId).maybeSingle();
+    if (error) throw error;
+    if (!data || !data.data) throw new Error('No campaign data found');
 
-if (!campaignId) {
-  throw new Error("No campaign id in URL");
-}
-
-const { data, error } = await sb
-  .from("campaigns")
-  .select("*")
-  .eq("id", campaignId)
-  .maybeSingle();    if(error)throw error;
-    if(!data||!data.data)throw new Error('No campaign data found');
     render(data.data);
-    showStatus('',false);
-  }catch(err){
-    console.error('Preview error:',err);
-    showStatus('⚠️ Error loading campaign — افتح Admin وتأكد إن البيانات اتحفظت صح.');
+    $('loadStatus').style.display = 'none';
+  } catch(err) {
+    console.error('Preview error:', err);
+    const el = $('loadStatus');
+    el.textContent = '⚠️ Error loading campaign — ' + err.message;
+    el.style.display = 'block';
   }
 }
+
 load();
-
-function renderCalendar(data, campaign){
-  const grid = document.getElementById("calendarGrid");
-  grid.innerHTML = "";
-
-  if(!data) data = [];
-
-  const start = campaign?.client?.start || new Date().toISOString().slice(0,10);
-  const d = new Date(start);
-
-  const year = d.getFullYear();
-  const month = d.getMonth();
-
-  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const prevMonthDays = new Date(year, month, 0).getDate();
-
-  // أيام الشهر اللي فات
-  for(let i = firstDay; i > 0; i--){
-    const div = document.createElement("div");
-    div.className = "cal-day muted";
-    div.innerHTML = `<div class="cal-number">${prevMonthDays - i + 1}</div>`;
-    grid.appendChild(div);
-  }
-
-  // أيام الشهر الحالي
-  for(let day = 1; day <= daysInMonth; day++){
-    const items = data.filter(i => Number(i.day) === day);
-
-    const div = document.createElement("div");
-    div.className = "cal-day";
-
-    div.innerHTML = `
-      <div class="cal-number">${day}</div>
-
-      ${items.map(item => `
-        <div class="cal-item ${item.type || ""}">
-          <div class="cal-type">${item.type || ""}</div>
-          <div class="cal-title">${item.title || ""}</div>
-        </div>
-      `).join("")}
-    `;
-
-    grid.appendChild(div);
-  }
-
-  // تكملة الخلايا
-  const total = grid.children.length;
-  for(let i = 1; i <= (42 - total); i++){
-    const div = document.createElement("div");
-    div.className = "cal-day muted";
-    div.innerHTML = `<div class="cal-number">${i}</div>`;
-    grid.appendChild(div);
-  }
-}
 </script>
 </body>
 </html>
