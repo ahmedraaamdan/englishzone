@@ -1569,10 +1569,13 @@ if (currentUser?.role !== "viewer" && CAMPAIGN_ID) {
 // ==========================================
 async function doUserLogin() {
   const username = document.getElementById("uLoginName").value.trim();
-const pass = document.getElementById("uLoginPass").value.trim();
+  const pass = document.getElementById("uLoginPass").value.trim();
+
+  const errorBox = document.getElementById("uLoginError");
+  errorBox.textContent = "";
 
   if (!username || !pass) {
-    document.getElementById("uLoginError").textContent = "❌ اكتب اليوزر والباسورد";
+    errorBox.textContent = "❌ اكتب اليوزر والباسورد";
     return;
   }
 
@@ -1586,14 +1589,29 @@ const pass = document.getElementById("uLoginPass").value.trim();
         .eq("username", username)
         .eq("password", pass)
         .maybeSingle();
+
       if (error) throw error;
       user = data;
+
     } catch (e) {
       console.error("USER LOGIN SUPABASE ERROR", e);
-      document.getElementById("uLoginError").textContent = "❌ Supabase error: " + (e.message || e);
+      errorBox.textContent = "❌ Supabase error: " + (e.message || e);
       return;
     }
   }
+
+  // لو مفيش user
+  if (!user) {
+    errorBox.textContent = "❌ بيانات غلط";
+    return;
+  }
+
+  // حفظ السيشن
+  sessionStorage.setItem("cos_current_user", JSON.stringify(user));
+
+  // دخول
+  enterAsUser(user);
+}
 
   // fallback لو Supabase وقع
   if (!user) {
