@@ -1069,6 +1069,8 @@ async function loadCampaignData(){
 
   fillInputs();
   renderAll();
+  updateMonthUI();
+generateCalendar();
   setStatus("تم التحميل بنجاح","ok");
 }
 
@@ -1321,7 +1323,7 @@ function uploadCampaignJson(e){
 // ==========================================
 // RENDER
 // ==========================================
-function renderAll(){ renderScripts(); renderPosts(); renderStories(); renderAds(); renderCalendar(); renderPhases(); }
+function renderAll(){ renderScripts(); renderPosts(); renderStories(); renderAds(); generateCalendar(); renderPhases(); }
 
 function previewPostImage(input, i){
   const file = input.files && input.files[0];
@@ -1821,6 +1823,7 @@ document.addEventListener("input", function(e){
 // ==========================================
 document.addEventListener("DOMContentLoaded", function(){
   loadBuzzLogo();
+  
 
   // Init Supabase
   if(window.supabase){
@@ -1837,6 +1840,7 @@ document.addEventListener("DOMContentLoaded", function(){
     applySuperAdminVisibility();
     setupNav();
     loadCampaignData();
+    
   } else {
     // Attach login button — FIX: arrow function wrapping doUserLogin
     document.getElementById("uLoginBtn").addEventListener("click", function(){ doUserLogin(); });
@@ -1984,13 +1988,10 @@ let calSelectedDay = null;
 let calData = {};
 
 // لما تختار الشهر
-document.getElementById("monthPicker")?.addEventListener("change", generateCalendar);
-
 function generateCalendar(){
-  const val = document.getElementById("monthPicker").value;
-  if(!val) return;
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth() + 1;
 
-  const [year,month] = val.split("-");
   const days = new Date(year, month, 0).getDate();
 
   const grid = document.getElementById("calendarGrid");
@@ -1998,8 +1999,10 @@ function generateCalendar(){
 
   for(let d=1; d<=days; d++){
     const div = document.createElement("div");
-const item = D.calendar?.find(e => e.day === d);
-div.className = "cal-day " + (item?.type || "");
+
+    const item = D.calendar?.find(e => Number(e.day) === d);
+
+    div.className = "cal-day " + (item?.type || "");
     div.onclick = ()=>openCalPopup(d);
 
     div.innerHTML = `
@@ -2056,7 +2059,7 @@ function saveCalendarItem(){
   if(type==="story") item = D.stories[index];
 
   const entry = {
-    day: calSelectedDay,
+    day: Number(calSelectedDay),
     type,
     title: item?.title || "بدون عنوان"
   };
@@ -2082,7 +2085,7 @@ function saveCalendarItem(){
 function renderCalContent(day){
   if(!D.calendar) return "";
 
-  const item = D.calendar.find(e => e.day === day);
+  const item = D.calendar.find(e => Number(e.day) === day);
   if(!item) return "";
 
   let color = "#eee";
