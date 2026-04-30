@@ -1489,18 +1489,19 @@ if (addPostCommentIndex !== undefined) {
   return;
 }
 
-    const delPostComment = e.target.dataset.delPostComment;
+const delPostComment = e.target.dataset.delPostComment;
 if (delPostComment !== undefined) {
   const i = +delPostComment;
-  const ci = +e.target.dataset.commentIndex;
+  const idx = +e.target.dataset.idx;
 
-  if (Array.isArray(D.posts[i].comments)) {
-    D.posts[i].comments.splice(ci, 1);
-  }
+  D.posts[i].comments.splice(idx, 1);
 
   renderPosts();
   updateJsonOutput();
-  setStatus("تم حذف الكومنت", "ok");
+
+  saveData();
+
+  setStatus("تم حذف الكومنت وحفظه ✅", "ok");
   return;
 }
     
