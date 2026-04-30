@@ -242,27 +242,50 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
 }
 
-
-.calendar-grid{
-  direction:ltr; /* 👈 يخلي البداية من الشمال */
+.calendar-header{
   display:grid;
   grid-template-columns: repeat(7,1fr);
-  gap:12px;
-  margin-top:15px;
+  margin-top:10px;
+  margin-bottom:6px;
+  font-size:12px;
+  font-weight:800;
+  color:#888;
+  text-align:center;
+}
+.calendar-grid{
+  direction:ltr;
+  display:grid;
+  grid-template-columns: repeat(7,1fr);
+  gap:14px; /* 👈 أهم فرق */
+  margin-top:10px;
 }
 
 .cal-day{
-  direction:rtl; /* 👈 يخلي الكلام عربي جوه */
+  direction:rtl;
   background:#fff;
-  border-radius:14px;
+  border-radius:16px;
   padding:10px;
-  min-height:100px;
+  min-height:110px;
   cursor:pointer;
   border:1px solid #E5E5E5;
   transition:.2s;
   position:relative;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.cal-item{
+  margin-top:22px;
+  padding:6px 8px;
+  border-radius:10px;
+  font-size:11px;
 }
 
+.cal-item b{
+  display:block;
+  font-size:10px;
+  opacity:.6;
+  margin-bottom:2px;
+}
+  
 .cal-day:hover{
   border-color:#FF5500;
   transform:translateY(-2px);
@@ -271,10 +294,10 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
 .cal-number{
   position:absolute;
   top:8px;
-  left:10px; /* 👈 رقم اليوم يبقى شمال */
-  font-weight:900;
-  font-size:12px;
-  color:#888;
+  left:10px;
+  font-weight:800;
+  font-size:11px;
+  color:#9CA3AF;
 }
 
 .cal-content{
@@ -307,7 +330,7 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
   background:#f3f4f6;
 }
   
-  .cal-day.post{
+.cal-day.post{
   background:#DBEAFE;
 }
 
@@ -688,6 +711,15 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
   <span id="monthLabel">---</span>
   <button onclick="changeMonth(1)">›</button>
 </div>
+</div>
+<div class="calendar-header">
+  <div>Sunday</div>
+  <div>Monday</div>
+  <div>Tuesday</div>
+  <div>Wednesday</div>
+  <div>Thursday</div>
+  <div>Friday</div>
+  <div>Saturday</div>
 </div>
 
 <div id="calendarGrid" class="calendar-grid"></div>
