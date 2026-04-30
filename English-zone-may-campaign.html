@@ -399,7 +399,12 @@ function render(c){
 
   document.title = `${client.name||'Campaign'} — ${client.campaignName||'Preview'}`;
   applyTheme(theme);
-
+if (theme.logo) {
+  $('heroLogo').src = theme.logo;
+  $('heroLogo').style.display = 'block';
+} else {
+  $('heroLogo').style.display = 'none';
+}
   $('heroBadge').textContent = `${client.name||''} ${client.campaignName?'• '+client.campaignName:''}`;
   $('heroTitle').textContent = hero.title || client.campaignName || 'Campaign Title';
   $('heroSubtitle').textContent = hero.subtitle || '';
