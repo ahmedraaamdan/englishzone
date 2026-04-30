@@ -2066,8 +2066,10 @@ function changeMonth(step){
   const y = currentMonth.getFullYear();
   const m = currentMonth.getMonth() + 1;
 
-  document.getElementById("monthPicker")?.value = `${y}-${String(m).padStart(2,"0")}`;
-
+const mp = document.getElementById("monthPicker");
+if(mp){
+  mp.value = `${y}-${String(m).padStart(2,"0")}`;
+}
   generateCalendar();
   localStorage.setItem("calMonth", currentMonth);
 }
