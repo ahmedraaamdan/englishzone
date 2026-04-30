@@ -775,6 +775,7 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
 // ==========================================
 // CONFIG
 // ==========================================
+  let currentMonth = new Date();
 const BUZZ_LOGO_URL = "https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png";
 
 const SUPABASE_URL = "https://nnhxnswtzcqjnsmvytzr.supabase.co";
@@ -2098,7 +2099,6 @@ return `
 `;
 }
 
-let currentMonth = new Date();
   const savedMonth = localStorage.getItem("calMonth");
 if(savedMonth){
   currentMonth = new Date(savedMonth);
