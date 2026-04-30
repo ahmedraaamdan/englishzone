@@ -1275,18 +1275,19 @@ if(topSaveBtn){
   });
   document.getElementById("addScriptBtn").addEventListener("click", () => { D.scripts.push({title:"",location:"",actors:[],duration:"",type:"ad",hook:"",body:"",cta:""}); renderScripts(); updateJsonOutput(); });
 document.getElementById("addPostBtn").addEventListener("click", () => {
-  D.posts.push({
-    title:"",
-    platform:"facebook",
-    contentType:"image",
-    tov:"",
-    hook:"",
-    caption:"",
-    hashtags:"",
-    reviewStatus:"need_edit",
-    reviewComment:"",
-    comments:[]
-  });
+D.posts.push({
+  title:"",
+  platform:"facebook",
+  contentType:"image",
+  tov:"",
+  hook:"",
+  caption:"",
+  hashtags:"",
+  designImage:"",
+  reviewStatus:"need_edit",
+  reviewComment:"",
+  comments:[]
+});
   renderPosts();
   updateJsonOutput();
 });  document.getElementById("addStoryBtn").addEventListener("click", () => { D.stories.push({text:"",cta:"",platform:"instagram"}); renderStories(); updateJsonOutput(); });
