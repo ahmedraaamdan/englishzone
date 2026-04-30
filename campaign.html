@@ -1996,8 +1996,12 @@ async function uploadImageToSupabase(file, folder = "actors") {
 
   const { error } = await dbClient.storage
     .from("images")
-    .upload(fileName, file);
-
+.upload(fileName, file, {
+  cacheControl: "3600",
+  upsert: true,
+  contentType: file.type
+});
+  
   if (error) {
     console.error(error);
     setStatus("فشل رفع الصورة. تأكد إن Bucket اسمها images و Public", "bad");
