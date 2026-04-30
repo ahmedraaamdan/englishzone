@@ -399,7 +399,7 @@ function cleanPreviewSections(c){
   if(!hasScripts) hideSection('scripts');
   if(!hasPosts) hideSection('posts');
   if(!hasStories) hideSection('stories');
-  if(!hasCalendar) hideSection('calendar');
+// if(!hasCalendar) hideSection('calendar');
   if(!hasBudget) hideSection('budget');
   if(!hasKPIs) hideSection('kpis');
 }
@@ -617,8 +617,7 @@ let html = "";
 
 for(let d=1; d<=daysInMonth; d++){
 
-  const item = cal.find(e => e.day == d);
-
+const item = cal.find(e => Number(e.day) === d);
   let content = "";
 
   if(item){
