@@ -727,36 +727,6 @@ const { data, error } = await sb
 }
 load();
 
-function renderCalendar(cal){
-  const grid = document.getElementById('calendarGrid');
-  const empty = document.getElementById('calendarEmpty');
-
-  if (!grid) return;
-
-  grid.innerHTML = '';
-
-  if (!cal || !cal.length) {
-    if(empty) empty.style.display = 'block';
-    return;
-  }
-
-  if(empty) empty.style.display = 'none';
-
-  cal.forEach(item=>{
-    const div = document.createElement('div');
-    div.className = 'cal-day';
-
-    div.innerHTML = `
-      <div class="cal-number">${item.day || ''}</div>
-      <div class="cal-item ${item.type || ''}">
-        ${item.title || ''}
-      </div>
-    `;
-
-    grid.appendChild(div);
-  });
-}
-
 function renderCalendar(data){
   const grid = document.getElementById("calendarGrid");
   grid.innerHTML = "";
@@ -768,12 +738,11 @@ function renderCalendar(data){
 
   document.getElementById("calendarEmpty").style.display = "none";
 
-  // عدد أيام الشهر (مؤقت 30)
-  const daysInMonth = 30;
+  const daysInMonth = 31;
 
   for(let day = 1; day <= daysInMonth; day++){
 
-    const item = data.find(i => i.day == day);
+    const item = data.find(i => Number(i.day) === day);
 
     const div = document.createElement("div");
     div.className = "cal-day " + (item?.type || "");
@@ -791,32 +760,6 @@ function renderCalendar(data){
 
     grid.appendChild(div);
   }
-}
-
-function renderCalendar(data){
-  const grid = document.getElementById("calendarGrid");
-  grid.innerHTML = "";
-
-  if(!data || !data.length){
-    document.getElementById("calendarEmpty").style.display = "block";
-    return;
-  }
-
-  document.getElementById("calendarEmpty").style.display = "none";
-
-  data.forEach(item=>{
-    const div = document.createElement("div");
-    div.className = "cal-day";
-
-    div.innerHTML = `
-      <div class="cal-number">${item.day || ""}</div>
-      <div class="cal-item ${item.type || ""}">
-        ${item.title || ""}
-      </div>
-    `;
-
-    grid.appendChild(div);
-  });
 }
   
 </script>
