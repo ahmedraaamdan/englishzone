@@ -1581,62 +1581,6 @@ function renderAds(){
     </div>`).join("");
 }
 
-function renderCalendar(){
-  const el    = document.getElementById("calendarList");
-  const empty = document.getElementById("calendarEmpty");
-  if(!D.calendar.length){ el.innerHTML=""; empty.style.display=""; return; }
-  empty.style.display = "none";
-
-  const statusBg    = {planned:"#F1F5F9",inprogress:"#FFFBEB",done:"#DCFCE7"};
-  const statusColor = {planned:"#475569",inprogress:"#92400E",done:"#166534"};
-
-  let html = `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">
-    <thead><tr style="background:var(--bg);border-bottom:2px solid var(--border)">
-      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;width:60px">اليوم</th>
-      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase">العنوان</th>
-      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;width:100px">النوع</th>
-      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;width:120px">الحالة</th>
-      <th style="padding:10px 12px;text-align:right;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase">ملاحظات</th>
-      <th style="padding:10px 12px;width:40px"></th>
-    </tr></thead><tbody>`;
-
-  html += D.calendar.map((c,i) => `
-    <tr style="border-bottom:1px solid var(--border)" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background=''">
-      <td style="padding:10px 12px;vertical-align:middle">
-        <div style="width:40px;height:40px;background:var(--primary-light);border:1.5px solid var(--primary-mid);border-radius:10px;display:flex;align-items:center;justify-content:center">
-          <input type="text" value="${ea(c.day)}" data-cf="day" data-i="${i}" style="width:36px;background:transparent;border:none;text-align:center;font-weight:900;font-size:12px;color:var(--primary);padding:0;outline:none" placeholder="${i+1}">
-        </div>
-      </td>
-      <td style="padding:10px 12px;vertical-align:middle">
-        <input type="text" value="${ea(c.title)}" data-cf="title" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;font-weight:600" placeholder="عنوان المحتوى">
-      </td>
-      <td style="padding:10px 12px;vertical-align:middle">
-        <select data-cf="type" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700">
-          <option ${c.type==="post"?"selected":""} value="post">📝 Post</option>
-          <option ${c.type==="story"?"selected":""} value="story">🔮 Story</option>
-          <option ${c.type==="reel"?"selected":""} value="reel">🎬 Reel</option>
-          <option ${c.type==="ad"?"selected":""} value="ad">📣 Ad</option>
-          <option ${c.type==="event"?"selected":""} value="event">📅 Event</option>
-        </select>
-      </td>
-      <td style="padding:10px 12px;vertical-align:middle">
-        <select data-cf="status" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700;background:${statusBg[c.status]||statusBg.planned};color:${statusColor[c.status]||statusColor.planned}">
-          <option ${c.status==="planned"?"selected":""} value="planned">📋 Planned</option>
-          <option ${c.status==="inprogress"?"selected":""} value="inprogress">⏳ In Progress</option>
-          <option ${c.status==="done"?"selected":""} value="done">✅ Done</option>
-        </select>
-      </td>
-      <td style="padding:10px 12px;vertical-align:middle">
-        <textarea data-cf="notes" data-i="${i}" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;min-height:38px;resize:vertical">${et(c.notes)}</textarea>
-      </td>
-      <td style="padding:10px 12px;vertical-align:middle;text-align:center">
-        <button class="btn btn-danger btn-sm" data-del-cal="${i}" style="padding:6px 10px;font-size:11px">🗑</button>
-      </td>
-    </tr>`).join("");
-
-  html += "</tbody></table></div>";
-  el.innerHTML = html;
-}
 
 function renderPhases(){
   const el    = document.getElementById("phasesList");
