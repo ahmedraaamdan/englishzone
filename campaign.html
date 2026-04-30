@@ -1323,7 +1323,7 @@ function uploadCampaignJson(e){
 // ==========================================
 // RENDER
 // ==========================================
-function renderAll(){ renderScripts(); renderPosts(); renderStories(); renderAds(); generateCalendar(); renderPhases(); }
+function renderAll(){ renderScripts(); renderPosts(); renderStories(); renderAds();  renderPhases(); }
 
 function previewPostImage(input, i){
   const file = input.files && input.files[0];
@@ -1900,10 +1900,11 @@ document.addEventListener("DOMContentLoaded", function(){
     D.ads.push({name:"",adType:"awareness",headline:"",primary:"",description:"",cta:"learn_more"});
     renderAds(); updateJsonOutput();
   });
-  document.getElementById("addCalendarBtn").addEventListener("click", function(){
-    D.calendar.push({day:"",type:"post",platform:"",title:"",status:"planned",notes:""});
-    renderCalendar(); updateJsonOutput();
-  });
+document.getElementById("addCalendarBtn").addEventListener("click", function(){
+  D.calendar.push({day:"",type:"post",platform:"",title:"",status:"planned",notes:""});
+  renderCalendar(); 
+  updateJsonOutput();
+});
   document.getElementById("addPhaseBtn").addEventListener("click", function(){
     D.phases.push({name:"",duration:"",goal:"",activities:""});
     renderPhases(); updateJsonOutput();
