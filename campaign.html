@@ -1178,6 +1178,9 @@ const CAMPAIGN_ID = params.get("id");
 const IS_SUPER_ADMIN = params.get("auth") === "1";
 
 function applySuperAdminVisibility(){
+
+  if(!userPermissions) return; // ✅ مهم
+
   document.querySelectorAll(".super-only").forEach(el => {
     el.style.display = IS_SUPER_ADMIN ? "" : "none";
   });
@@ -1185,7 +1188,8 @@ function applySuperAdminVisibility(){
   const saveBtn = document.getElementById("superSaveNav");
 
   if(saveBtn){
-    saveBtn.style.display = (IS_SUPER_ADMIN || userPermissions.save === true) ? "" : "none";
+    const canSave = IS_SUPER_ADMIN || (userPermissions && userPermissions.save);
+    saveBtn.style.display = canSave ? "" : "none";
   }
 }
 
@@ -1230,7 +1234,6 @@ const DEFAULT_DATA = {
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
   loadBuzzLogo();
-  applySuperAdminVisibility();
   const cfg = getConfig();
   if (cfg.supabaseUrl && cfg.supabaseKey && window.supabase) {
     dbClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
