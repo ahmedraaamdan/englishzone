@@ -120,6 +120,13 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
   font-weight:800;
   line-height:1.3;
 }
+
+.cal-cell.type-post{background:#DBEAFE}
+.cal-cell.type-story{background:#FEF3C7}
+.cal-cell.type-script{background:#DCFCE7}
+.cal-cell.type-reel{background:#FFF7ED}
+.cal-cell.type-video{background:#F5F3FF}
+.cal-cell.type-ad{background:#FEF2F2}  
 .cal-event.type-post{background:#DBEAFE;color:#1D4ED8}
 .cal-event.type-story{background:#FEF3C7;color:#92400E}
 .cal-event.type-script{background:#DCFCE7;color:#166534}
@@ -385,7 +392,13 @@ function renderCalendar(calData, startDateStr) {
   // actual days
   for (let day = 1; day <= daysInMon; day++) {
     const cell = document.createElement('div');
-    cell.className = 'cal-cell';
+ const cell = document.createElement('div');
+
+const dayEvents = lookup[day] || [];
+const mainType = dayEvents[0]?.type?.toLowerCase() || '';
+
+cell.className = 'cal-cell ' + (mainType ? 'type-' + mainType : '');
+  
     let html = `<span class="cal-day-num">${day}</span>`;
 
     (lookup[day] || []).forEach(ev => {
