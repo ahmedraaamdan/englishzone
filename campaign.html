@@ -1358,7 +1358,7 @@ document.getElementById("logoUpload").addEventListener("change", function(e){
 
     
 
-    const uploadPostImageIndex = e.target.dataset.uploadPostImage;
+    const uploadPostImageIndex = e.target.getAttribute("data-upload-post-image");
 if (uploadPostImageIndex !== undefined) {
   const i = +uploadPostImageIndex;
   const file = document.getElementById(`postImage-${i}`).files[0];
@@ -1470,7 +1470,7 @@ if (addPostCommentIndex !== undefined) {
 
   D.posts[i].comments.push({
     text: commentText,
-by: currentUser?.name || "unknown_user_" + Date.now(),
+by: currentUser?.username || "unknown_user_" + Date.now(),
     role: currentUser?.role || "editor",
     date: new Date().toLocaleString("ar-EG")
   });
@@ -1480,9 +1480,6 @@ by: currentUser?.name || "unknown_user_" + Date.now(),
 
   renderPosts();
   updateJsonOutput();
-
-  saveData();
-
   setStatus("تم إضافة وحفظ الكومنت ✅", "ok");
   return;
 }
@@ -1494,7 +1491,7 @@ if (delPostComment !== undefined) {
 
   const comment = D.posts[i].comments[idx];
 
-const isOwner = comment.by === currentUser?.name;
+const isOwner = comment.by === currentUser?.username;
   if (!isOwner) {
     setStatus("مش مسموح لك تحذف الكومنت ده ❌", "bad");
     return;
@@ -1563,8 +1560,9 @@ else if (t.dataset.storyText !== undefined) { D.stories[+t.dataset.storyText].te
 
   collectInputs();
 
-  triggerAutoSave(); // ✅ هنا الصح
-});
+if (currentUser?.role !== "viewer" && CAMPAIGN_ID) {
+  triggerAutoSave();
+}});
 
 // ==========================================
 // USER LOGIN
@@ -2319,7 +2317,7 @@ function renderPosts(){
                       <div class="comment-meta">
                         <strong>${et(c.by || "User")}</strong>
                         <span>${et(c.date || "")}</span>
-${c.by === (currentUser?.name || "") 
+${c.by === (currentUser?.username || "") 
   ? `<button type="button" data-del-post-comment="${i}" data-idx="${ci}">حذف</button>` 
   : ""
 }
