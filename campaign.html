@@ -1376,7 +1376,7 @@ setPostUploadProgress(i, 10);
 setTimeout(() => setPostUploadProgress(i, 35), 300);
 setTimeout(() => setPostUploadProgress(i, 70), 700);
 
-uploadImageToSupabase(file, "posts").then(imageUrl => {
+uploadImageToSupabase(file, "posts")
   .then(async imageUrl => {
     if (!imageUrl) {
       setStatus("فشل رفع الصورة — مفيش لينك رجع من Supabase", "bad");
@@ -1384,7 +1384,8 @@ uploadImageToSupabase(file, "posts").then(imageUrl => {
     }
 
     D.posts[i].designImage = imageUrl;
-setPostUploadProgress(i, 100);
+    setPostUploadProgress(i, 100);
+
     renderPosts();
     updateJsonOutput();
 
@@ -1397,7 +1398,7 @@ setPostUploadProgress(i, 100);
     setStatus("فشل رفع صورة البوست — افتح Console وشوف الخطأ", "bad");
   });
 
-  return;
+return;
 }
 
 const delPostImageIndex = e.target.dataset.delPostImage;
@@ -1456,7 +1457,7 @@ if (delActorScript !== undefined) {
   return;
 }
 
-    const addPostCommentIndex = e.target.dataset.addPostComment;
+const addPostCommentIndex = e.target.dataset.addPostComment;
 if (addPostCommentIndex !== undefined) {
   const i = +addPostCommentIndex;
   const commentInput = document.getElementById(`postComment-${i}`);
@@ -1481,7 +1482,10 @@ if (addPostCommentIndex !== undefined) {
 
   renderPosts();
   updateJsonOutput();
-  setStatus("تم إضافة الكومنت", "ok");
+
+  saveData();
+
+  setStatus("تم إضافة وحفظ الكومنت ✅", "ok");
   return;
 }
 
