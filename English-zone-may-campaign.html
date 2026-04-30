@@ -617,8 +617,17 @@ let html = "";
 
 for(let d=1; d<=daysInMonth; d++){
 
-const item = cal.find(e => Number(e.day) === d);
-  let content = "";
+const item = cal.find(e => {
+  if (!e.day) return false;
+
+  // لو day رقم أو string رقم
+  if (!isNaN(e.day)) return Number(e.day) === d;
+
+  // لو day تاريخ كامل
+  const date = new Date(e.day);
+  return date.getDate() === d;
+});
+    let content = "";
 
   if(item){
     content = `
