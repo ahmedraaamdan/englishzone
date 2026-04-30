@@ -373,14 +373,15 @@ function cleanPreviewSections(c){
   const hasPosts = Array.isArray(c.posts) && c.posts.length > 0;
   const hasStories = Array.isArray(c.stories) && c.stories.length > 0;
 const hasCalendar = c.calendar && Object.keys(c.calendar).length > 0;
-  let calendarData = [];
+let calendarData = [];
 
 if (Array.isArray(c.calendar)) {
   calendarData = c.calendar;
 } else if (typeof c.calendar === 'object') {
   calendarData = Object.values(c.calendar).flat();
-  renderCalendar(calendarData);
 }
+
+renderCalendar(calendarData);
   const hasBudget =
     !isEmptyValue(budget.total) ||
     !isEmptyValue(budget.production) ||
@@ -781,6 +782,33 @@ function renderCalendar(cal){
     grid.appendChild(div);
   });
 }
+
+function renderCalendar(data){
+  const grid = document.getElementById("calendarGrid");
+  grid.innerHTML = "";
+
+  if(!data || !data.length){
+    document.getElementById("calendarEmpty").style.display = "block";
+    return;
+  }
+
+  document.getElementById("calendarEmpty").style.display = "none";
+
+  data.forEach(item=>{
+    const div = document.createElement("div");
+    div.className = "cal-day";
+
+    div.innerHTML = `
+      <div class="cal-number">${item.day || ""}</div>
+      <div class="cal-item ${item.type || ""}">
+        ${item.title || ""}
+      </div>
+    `;
+
+    grid.appendChild(div);
+  });
+}
+  
 </script>
 </body>
 </html>
