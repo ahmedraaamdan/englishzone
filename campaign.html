@@ -260,18 +260,7 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
   margin-top:10px;
 }
 
-.cal-day{
-  direction:rtl;
-  background:#fff;
-  border-radius:16px;
-  padding:10px;
-  min-height:110px;
-  cursor:pointer;
-  border:1px solid #E5E5E5;
-  transition:.2s;
-  position:relative;
-  box-shadow:0 1px 4px rgba(0,0,0,.05);
-}
+
 .cal-item{
   margin-top:22px;
   padding:6px 8px;
@@ -364,7 +353,16 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
 }
 
 .cal-day{
-  direction:rtl;
+  direction:ltr; /* 👈 مهم */
+  background:#fff;
+  border-radius:16px;
+  padding:10px;
+  min-height:110px;
+  cursor:pointer;
+  border:1px solid #E5E5E5;
+  transition:.2s;
+  position:relative;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
 }
   
 .month-picker button{
