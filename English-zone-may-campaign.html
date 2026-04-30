@@ -89,6 +89,16 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
   gap:10px;
 }
 
+.cal-badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+
 .cal-type{
   font-size:10px;
   font-weight:900;
@@ -96,9 +106,10 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text-main);
   opacity:0.7;
 }
 
-.cal-title{
+  .cal-title{
+  margin-top:4px;
   font-size:11px;
-  margin-top:2px;
+  font-weight:700;
 }
   
 .cal-day{
@@ -318,15 +329,15 @@ footer .footer-brand{font-size:16px;font-weight:900;color:white;margin-bottom:6p
   <!-- CALENDAR -->
   <div class="section-block" id="calendar">
     <div class="section-label">📅 Content Calendar</div>
-      <div class="calendar-header">
-    <div>Sunday</div>
-    <div>Monday</div>
-    <div>Tuesday</div>
-    <div>Wednesday</div>
-    <div>Thursday</div>
-    <div>Friday</div>
-    <div>Saturday</div>
-  </div>
+<div class="calendar-header">
+  <div>Sunday</div>
+  <div>Monday</div>
+  <div>Tuesday</div>
+  <div>Wednesday</div>
+  <div>Thursday</div>
+  <div>Friday</div>
+  <div>Saturday</div>
+</div>
     <div class="calendar-grid" id="calendarGrid"></div>
     <div class="empty-state" id="calendarEmpty" style="display:none">
       <div class="empty-icon">📅</div>
