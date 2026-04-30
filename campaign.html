@@ -1900,11 +1900,6 @@ document.addEventListener("DOMContentLoaded", function(){
     D.ads.push({name:"",adType:"awareness",headline:"",primary:"",description:"",cta:"learn_more"});
     renderAds(); updateJsonOutput();
   });
-document.getElementById("addCalendarBtn").addEventListener("click", function(){
-  D.calendar.push({day:"",type:"post",platform:"",title:"",status:"planned",notes:""});
-  renderCalendar(); 
-  updateJsonOutput();
-});
   document.getElementById("addPhaseBtn").addEventListener("click", function(){
     D.phases.push({name:"",duration:"",goal:"",activities:""});
     renderPhases(); updateJsonOutput();
