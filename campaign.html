@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<link rel="shortcut icon" href="https://raw.githubusercontent.com/ahmedraaamdan/englishzone/refs/heads/main/PNG.png">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ahmedraaamdan/englishzone/refs/heads/main/PNG.png">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Campaign OS — Editor</title>
@@ -702,7 +702,7 @@ body{
 <div id="userLoginScreen">
   <div class="login-box">
 <div class="login-logo">
-  <img src="https://github.com/ahmedraaamdan/englishzone/blob/main/PNG.png?raw=true" alt="Buzz Agency Logo">
+  <img src="https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png" alt="Buzz Agency Logo">
 </div>    <h1 id="loginCampaignTitle" style="color:#FF5500">Buzz Agency</h1>
     <p style="color:#7A5C4E;margin-bottom:28px">Campaign OS — ادخل بيانات حسابك</p>
     <input type="text" class="login-input" id="uLoginName" placeholder="اسم المستخدم">
@@ -1160,7 +1160,7 @@ body{
 // BUZZ AGENCY CONFIG
 // ==========================================
 // ضع رابط اللوجو على GitHub هنا بعد ما ترفعه
-const BUZZ_LOGO_URL = "https://raw.githubusercontent.com/ahmedraaamdan/englishzone/refs/heads/main/PNG.png"; // مثال: "https://raw.githubusercontent.com/yourusername/yourrepo/main/buzz-logo.png"
+const BUZZ_LOGO_URL = "https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png"; // مثال: "https://raw.githubusercontent.com/yourusername/yourrepo/main/buzz-logo.png"
 
 function loadBuzzLogo() {
   if (!BUZZ_LOGO_URL) return;
@@ -1470,7 +1470,7 @@ if (addPostCommentIndex !== undefined) {
 
   D.posts[i].comments.push({
     text: commentText,
-    by: currentUser?.name || "User",
+by: currentUser?.name || "unknown_user_" + Date.now(),
     role: currentUser?.role || "editor",
     date: new Date().toLocaleString("ar-EG")
   });
@@ -1494,8 +1494,7 @@ if (delPostComment !== undefined) {
 
   const comment = D.posts[i].comments[idx];
 
-  const isOwner = comment.by === (currentUser?.name || "");
-
+const isOwner = comment.by === currentUser?.name;
   if (!isOwner) {
     setStatus("مش مسموح لك تحذف الكومنت ده ❌", "bad");
     return;
@@ -1677,7 +1676,7 @@ async function showUserDashboard() {
   const theme = d.theme || {};
   const clientData = d.client || {};
 
-  const logo = theme.logo || "https://github.com/ahmedraaamdan/englishzone/blob/main/PNG.png?raw=true";
+  const logo = theme.logo || "https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png";
   const primary = theme.primary || c.primaryColor || "#FF5500";
   const dark = theme.dark || c.darkColor || "#1A1A1A";
 
@@ -2037,7 +2036,7 @@ async function uploadImageToSupabase(file, folder = "actors") {
     return "";
   }
 
-  const ext = file.name.split(".").pop();
+  const ext = (file.name.split(".").pop() || "png").toLowerCase();
   const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
   const { error } = await dbClient.storage
