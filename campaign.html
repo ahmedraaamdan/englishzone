@@ -313,6 +313,35 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
 .cal-day.script{
   background:#DCFCE7;
 }
+
+.month-picker{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  background:#fff;
+  border:1px solid #E5E5E5;
+  border-radius:12px;
+  padding:10px 16px;
+  width:fit-content;
+  margin-bottom:15px;
+}
+
+.month-picker button{
+  background:#FF5500;
+  color:#fff;
+  border:0;
+  border-radius:8px;
+  width:32px;
+  height:32px;
+  cursor:pointer;
+  font-weight:900;
+}
+
+.month-picker span{
+  font-weight:900;
+}
+  
 </style>
 </head>
 <body>
@@ -637,7 +666,11 @@ input::placeholder,textarea::placeholder{font-family:'Cairo',sans-serif!importan
         <div class="card">
 <div class="field">
   <label class="field-label">اختار الشهر</label>
-  <input type="month" id="monthPicker">
+<div class="month-picker">
+  <button onclick="changeMonth(-1)">‹</button>
+  <span id="monthLabel">---</span>
+  <button onclick="changeMonth(1)">›</button>
+</div>
 </div>
 
 <div id="calendarGrid" class="calendar-grid"></div>
@@ -2062,6 +2095,29 @@ return `
   </div>
 `;
 }
+
+let currentMonth = new Date();
+
+function updateMonthUI(){
+  const label = document.getElementById("monthLabel");
+  const y = currentMonth.getFullYear();
+  const m = currentMonth.getMonth() + 1;
+
+  label.textContent = `${y} - ${m}`;
+}
+
+function changeMonth(step){
+  currentMonth.setMonth(currentMonth.getMonth() + step);
+  updateMonthUI();
+
+  const y = currentMonth.getFullYear();
+  const m = currentMonth.getMonth() + 1;
+
+  document.getElementById("monthPicker")?.value = `${y}-${String(m).padStart(2,"0")}`;
+
+  generateCalendar();
+}
+  
 </script>
   
 </body>
