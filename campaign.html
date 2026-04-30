@@ -2097,6 +2097,10 @@ return `
 }
 
 let currentMonth = new Date();
+  const savedMonth = localStorage.getItem("calMonth");
+if(savedMonth){
+  currentMonth = new Date(savedMonth);
+}
 
 function updateMonthUI(){
   const label = document.getElementById("monthLabel");
