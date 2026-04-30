@@ -1581,7 +1581,7 @@ async function doUserLogin() {
 
   let user = null;
 
-  // 🔹 محاولة من Supabase
+  // محاولة من Supabase
   if (dbClient) {
     try {
       const { data, error } = await dbClient
@@ -1599,20 +1599,20 @@ async function doUserLogin() {
     }
   }
 
-  // 🔹 fallback لو Supabase مش شغال
+  // fallback لو Supabase مش شغال
   if (!user) {
     const users = JSON.parse(localStorage.getItem("cos_users") || "[]");
     user = users.find(u => u.username === username && u.password === pass);
   }
 
-  // ❌ لو مفيش user
+  // لو مفيش user
   if (!user) {
     errorBox.textContent = "❌ بيانات غلط";
     setTimeout(() => errorBox.textContent = "", 2000);
     return;
   }
 
-  // ✅ نجاح
+  // نجاح
   sessionStorage.setItem("cos_current_user", JSON.stringify(user));
   enterAsUser(user);
 }
@@ -1621,7 +1621,6 @@ function enterAsUser(user) {
   currentUser = user;
   userPermissions = user.permissions || allPermissions();
 
-  // لو داخل على كامبين محددة، افتحها بعد التأكد من الصلاحية
   if (CAMPAIGN_ID) {
     if (!user.campaigns || !user.campaigns.includes(CAMPAIGN_ID)) {
       document.getElementById("userLoginScreen").style.display = "flex";
@@ -1634,7 +1633,6 @@ function enterAsUser(user) {
     return;
   }
 
-  // لو داخل campaign.html عادي، اعرضله كامبينزه
   showUserDashboard();
 }
 
@@ -1643,9 +1641,10 @@ function openEditorForUser(user) {
   document.getElementById("userCampaignsScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
   document.getElementById("userBadge").textContent = `${user.role === "editor" ? "✏️" : "👁"} ${user.name}`;
-applySuperAdminVisibility();
-setupNav();
-loadCampaignData();
+
+  applySuperAdminVisibility();
+  setupNav();
+  loadCampaignData();
 }
 
 async function showUserDashboard() {
@@ -1656,52 +1655,56 @@ async function showUserDashboard() {
 
   const ids = currentUser?.campaigns || [];
   const grid = document.getElementById("userCampaignsGrid");
+
   if (!ids.length) {
     grid.innerHTML = `<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">🔒</div><p>مفيش كامبينز متاحة لحسابك حالياً</p></div>`;
     return;
   }
 
   let rows = [];
+
   if (dbClient) {
     try {
       const { data, error } = await dbClient.from("campaigns").select("*").in("id", ids);
       if (error) throw error;
       rows = data || [];
-    } catch(e) { console.error("LOAD USER CAMPAIGNS ERROR", e); }
+    } catch(e) {
+      console.error("LOAD USER CAMPAIGNS ERROR", e);
+    }
   }
+
   if (!rows.length) {
     const stored = JSON.parse(localStorage.getItem("cos_campaigns") || "[]");
     rows = stored.filter(c => ids.includes(c.id));
   }
 
- grid.innerHTML = rows.map(c => {
-  const d = c.data || {};
-  const theme = d.theme || {};
-  const clientData = d.client || {};
+  grid.innerHTML = rows.map(c => {
+    const d = c.data || {};
+    const theme = d.theme || {};
+    const clientData = d.client || {};
 
-  const logo = theme.logo || "https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png";
-  const primary = theme.primary || c.primaryColor || "#FF5500";
-  const dark = theme.dark || c.darkColor || "#1A1A1A";
+    const logo = theme.logo || "https://raw.githubusercontent.com/ahmedraaamdan/englishzone/main/PNG.png";
+    const primary = theme.primary || c.primaryColor || "#FF5500";
+    const dark = theme.dark || c.darkColor || "#1A1A1A";
 
-  const campaignName = clientData.campaignName || c.name || "Campaign";
-  const clientName = clientData.name || c.client || "";
-  const status = c.status || "draft";
+    const campaignName = clientData.campaignName || c.name || "Campaign";
+    const clientName = clientData.name || c.client || "";
+    const status = c.status || "draft";
 
-  return `
-    <div class="user-campaign-card" onclick="window.location.href='campaign.html?id=${c.id}'">
-      <div class="user-campaign-hero" style="background:linear-gradient(135deg,${dark},${primary})">
-        <img src="${et(logo)}" alt="Logo" style="width:66px;height:66px;object-fit:contain;position:relative;z-index:2">
+    return `
+      <div class="user-campaign-card" onclick="window.location.href='campaign.html?id=${c.id}'">
+        <div class="user-campaign-hero" style="background:linear-gradient(135deg,${dark},${primary})">
+          <img src="${et(logo)}" style="width:66px;height:66px;object-fit:contain">
+        </div>
+        <div class="user-campaign-body">
+          <div class="user-campaign-name">${et(campaignName)}</div>
+          <div class="user-campaign-client">${et(clientName)}</div>
+          <div class="user-campaign-meta">${et(status)}</div>
+        </div>
       </div>
-      <div class="user-campaign-body">
-        <div class="user-campaign-name">${et(campaignName)}</div>
-        <div class="user-campaign-client">${et(clientName)}</div>
-        <div class="user-campaign-meta">${et(status)}</div>
-      </div>
-    </div>
-  `;
-}).join("") || `<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">⚠️</div><p>الكامبينز متسجلة في حسابك بس مش لاقي بياناتها في Supabase</p></div>`;
-  }
-  
+    `;
+  }).join("");
+}
 
 function logoutUser() {
   sessionStorage.removeItem("cos_current_user");
@@ -1724,7 +1727,6 @@ function allPermissions() {
   .forEach(p => all[p] = true);
   return all;
 }
-
 // ==========================================
 // NAV + PERMISSIONS
 // ==========================================
