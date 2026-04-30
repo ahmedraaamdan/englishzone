@@ -1569,7 +1569,7 @@ if (currentUser?.role !== "viewer" && CAMPAIGN_ID) {
 // ==========================================
 async function doUserLogin() {
   const username = document.getElementById("uLoginName").value.trim();
-  const pass = document.getElementById("uLoginPass").value;
+const pass = document.getElementById("uLoginPass").value.trim();
 
   if (!username || !pass) {
     document.getElementById("uLoginError").textContent = "❌ اكتب اليوزر والباسورد";
