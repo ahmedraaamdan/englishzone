@@ -785,7 +785,6 @@ body{
         </div>
         <div class="actions">
           <div class="user-badge-top" id="userBadge">👤 Loading</div>
-<button class="btn btn-primary" id="topSaveBtn">💾 Save</button>
         </div>
       </div>
 
@@ -1260,10 +1259,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.getElementById("saveBtn2").addEventListener("click", saveData);
-  const topSaveBtn = document.getElementById("topSaveBtn");
-if(topSaveBtn){
-  topSaveBtn.addEventListener("click", saveData);
-}
   document.getElementById("userLogoutBtn").addEventListener("click", logoutUser);
   document.getElementById("dashLogoutBtn").addEventListener("click", logoutUser);
   document.getElementById("backBtn").addEventListener("click", () => { if (IS_SUPER_ADMIN) window.location.href = "admin.html"; else showUserDashboard(); });
@@ -1523,49 +1518,50 @@ if (delPostComment !== undefined) {
   });
 
   // Input handlers
-  document.addEventListener("input", e => {
-    const t = e.target;
-    if (t.dataset.actorName !== undefined) {
-  const i = +t.dataset.actorName;
-  const ai = +t.dataset.ai;
-  D.scripts[i].actors[ai].name = t.value;
+ document.addEventListener("input", e => {
+  const t = e.target;
+
+  if (t.dataset.actorName !== undefined) {
+    const i = +t.dataset.actorName;
+    const ai = +t.dataset.ai;
+    D.scripts[i].actors[ai].name = t.value;
+    updateJsonOutput();
+    return;
+  }
+
+  if (t.dataset.actorAge !== undefined) {
+    const i = +t.dataset.actorAge;
+    const ai = +t.dataset.ai;
+    D.scripts[i].actors[ai].age = t.value;
+    updateJsonOutput();
+    return;
+  }
+
+  if (t.closest("#userLoginScreen") || t.closest("#userCampaignsScreen")) return;
+  if (document.getElementById("app").style.display === "none") return;
+
+  if (!D || !D.client) D = normalize(DEFAULT_DATA);
+
+  if (t.dataset.sf !== undefined) { D.scripts[+t.dataset.i][t.dataset.sf] = t.value; updateJsonOutput(); }
+else if (t.dataset.pf !== undefined) {
+  D.posts[+t.dataset.i][t.dataset.pf] = t.value;
   updateJsonOutput();
-  return;
 }
 
-if (t.dataset.actorAge !== undefined) {
-  const i = +t.dataset.actorAge;
-  const ai = +t.dataset.ai;
-  D.scripts[i].actors[ai].age = t.value;
+else if (t.dataset.postReviewStatus !== undefined) {
+  D.posts[+t.dataset.postReviewStatus].reviewStatus = t.value;
   updateJsonOutput();
-  return;
 }
-    if (t.closest("#userLoginScreen") || t.closest("#userCampaignsScreen")) return;
-    if (document.getElementById("app").style.display === "none") return;
-    if (!D || !D.client) D = normalize(DEFAULT_DATA);
-    if (t.dataset.sf !== undefined) { D.scripts[+t.dataset.i][t.dataset.sf] = t.value; updateJsonOutput(); return; }
-    if (t.dataset.pf !== undefined) { D.posts[+t.dataset.i][t.dataset.pf] = t.value; updateJsonOutput(); return; }
-if (t.dataset.postReviewStatus !== undefined) {
-  const i = +t.dataset.postReviewStatus;
-  D.posts[i].reviewStatus = t.value;
-  renderPosts();
-  updateJsonOutput();
-  return;
-}
+else if (t.dataset.storyText !== undefined) { D.stories[+t.dataset.storyText].text = t.value; updateJsonOutput(); }
+  else if (t.dataset.storyCta !== undefined) { D.stories[+t.dataset.storyCta].cta = t.value; updateJsonOutput(); }
+  else if (t.dataset.storyPlatform !== undefined) { D.stories[+t.dataset.storyPlatform].platform = t.value; updateJsonOutput(); }
+  else if (t.dataset.af !== undefined) { D.ads[+t.dataset.i][t.dataset.af] = t.value; updateJsonOutput(); }
+  else if (t.dataset.cf !== undefined) { D.calendar[+t.dataset.i][t.dataset.cf] = t.value; updateJsonOutput(); }
+  else if (t.dataset.phf !== undefined) { D.phases[+t.dataset.i][t.dataset.phf] = t.value; updateJsonOutput(); }
 
-if (t.dataset.postReviewComment !== undefined) {
-  D.posts[+t.dataset.postReviewComment].reviewComment = t.value;
-  updateJsonOutput();
-  return;
-}
-    if (t.dataset.storyText !== undefined) { D.stories[+t.dataset.storyText].text = t.value; updateJsonOutput(); return; }
-    if (t.dataset.storyCta !== undefined) { D.stories[+t.dataset.storyCta].cta = t.value; updateJsonOutput(); return; }
-    if (t.dataset.storyPlatform !== undefined) { D.stories[+t.dataset.storyPlatform].platform = t.value; updateJsonOutput(); return; }
-    if (t.dataset.af !== undefined) { D.ads[+t.dataset.i][t.dataset.af] = t.value; updateJsonOutput(); return; }
-    if (t.dataset.cf !== undefined) { D.calendar[+t.dataset.i][t.dataset.cf] = t.value; updateJsonOutput(); return; }
-    if (t.dataset.phf !== undefined) { D.phases[+t.dataset.i][t.dataset.phf] = t.value; updateJsonOutput(); return; }
-    collectInputs();
-  });
+  collectInputs();
+
+  triggerAutoSave(); // ✅ هنا الصح
 });
 
 // ==========================================
@@ -1719,7 +1715,8 @@ function previewCampaign() {
 
 function allPermissions() {
   const all = {};
- ["overview","objectives","scripts","posts","stories","ads","calendar","phases","kpis","budget","branding","hero"].forEach(p => all[p] = true);
+  ["overview","objectives","scripts","posts","stories","ads","calendar","phases","kpis","budget","branding","hero","save"]
+  .forEach(p => all[p] = true);
   return all;
 }
 
@@ -2142,8 +2139,9 @@ async function saveData() {
 function ea(v){return String(v||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
 function et(v){return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 
-const isReadOnly = currentUser && currentUser.role === "viewer";
-
+function isReadOnly(){
+  return currentUser && currentUser.role === "viewer";
+}
 function renderAll(){renderScripts();renderPosts();renderStories();renderAds();renderCalendar();renderPhases();}
 
 function renderScripts(){
@@ -2514,6 +2512,36 @@ function renderPhases(){
   document.documentElement.style.setProperty('--bigidea-bg-1', D.theme.bigIdeaBg1);
   document.documentElement.style.setProperty('--bigidea-bg-2', D.theme.bigIdeaBg2);
 }
+
+  let autoSaveTimer;
+
+function triggerAutoSave(){
+  clearTimeout(autoSaveTimer);
+
+  autoSaveTimer = setTimeout(() => {
+    saveData();
+  }, 1500);
+}
+
+
+
+window.addEventListener("beforeunload", () => {
+  try {
+    collectInputs();
+
+    const stored = JSON.parse(localStorage.getItem("cos_campaigns") || "[]");
+    const idx = stored.findIndex(c => c.id === CAMPAIGN_ID);
+
+    if (idx >= 0) {
+      stored[idx].data = D;
+      stored[idx].progress = D.client.progress;
+      stored[idx].updated_at = new Date().toISOString();
+    }
+
+    localStorage.setItem("cos_campaigns", JSON.stringify(stored));
+  } catch(e) {}
+});
+  
 </script>
 </body>
 </html>
